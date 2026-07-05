@@ -17,6 +17,8 @@ namespace :ao3_fanfic_forum do
     SiteSetting.remove_full_quote = false
     SiteSetting.suppress_reply_when_quoting = false
     SiteSetting.topic_featured_link_enabled = true
+    SiteSetting.enable_welcome_banner = false
+    SiteSetting.chat_enabled = false if SiteSetting.respond_to?(:chat_enabled=)
 
     categories = [
       {
@@ -100,6 +102,9 @@ namespace :ao3_fanfic_forum do
 
     SiteSetting.default_navigation_menu_categories = category_ids.join("|")
     SiteSetting.default_composer_category = category_ids.first
+    User.real.where(staged: false).find_each do |user|
+      SidebarSectionLinksUpdater.update_category_section_links(user, category_ids: category_ids)
+    end
 
     puts "AO3Chat defaults applied: settings updated and #{category_ids.length} categories ready."
   end

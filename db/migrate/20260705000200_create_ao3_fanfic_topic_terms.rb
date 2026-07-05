@@ -16,7 +16,9 @@ class CreateAo3FanficTopicTerms < ActiveRecord::Migration[7.0]
               %i[topic_id term_type normalized],
               unique: true,
               name: "idx_ao3_terms_topic_type_normalized"
-    add_index :ao3_fanfic_topic_terms, %i[term_type normalized topic_id]
+    add_index :ao3_fanfic_topic_terms,
+              %i[term_type normalized topic_id],
+              name: "idx_ao3_terms_type_normalized_topic"
     add_index :ao3_fanfic_topic_terms, :topic_id
   end
 end

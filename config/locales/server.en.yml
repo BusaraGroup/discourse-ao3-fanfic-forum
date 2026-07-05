@@ -1,0 +1,18 @@
+en:
+  site_settings:
+    ao3_fanfic_enabled: "Enable AO3 fanfic forum workflows."
+    ao3_fanfic_require_fandom_tags: "Require at least one fandom tag on AO3 fanfic topics."
+    ao3_fanfic_default_anonymous: "Default new AO3 topics to anonymous posting intent. Users still need Discourse anonymous mode enabled for their account."
+    ao3_fanfic_allowed_space_groups: "Groups that can be selected as private or semi-private fandom spaces."
+    ao3_fanfic_allowed_content_warnings: "Canonical content warnings shown to clients and used when custom content warnings are disabled."
+    ao3_fanfic_allow_custom_content_warnings: "Allow users to enter content warnings outside the canonical warning list."
+    ao3_fanfic_filter_page_size: "Default page size for the AO3 topic filter endpoint."
+  ao3_fanfic:
+    errors:
+      fandom_required: "Add at least one fandom tag."
+      invalid_discussion_type: "Choose a valid AO3 discussion type."
+      invalid_visibility: "Choose a valid AO3 visibility."
+      invalid_content_warnings: "These content warnings are not allowed: %{warnings}."
+      space_group_required: "Choose a fandom space group."
+      space_group_not_allowed: "That fandom space group is not allowed for AO3 topics."
+      space_group_missing: "That fandom space group does not exist."

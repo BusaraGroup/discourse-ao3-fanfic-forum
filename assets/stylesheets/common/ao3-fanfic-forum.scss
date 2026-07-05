@@ -1,0 +1,99 @@
+.ao3-composer-fields {
+  border: 1px solid var(--primary-low);
+  border-radius: 6px;
+  margin: 0 0 0.75rem;
+  padding: 0.75rem;
+}
+
+.ao3-composer-fields legend {
+  color: var(--primary-medium);
+  font-size: var(--font-down-1);
+  font-weight: 700;
+  padding: 0 0.25rem;
+}
+
+.ao3-composer-fields__grid {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.ao3-composer-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.ao3-composer-fields span {
+  color: var(--primary-high);
+  font-size: var(--font-down-1);
+  font-weight: 600;
+}
+
+.ao3-composer-fields input,
+.ao3-composer-fields select {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+}
+
+.ao3-composer-fields__checkbox {
+  align-items: center;
+  flex-direction: row !important;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+.ao3-composer-fields__checkbox input {
+  width: auto;
+}
+
+.ao3-topic-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  line-height: 1.2;
+}
+
+.ao3-topic-chips--topic {
+  margin: 0.35rem auto 0.75rem;
+  max-width: var(--d-max-width);
+  padding: 0 10px;
+}
+
+.ao3-topic-chips--list {
+  display: inline-flex;
+  margin-left: 0.35rem;
+  vertical-align: middle;
+}
+
+.ao3-topic-chip {
+  background: var(--primary-very-low);
+  border: 1px solid var(--primary-low);
+  border-radius: 6px;
+  color: var(--primary-high);
+  display: inline-flex;
+  font-size: var(--font-down-2);
+  font-weight: 600;
+  max-width: 100%;
+  padding: 0.15rem 0.4rem;
+}
+
+.ao3-topic-chip--type {
+  background: var(--tertiary-very-low);
+  border-color: var(--tertiary-low);
+  color: var(--tertiary-high);
+}
+
+.ao3-topic-chip--ship {
+  background: var(--highlight-low);
+  border-color: var(--highlight-medium);
+}
+
+.ao3-topic-chip--spoiler,
+.ao3-topic-chip--warning {
+  background: var(--danger-low);
+  border-color: var(--danger-medium);
+  color: var(--danger-hover);
+}

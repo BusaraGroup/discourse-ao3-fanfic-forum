@@ -1,0 +1,26 @@
+ao3_fanfic:
+  ao3_fanfic_enabled:
+    default: true
+    client: true
+  ao3_fanfic_require_fandom_tags:
+    default: true
+    client: true
+  ao3_fanfic_default_anonymous:
+    default: true
+    client: true
+  ao3_fanfic_allowed_space_groups:
+    default: ""
+    type: group_list
+    allow_any: false
+    refresh: true
+  ao3_fanfic_allowed_content_warnings:
+    default: "Creator Chose Not To Use Archive Warnings|Graphic Depictions Of Violence|Major Character Death|No Archive Warnings Apply|Rape/Non-Con|Underage"
+    type: list
+    list_type: compact
+    client: true
+  ao3_fanfic_allow_custom_content_warnings:
+    default: true
+  ao3_fanfic_filter_page_size:
+    default: 30
+    min: 1
+    max: 100

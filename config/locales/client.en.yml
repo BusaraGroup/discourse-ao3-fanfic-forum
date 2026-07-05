@@ -1,0 +1,33 @@
+en:
+  js:
+    ao3_fanfic:
+      composer:
+        legend: "Fanfic metadata"
+        discussion_type: "Thread type"
+        fandom_tags: "Fandoms"
+        ship_tags: "Ships"
+        content_warnings: "Warnings"
+        spoiler_label: "Spoiler label"
+        spoiler_until: "Spoiler until"
+        fic_url: "Fic URL"
+        fic_title: "Fic title"
+        fic_author: "Author"
+        chapter_ref: "Chapter"
+        visibility: "Visibility"
+        space_group_id: "Space group ID"
+        anonymous: "Post anonymously"
+        list_placeholder: "Separate with commas"
+      discussion_types:
+        general: "Discussion"
+        fic_recommendation: "Fic rec"
+        chapter_discussion: "Chapter"
+        looking_for_fic: "Looking for fic"
+      visibilities:
+        public: "Public"
+        members: "Members"
+        space: "Fandom space"
+      chips:
+        spoiler: "Spoiler"
+        warnings: "Warnings"
+        fandoms: "Fandoms"
+        ships: "Ships"

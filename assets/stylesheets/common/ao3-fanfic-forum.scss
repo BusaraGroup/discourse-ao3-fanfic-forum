@@ -1,5 +1,36 @@
+.d-header {
+  background: #141111;
+  border-bottom: 1px solid rgba(255, 179, 186, 0.18);
+}
+
+.d-header #site-logo {
+  display: none;
+}
+
+.d-header .title a::before {
+  color: #f7e7ea;
+  content: "AO3Chat";
+  display: inline-block;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.d-header .title a::after {
+  background: #a71930;
+  border-radius: 999px;
+  content: "";
+  display: inline-block;
+  height: 0.55rem;
+  margin-left: 0.45rem;
+  vertical-align: 0.08rem;
+  width: 0.55rem;
+}
+
 .ao3-composer-fields {
-  border: 1px solid var(--primary-low);
+  background: rgba(167, 25, 48, 0.08);
+  border: 1px solid rgba(167, 25, 48, 0.35);
   border-radius: 6px;
   margin: 0 0 0.75rem;
   padding: 0.75rem;

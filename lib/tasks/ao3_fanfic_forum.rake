@@ -51,6 +51,10 @@ module Ao3FanficForum
         "AO3Chat is an unofficial, reader-run forum for discussing fanfiction. It is not affiliated with Archive of Our Own or the Organization for Transformative Works.",
       )
       set_site_setting(:enable_powered_by_discourse, false)
+      set_site_setting(:enable_site_owner_onboarding, false)
+      set_site_setting(:default_other_skip_new_user_tips, true)
+      set_site_setting(:send_welcome_message, false)
+      set_site_setting(:send_tl1_welcome_message, false)
       set_site_setting(:privacy_policy_url, "/privacy")
       set_site_setting(:tos_url, "/tos")
       set_site_setting(:faq_url, "/faq")

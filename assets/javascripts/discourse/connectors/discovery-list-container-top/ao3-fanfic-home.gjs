@@ -1,6 +1,8 @@
 import Component from "@glimmer/component";
 import { service } from "@ember/service";
 import routeAction from "discourse/helpers/route-action";
+import getURL from "discourse/lib/get-url";
+import Category from "discourse/models/category";
 import DButton from "discourse/ui-kit/d-button";
 import { i18n } from "discourse-i18n";
 
@@ -13,15 +15,73 @@ export default class Ao3FanficHome extends Component {
   @service siteSettings;
 
   get subscribeUrl() {
-    return this.siteSettings.ao3_fanfic_subscribe_url || "/s";
+    return getURL(this.siteSettings.ao3_fanfic_subscribe_url || "/s");
+  }
+
+  get newTopicUrl() {
+    return getURL("/new-topic");
+  }
+
+  get tagsUrl() {
+    return getURL("/tags");
   }
 
   get privateRoomsUrl() {
-    return `/c/${this.siteSettings.ao3_fanfic_private_rooms_category_slug}`;
+    return this.categoryUrl(
+      this.siteSettings.ao3_fanfic_private_rooms_category_slug
+    );
+  }
+
+  get welcomeDeskUrl() {
+    return this.categoryUrl("welcome-desk");
+  }
+
+  get ficRecsUrl() {
+    return this.categoryUrl("fic-recs");
+  }
+
+  get chapterDiscussionsUrl() {
+    return this.categoryUrl("chapter-discussions");
+  }
+
+  get lookingForFicUrl() {
+    return this.categoryUrl("looking-for-a-fic");
+  }
+
+  get spoilerZoneUrl() {
+    return this.categoryUrl("spoiler-zone");
+  }
+
+  get contentWarningsUrl() {
+    return this.categoryUrl("content-warnings");
+  }
+
+  get fandomSpacesUrl() {
+    return this.categoryUrl("fandom-spaces");
+  }
+
+  get siteHelpUrl() {
+    return this.categoryUrl("site-help");
   }
 
   get supporterPriceLabel() {
     return this.siteSettings.ao3_fanfic_supporter_price_label;
+  }
+
+  categoryUrl(slug) {
+    const category = Category.list()?.find((item) => {
+      return item.slug === slug || Category.slugFor(item) === slug;
+    });
+
+    if (category?.url) {
+      return getURL(category.url);
+    }
+
+    if (category?.id) {
+      return getURL(`/c/${Category.slugFor(category)}/${category.id}`);
+    }
+
+    return getURL(`/c/${slug}`);
   }
 
   <template>
@@ -34,7 +94,7 @@ export default class Ao3FanficHome extends Component {
 
         <div class="ao3-home__auth">
           {{#if this.currentUser}}
-            <a href="/new-topic" class="btn btn-primary ao3-home__button">
+            <a href={{this.newTopicUrl}} class="btn btn-primary ao3-home__button">
               {{i18n "ao3_fanfic.home.new_topic"}}
             </a>
           {{else}}
@@ -52,31 +112,31 @@ export default class Ao3FanficHome extends Component {
         </div>
 
         <div class="ao3-home__filters" aria-label={{i18n "ao3_fanfic.home.filters_label"}}>
-          <a href="/c/fandom-spaces" class="ao3-home-filter">
+          <a href={{this.fandomSpacesUrl}} class="ao3-home-filter">
             <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.fandoms"}}</span>
             <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.fandoms_value"}}</span>
           </a>
-          <a href="/tags" class="ao3-home-filter">
+          <a href={{this.tagsUrl}} class="ao3-home-filter">
             <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.ships"}}</span>
             <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.ships_value"}}</span>
           </a>
-          <a href="/c/spoiler-zone" class="ao3-home-filter">
+          <a href={{this.spoilerZoneUrl}} class="ao3-home-filter">
             <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.spoilers"}}</span>
             <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.spoilers_value"}}</span>
           </a>
-          <a href="/c/content-warnings" class="ao3-home-filter">
+          <a href={{this.contentWarningsUrl}} class="ao3-home-filter">
             <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.warnings"}}</span>
             <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.warnings_value"}}</span>
           </a>
         </div>
 
         <nav class="ao3-home__quick-links" aria-label={{i18n "ao3_fanfic.home.quick_links_label"}}>
-          <a href="/c/welcome-desk">{{i18n "ao3_fanfic.home.welcome_desk"}}</a>
-          <a href="/c/fic-recs">{{i18n "ao3_fanfic.home.fic_recs"}}</a>
-          <a href="/c/chapter-discussions">{{i18n "ao3_fanfic.home.chapter_threads"}}</a>
-          <a href="/c/looking-for-a-fic">{{i18n "ao3_fanfic.home.looking_for_fic"}}</a>
-          <a href="/c/fandom-spaces">{{i18n "ao3_fanfic.home.fandom_spaces"}}</a>
-          <a href="/c/site-help">{{i18n "ao3_fanfic.home.site_help"}}</a>
+          <a href={{this.welcomeDeskUrl}}>{{i18n "ao3_fanfic.home.welcome_desk"}}</a>
+          <a href={{this.ficRecsUrl}}>{{i18n "ao3_fanfic.home.fic_recs"}}</a>
+          <a href={{this.chapterDiscussionsUrl}}>{{i18n "ao3_fanfic.home.chapter_threads"}}</a>
+          <a href={{this.lookingForFicUrl}}>{{i18n "ao3_fanfic.home.looking_for_fic"}}</a>
+          <a href={{this.fandomSpacesUrl}}>{{i18n "ao3_fanfic.home.fandom_spaces"}}</a>
+          <a href={{this.siteHelpUrl}}>{{i18n "ao3_fanfic.home.site_help"}}</a>
           <a href={{this.privateRoomsUrl}}>{{i18n "ao3_fanfic.home.private_rooms"}}</a>
         </nav>
       </div>

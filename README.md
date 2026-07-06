@@ -38,6 +38,7 @@ The configure task:
 - creates the `ao3chat_supporters` group
 - creates the supporter-only private fandom rooms category
 - hides public powered-by branding
+- disables stock owner onboarding and tutorial-style welcome messages
 
 ## Category Structure
 

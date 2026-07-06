@@ -72,10 +72,12 @@ module Ao3FanficForum
     end
 
     def ensure_category!(attrs)
+      legacy_slugs = Array(attrs[:legacy_slugs])
       category =
-        Category.find_by(slug: attrs[:slug]) || Category.find_by(name: attrs[:name]) ||
-          Category.new(slug: attrs[:slug])
+        Category.find_by(slug: attrs[:slug]) || Category.where(slug: legacy_slugs).first ||
+          Category.find_by(name: attrs[:name]) || Category.new
       category.name = attrs[:name]
+      category.slug = attrs[:slug]
       category.description = attrs[:description]
       category.color = attrs[:color]
       category.text_color = "FFFFFF"
@@ -312,6 +314,7 @@ namespace :ao3_fanfic_forum do
       {
         name: "Guidelines",
         slug: "guidelines",
+        legacy_slugs: ["site-rules"],
         description: "Forum rules, privacy notes, moderation policy, and unofficial AO3Chat status.",
         color: "4A5568",
         position: 12,

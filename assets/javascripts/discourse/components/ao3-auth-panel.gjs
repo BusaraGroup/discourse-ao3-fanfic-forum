@@ -1,5 +1,8 @@
 import Component from "@glimmer/component";
+import { on } from "@ember/modifier";
+import { action } from "@ember/object";
 import getURL from "discourse/lib/get-url";
+import DButton from "discourse/ui-kit/d-button";
 import { i18n } from "discourse-i18n";
 
 export default class Ao3AuthPanel extends Component {
@@ -35,16 +38,29 @@ export default class Ao3AuthPanel extends Component {
     return getURL("/ao3-fanfic/supporter");
   }
 
-  get accountActionUrl() {
-    return getURL(this.isSignup ? "/login" : "/signup");
-  }
-
   get accountActionLabel() {
     return i18n(
       this.isSignup
         ? "ao3_fanfic.auth.login_action"
         : "ao3_fanfic.auth.signup_action"
     );
+  }
+
+  @action
+  openSupporterPage(event) {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    window.location.href = this.subscribeUrl;
   }
 
   <template>
@@ -76,10 +92,16 @@ export default class Ao3AuthPanel extends Component {
       </ul>
 
       <div class="ao3-auth-panel__actions">
-        <a href={{this.accountActionUrl}} class="btn btn-primary ao3-auth-panel__account">
-          {{this.accountActionLabel}}
-        </a>
-        <a href={{this.subscribeUrl}} class="ao3-auth-panel__supporter">
+        <DButton
+          class="btn-primary ao3-auth-panel__account"
+          @action={{@accountAction}}
+          @translatedLabel={{this.accountActionLabel}}
+        />
+        <a
+          href={{this.subscribeUrl}}
+          class="ao3-auth-panel__supporter"
+          {{on "click" this.openSupporterPage}}
+        >
           {{i18n "ao3_fanfic.auth.supporter_link"}}
         </a>
       </div>

@@ -1,4 +1,6 @@
 import Component from "@glimmer/component";
+import { on } from "@ember/modifier";
+import { action } from "@ember/object";
 import { service } from "@ember/service";
 import routeAction from "discourse/helpers/route-action";
 import getURL from "discourse/lib/get-url";
@@ -134,6 +136,23 @@ export default class Ao3FanficHome extends Component {
     return getURL(`/c/${slug}`);
   }
 
+  @action
+  openSupporterPage(event) {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    window.location.href = this.subscribeUrl;
+  }
+
   <template>
     <section class="ao3-home" ...attributes>
       <div class="ao3-home__main">
@@ -235,7 +254,11 @@ export default class Ao3FanficHome extends Component {
               <span>{{i18n "ao3_fanfic.home.supporter_price_prefix"}}</span>
               <strong>{{this.supporterPriceLabel}}</strong>
             </div>
-            <a href={{this.subscribeUrl}} class="btn btn-primary ao3-supporter-card__button">
+            <a
+              href={{this.subscribeUrl}}
+              class="btn btn-primary ao3-supporter-card__button"
+              {{on "click" this.openSupporterPage}}
+            >
               {{i18n "ao3_fanfic.home.supporter_cta"}}
             </a>
             <Ao3PrivateRoomRequest />

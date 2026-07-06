@@ -106,6 +106,23 @@ export default class Ao3PrivateRoomRequest extends Component {
   }
 
   @action
+  openSupporterPage(event) {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    window.location.href = this.subscribeUrl;
+  }
+
+  @action
   async loadStatus() {
     this.statusLoading = true;
 
@@ -231,7 +248,11 @@ export default class Ao3PrivateRoomRequest extends Component {
             {{/if}}
 
             {{#if this.supporterRequired}}
-              <a class="btn btn-default ao3-room-request__subscribe" href={{this.subscribeUrl}}>
+              <a
+                class="btn btn-default ao3-room-request__subscribe"
+                href={{this.subscribeUrl}}
+                {{on "click" this.openSupporterPage}}
+              >
                 {{i18n "ao3_fanfic.room_request.supporter_cta"}}
               </a>
             {{/if}}
@@ -252,7 +273,11 @@ export default class Ao3PrivateRoomRequest extends Component {
           <div class="ao3-room-request__gate">
             <h4>{{i18n "ao3_fanfic.room_request.supporter_required_title"}}</h4>
             <p>{{i18n "ao3_fanfic.room_request.supporter_required_body"}}</p>
-            <a class="btn btn-primary ao3-room-request__subscribe" href={{this.subscribeUrl}}>
+            <a
+              class="btn btn-primary ao3-room-request__subscribe"
+              href={{this.subscribeUrl}}
+              {{on "click" this.openSupporterPage}}
+            >
               {{i18n "ao3_fanfic.room_request.supporter_cta"}}
             </a>
           </div>

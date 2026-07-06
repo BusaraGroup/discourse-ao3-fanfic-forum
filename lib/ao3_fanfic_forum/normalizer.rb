@@ -47,6 +47,26 @@ module Ao3FanficForum
         .first(MAX_TERMS)
     end
 
+    # Accepts only http(s) URLs. Scheme-less values ("archiveofourown.org/...")
+    # are prefixed with https://; anything else (javascript:, data:, ftp:,
+    # unparseable input) normalizes to nil so it can never render as a link.
+    def url(value, max_length: nil)
+      value = text(value, max_length: max_length)
+      return nil if value.blank?
+
+      candidate = value.match?(%r{\A[a-z][a-z0-9+\-.]*://}i) ? value : "https://#{value}"
+
+      begin
+        uri = URI.parse(candidate)
+      rescue URI::Error
+        return nil
+      end
+
+      return nil if !uri.is_a?(URI::HTTP) || uri.host.blank?
+
+      candidate
+    end
+
     def key(value)
       text(value).downcase.gsub(/[^\p{Alnum}]+/, "-").gsub(/\A-+|-+\z/, "")
     end

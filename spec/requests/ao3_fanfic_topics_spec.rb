@@ -135,6 +135,51 @@ RSpec.describe "AO3 fanfic topics" do
     )
   end
 
+  it "removes indexed metadata when a topic is hard-destroyed" do
+    topic = Fabricate(:topic, category: category, title: "Doomed fic rec")
+    topic.custom_fields = ao3_fields
+    topic.save!
+    Ao3FanficForum::Metadata.sync_from_topic!(topic)
+
+    expect(Ao3FanficForum::TopicMetadata.exists?(topic_id: topic.id)).to eq(true)
+    expect(Ao3FanficForum::TopicTerm.exists?(topic_id: topic.id)).to eq(true)
+
+    topic.reload.destroy!
+
+    expect(Ao3FanficForum::TopicMetadata.exists?(topic_id: topic.id)).to eq(false)
+    expect(Ao3FanficForum::TopicTerm.exists?(topic_id: topic.id)).to eq(false)
+  end
+
+  it "rejects a malformed metadata payload with a 400" do
+    topic = Fabricate(:topic, category: category, user: user, title: "Malformed payload")
+
+    put "/ao3-fanfic/topics/#{topic.id}/metadata.json",
+        params: {
+          topic_custom_fields: "junk",
+        }
+
+    expect(response.status).to eq(400)
+  end
+
+  it "drops unsafe fic URL schemes and prefixes scheme-less URLs" do
+    unsafe = Fabricate(:topic, category: category, title: "Unsafe fic url")
+    unsafe.custom_fields = ao3_fields("ao3_fic_url" => "javascript:alert(1)")
+    unsafe.save!
+    Ao3FanficForum::Metadata.sync_from_topic!(unsafe)
+
+    expect(Ao3FanficForum::TopicMetadata.find_by(topic_id: unsafe.id).fic_url).to eq(nil)
+    expect(Ao3FanficForum::Metadata.for_topic(unsafe.reload)[:fic_url]).to eq(nil)
+
+    schemeless = Fabricate(:topic, category: category, title: "Scheme-less fic url")
+    schemeless.custom_fields = ao3_fields("ao3_fic_url" => "archiveofourown.org/works/1")
+    schemeless.save!
+    Ao3FanficForum::Metadata.sync_from_topic!(schemeless)
+
+    expect(Ao3FanficForum::TopicMetadata.find_by(topic_id: schemeless.id).fic_url).to eq(
+      "https://archiveofourown.org/works/1",
+    )
+  end
+
   it "clears metadata when the edit payload has no AO3 fields" do
     topic = Fabricate(:topic, category: category, user: user, title: "Metadata to clear")
     topic.custom_fields = ao3_fields

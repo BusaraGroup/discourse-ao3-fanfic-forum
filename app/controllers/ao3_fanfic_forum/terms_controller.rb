@@ -6,6 +6,7 @@ module Ao3FanficForum
 
     VALID_TERM_TYPES = %w[fandom ship warning].freeze
     MAX_LIMIT = 50
+    ANON_CACHE_EXPIRY = 5.minutes
 
     def index
       limit = params[:limit].presence&.to_i || 12
@@ -14,12 +15,30 @@ module Ao3FanficForum
       term_types = requested_types.presence || VALID_TERM_TYPES
       term_types &= VALID_TERM_TYPES
 
-      terms = term_types.index_with { |term_type| terms_for_type(term_type, limit) }
-
-      render json: { terms: terms }
+      render json: { terms: terms_payload(term_types, limit) }
     end
 
     private
+
+    def terms_payload(term_types, limit)
+      # All anonymous viewers share the same topic visibility, so a short
+      # shared cache is safe and shields the grouped aggregation from
+      # unauthenticated traffic spikes. Signed-in visibility varies per user,
+      # so those requests always hit the database.
+      if current_user.blank?
+        Discourse
+          .cache
+          .fetch("ao3-fanfic-terms:anon:#{term_types.join(",")}:#{limit}", expires_in: ANON_CACHE_EXPIRY) do
+            collect_terms(term_types, limit)
+          end
+      else
+        collect_terms(term_types, limit)
+      end
+    end
+
+    def collect_terms(term_types, limit)
+      term_types.index_with { |term_type| terms_for_type(term_type, limit) }
+    end
 
     def visible_topic_ids
       Topic.listable_topics.visible.secured(guardian).select(:id)

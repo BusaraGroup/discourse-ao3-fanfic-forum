@@ -116,6 +116,7 @@ module Ao3FanficForum
       DiscourseSubscriptions::Product.find_or_create_by!(external_id: product[:id])
       set_site_setting(:ao3_fanfic_subscription_product_id, product[:id])
       set_site_setting(:discourse_subscriptions_campaign_product, product[:id])
+      set_site_setting(:ao3_fanfic_subscribe_url, "/s/#{product[:id]}")
       product
     end
 
@@ -305,6 +306,7 @@ namespace :ao3_fanfic_forum do
     puts "AO3Chat paid tier ready."
     puts "Stripe product: #{product[:id]}"
     puts "Monthly price: #{price[:id]}"
+    puts "Supporter URL: #{SiteSetting.ao3_fanfic_subscribe_url}"
     puts "Successful payments grant group: #{supporter_group.name}"
   end
 

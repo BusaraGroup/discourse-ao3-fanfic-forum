@@ -336,7 +336,7 @@ namespace :ao3_fanfic_forum do
       {
         name: "Private Fandom Rooms",
         slug: SiteSetting.ao3_fanfic_private_rooms_category_slug,
-        description: "Supporter-only fandom circles, private ship rooms, readalongs, and higher-privacy discussion threads.",
+        description: "Supporter-only fandom circles, private ship rooms, readalongs, and spoiler-heavy discussion threads.",
         color: "9F2536",
         position: 14,
         permissions: {

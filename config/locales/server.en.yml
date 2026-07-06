@@ -23,3 +23,18 @@ en:
       space_group_required: "Choose a fandom space group."
       space_group_not_allowed: "That fandom space group is not allowed for AO3 topics."
       space_group_missing: "That fandom space group does not exist."
+    room_requests:
+      title: "Private room request: %{fandom}"
+      title_with_ship: "Private room request: %{fandom} - %{ship}"
+      body:
+        heading: "Private room request"
+        fandom: "**Fandom:** %{value}"
+        ship: "**Ship or focus:** %{value}"
+        purpose: "**Room purpose:** %{value}"
+        spoiler_policy: "**Spoiler policy:** %{value}"
+        comfort_notes: "**Comfort notes:** %{value}"
+        unspecified: "Not specified"
+      errors:
+        category_missing: "Private fandom rooms are not configured yet."
+        supporter_required: "Private room requests are available to AO3Chat supporters."
+        fandom_required: "Choose a fandom for the private room request."

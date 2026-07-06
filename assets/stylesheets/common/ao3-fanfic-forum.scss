@@ -307,6 +307,112 @@ body {
   width: 100%;
 }
 
+.ao3-room-request {
+  border-top: 1px solid var(--ao3-line);
+  display: grid;
+  gap: 0.75rem;
+  padding-top: 0.85rem;
+}
+
+.ao3-room-request__heading {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ao3-room-request__heading h3 {
+  color: var(--ao3-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.ao3-room-request__heading p,
+.ao3-room-request__login p {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-1);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.ao3-room-request__form {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.ao3-room-request__field {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.ao3-room-request__field span {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-2);
+  font-weight: 800;
+}
+
+.ao3-room-request__field input,
+.ao3-room-request__field textarea {
+  background: #120f0f;
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  box-sizing: border-box;
+  color: var(--ao3-text);
+  min-width: 0;
+  width: 100%;
+}
+
+.ao3-room-request__field textarea {
+  min-height: 4.25rem;
+  resize: vertical;
+}
+
+.ao3-room-request__field input:focus,
+.ao3-room-request__field textarea:focus {
+  border-color: #87c5c9;
+  box-shadow: 0 0 0 2px rgba(36, 106, 115, 0.28);
+}
+
+.ao3-room-request__status {
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  font-size: var(--font-down-1);
+  line-height: 1.35;
+  margin: 0;
+  padding: 0.55rem;
+}
+
+.ao3-room-request__status a {
+  color: #ffe4b0;
+  font-weight: 800;
+}
+
+.ao3-room-request__status--error {
+  background: rgba(159, 37, 54, 0.18);
+  border-color: rgba(189, 51, 72, 0.42);
+  color: #ffdce2;
+}
+
+.ao3-room-request__status--success {
+  background: rgba(36, 106, 115, 0.18);
+  border-color: rgba(135, 197, 201, 0.42);
+  color: #d6fbff;
+}
+
+.ao3-room-request__subscribe,
+.ao3-room-request__submit,
+.ao3-room-request__join {
+  justify-content: center;
+  width: 100%;
+}
+
+.ao3-room-request__login {
+  display: grid;
+  gap: 0.6rem;
+}
+
 .ao3-browser {
   border-top: 1px solid var(--ao3-line);
   display: grid;

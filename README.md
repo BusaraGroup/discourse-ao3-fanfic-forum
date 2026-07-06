@@ -72,6 +72,8 @@ bin/rake ao3_fanfic_forum:setup_paid_tier
 
 Successful payments should grant the `ao3chat_supporters` group, which unlocks the private fandom rooms category.
 
+Supporters can request new private fandom rooms from the AO3Chat home page. Requests create topics inside `Private Fandom Rooms`, so staff can review, reply, rename, split, approve, or archive them using the normal moderation workflow. Non-supporters receive the configured subscription URL instead of access to the restricted category.
+
 If importing or editing AO3 metadata outside the composer:
 
 ```bash

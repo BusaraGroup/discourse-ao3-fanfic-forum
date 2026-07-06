@@ -13,6 +13,28 @@ ao3_fanfic:
     type: group_list
     allow_any: false
     refresh: true
+    client: true
+  ao3_fanfic_paid_rooms_enabled:
+    default: true
+    client: true
+  ao3_fanfic_supporter_group_name:
+    default: "ao3chat_supporters"
+  ao3_fanfic_private_rooms_category_slug:
+    default: "private-fandom-rooms"
+    client: true
+  ao3_fanfic_supporter_price_label:
+    default: "$5 / month"
+    client: true
+  ao3_fanfic_supporter_monthly_amount_cents:
+    default: 500
+    min: 100
+    max: 50000
+  ao3_fanfic_subscribe_url:
+    default: "/s"
+    client: true
+  ao3_fanfic_subscription_product_id:
+    default: ""
+    hidden: true
   ao3_fanfic_allowed_content_warnings:
     default: "Creator Chose Not To Use Archive Warnings|Graphic Depictions Of Violence|Major Character Death|No Archive Warnings Apply|Rape/Non-Con|Underage"
     type: list

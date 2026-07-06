@@ -1,6 +1,65 @@
 en:
   js:
+    log_in: "Log in"
+    sign_up: "Create account"
+    login:
+      header_title: "Log in to AO3Chat"
+      title: "Log in"
+      username: "AO3Chat name"
+      email_placeholder: "Email or AO3Chat name"
+      to_continue: "Log in to AO3Chat"
+      previous_sign_up: "Already have an AO3Chat account?"
+      discourse_id:
+        name: "AO3Chat ID"
+        title: "Log in with AO3Chat ID"
+    create_account:
+      header_title: "Join AO3Chat"
+      title: "Create account"
+      no_account_yet: "New to AO3Chat?"
+      already_have_account: "Already have an AO3Chat account?"
+      progress_bar:
+        signup: "Create account"
+        activate: "Activate"
+        approve: "Approve"
+        login: "Log in"
+    discourse_subscriptions:
+      navigation:
+        subscribe: "Supporter"
     ao3_fanfic:
+      auth:
+        login_note: "Use your AO3Chat account here. Public anonymous posting can still hide your account from other readers."
+        signup_note: "Choose an AO3Chat name that is separate from your AO3, social, or public fandom identity."
+      home:
+        title: "AO3Chat"
+        subtitle: "A privacy-first space for AO3 readers to share recs, chapter reactions, fic searches, and spoiler-safe fandom threads."
+        login: "Log in"
+        create_account: "Create account"
+        new_topic: "New discussion"
+        filters_label: "Reader filters"
+        fandoms: "Fandoms"
+        fandoms_value: "All fandoms"
+        ships: "Ships"
+        ships_value: "All ships"
+        spoilers: "Spoilers"
+        spoilers_value: "Spoilers safe"
+        warnings: "Warnings"
+        warnings_value: "Content warnings"
+        supporter_title: "Private fandom rooms"
+        supporter_badge: "Supporter"
+        supporter_body: "Members-only spaces for smaller fandom circles, ship rooms, readalongs, and higher-privacy threads."
+        supporter_price_prefix: "From"
+        supporter_cta: "View supporter tier"
+        supporter_features:
+          private_rooms: "Private rooms by fandom or ship"
+          archive_access: "Private archive access"
+          events: "Member readalongs"
+          support: "Support AO3Chat independence"
+        quick_links_label: "AO3Chat rooms"
+        fic_recs: "Fic recs"
+        chapter_threads: "Chapter threads"
+        looking_for_fic: "Looking for a fic"
+        fandom_spaces: "Fandom spaces"
+        private_rooms: "Private rooms"
       composer:
         legend: "Fanfic metadata"
         discussion_type: "Thread type"
@@ -14,7 +73,7 @@ en:
         fic_author: "Author"
         chapter_ref: "Chapter"
         visibility: "Visibility"
-        space_group_id: "Space group ID"
+        space_group_id: "Private room group"
         anonymous: "Post anonymously"
         list_placeholder: "Separate with commas"
       discussion_types:

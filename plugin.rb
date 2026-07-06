@@ -4,7 +4,7 @@
 # about: AO3 reader discussion workflows: fandom/ship metadata, spoiler labels, content warnings, fic recs, fic-finding, chapter threads, and fandom spaces.
 # version: 0.1.0
 # authors: Gold Mango Labs
-# url: https://github.com/discourse/discourse
+# url: https://github.com/BusaraGroup/discourse-ao3-fanfic-forum
 
 enabled_site_setting :ao3_fanfic_enabled
 

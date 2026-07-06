@@ -151,11 +151,23 @@ export default class Ao3FanficFields extends Component {
       existingMetadata(this.model),
       this.siteSettings.ao3_fanfic_default_anonymous
     );
+    if (this.state.visibility === "space" && !this.state.spaceGroupId) {
+      this.state = { ...this.state, spaceGroupId: this.defaultSpaceGroupId };
+    }
     this.syncModel();
   }
 
   get model() {
     return this.args.outletArgs.model;
+  }
+
+  get defaultSpaceGroupId() {
+    return (
+      this.siteSettings.ao3_fanfic_allowed_space_groups
+        ?.toString()
+        .split("|")
+        .filter(Boolean)[0] || ""
+    );
   }
 
   syncModel() {
@@ -177,7 +189,14 @@ export default class Ao3FanficFields extends Component {
 
   @action
   updateVisibility(event) {
-    this.updateState({ visibility: event.target.value });
+    const visibility = event.target.value;
+    const changes = { visibility };
+
+    if (visibility === "space" && !this.state.spaceGroupId) {
+      changes.spaceGroupId = this.defaultSpaceGroupId;
+    }
+
+    this.updateState(changes);
   }
 
   @action
@@ -314,15 +333,17 @@ export default class Ao3FanficFields extends Component {
           </select>
         </label>
 
-        <label>
-          <span>{{i18n "ao3_fanfic.composer.space_group_id"}}</span>
-          <input
-            type="number"
-            min="1"
-            value={{this.state.spaceGroupId}}
-            {{on "input" (fn this.updateText "spaceGroupId")}}
-          />
-        </label>
+        {{#if (eq this.state.visibility "space")}}
+          <label>
+            <span>{{i18n "ao3_fanfic.composer.space_group_id"}}</span>
+            <input
+              type="number"
+              min="1"
+              value={{this.state.spaceGroupId}}
+              {{on "input" (fn this.updateText "spaceGroupId")}}
+            />
+          </label>
+        {{/if}}
       </div>
 
       <label class="ao3-composer-fields__checkbox">

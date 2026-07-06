@@ -36,13 +36,21 @@ module Ao3FanficForum
 
       guardian.ensure_can_create_topic_on_category!(category.id)
 
-      post =
-        PostCreator.create!(
+      creator =
+        PostCreator.new(
           current_user,
           title: request_title(data),
           raw: request_body(data),
           category: category.id,
         )
+      post = creator.create
+
+      if post.blank? || creator.errors.present?
+        message =
+          creator.errors&.full_messages&.join(", ").presence ||
+            I18n.t("ao3_fanfic.room_requests.errors.create_failed")
+        return render_json_error(message, status: :unprocessable_entity)
+      end
 
       render json: {
                success: true,

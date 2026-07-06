@@ -91,3 +91,4 @@ en:
         category_missing: "Private fandom rooms are not configured yet."
         supporter_required: "Private room requests are available to AO3Chat supporters."
         fandom_required: "Choose a fandom for the private room request."
+        create_failed: "The private room request could not be created. Please try again."

@@ -218,6 +218,7 @@ en:
         untitled: "Discussion"
         fic_by: "%{title} by %{author}"
         fic_author: "Fic by %{author}"
+        fic_link: "Read the fic"
         chapter: "Chapter %{chapter}"
         replies:
           one: "%{count} reply"

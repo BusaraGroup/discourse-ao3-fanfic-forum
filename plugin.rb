@@ -43,6 +43,10 @@ after_initialize do
     Ao3FanficForum::Metadata.sync_from_topic!(post.topic) if post&.is_first_post?
   end
 
+  on(:topic_destroyed) do |topic, _user|
+    Ao3FanficForum::Metadata.clear_for_topic_id!(topic.id)
+  end
+
   add_to_serializer(:topic_view, :ao3_fanfic) do
     Ao3FanficForum::Metadata.for_topic(object.topic)
   end

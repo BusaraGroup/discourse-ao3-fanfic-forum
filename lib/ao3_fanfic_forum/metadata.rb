@@ -78,8 +78,7 @@ module Ao3FanficForum
 
       if !raw_present?(fields)
         topic.save! if legacy_fields_deleted
-        TopicMetadata.where(topic_id: topic.id).destroy_all
-        TopicTerm.where(topic_id: topic.id).delete_all
+        clear_for_topic_id!(topic.id)
         return
       end
 
@@ -104,6 +103,13 @@ module Ao3FanficForum
       TopicTerm.where(topic_id: topic.id).delete_all
       term_rows(data).each { |attrs| TopicTerm.create!(attrs.merge(topic_id: topic.id)) }
       topic.save! if legacy_fields_deleted
+    end
+
+    def clear_for_topic_id!(topic_id)
+      return if topic_id.blank?
+
+      TopicMetadata.where(topic_id: topic_id).delete_all
+      TopicTerm.where(topic_id: topic_id).delete_all
     end
 
     def validate_topic!(topic)
@@ -133,7 +139,7 @@ module Ao3FanficForum
         content_warnings: Normalizer.list(fields[Fields::CONTENT_WARNINGS]),
         spoiler_label: Normalizer.text(fields[Fields::SPOILER_LABEL], max_length: 120),
         spoiler_until: Normalizer.date_time(fields[Fields::SPOILER_UNTIL]),
-        fic_url: Normalizer.text(fields[Fields::FIC_URL], max_length: 2048),
+        fic_url: Normalizer.url(fields[Fields::FIC_URL], max_length: 2048),
         fic_title: Normalizer.text(fields[Fields::FIC_TITLE], max_length: 240),
         fic_author: Normalizer.text(fields[Fields::FIC_AUTHOR], max_length: 160),
         chapter_ref: Normalizer.text(fields[Fields::CHAPTER_REF], max_length: 80),

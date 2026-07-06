@@ -127,6 +127,8 @@ en:
         signup_body: "Pick a reader handle for recs, spoiler threads, fic searches, and fandom-room access."
         login_note: "Use your AO3Chat account here. Restricted rooms use real group permissions."
         signup_note: "Choose an AO3Chat name that is separate from your AO3, social, or public fandom identity."
+        signup_action: "Create account"
+        login_action: "Log in"
         supporter_link: "Supporter tier for private rooms"
         identity_label: "Account layer"
         identity_title: "Local AO3Chat account"

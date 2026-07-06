@@ -10,6 +10,10 @@ en:
     ao3_fanfic_supporter_monthly_amount_cents: "Monthly supporter tier amount in the smallest Stripe currency unit."
     ao3_fanfic_subscribe_url: "Reader-facing AO3Chat supporter tier landing URL."
     ao3_fanfic_supporter_checkout_url: "Checkout URL opened from the AO3Chat supporter tier page."
+    ao3_fanfic_crypto_payments_enabled: "Show configured cryptocurrency payment options on the AO3Chat supporter tier page."
+    ao3_fanfic_crypto_btc_address: "Bitcoin receiving address for AO3Chat supporter payments."
+    ao3_fanfic_crypto_ltc_address: "Litecoin receiving address for AO3Chat supporter payments."
+    ao3_fanfic_crypto_xmr_address: "Monero receiving address for AO3Chat supporter payments."
     ao3_fanfic_subscription_product_id: "Stripe product id used for the AO3Chat supporter tier."
     ao3_fanfic_allowed_content_warnings: "Canonical content warnings shown to clients and used when custom content warnings are disabled."
     ao3_fanfic_allow_custom_content_warnings: "Allow users to enter content warnings outside the canonical warning list."
@@ -63,19 +67,69 @@ en:
         account_title: "Start with an AO3Chat account"
         account_body: "Create a local reader account first, then return here to join the supporter tier and request private rooms."
         ready_title: "Your account is ready"
-        ready_body: "Continue to checkout to join the supporter tier. After payment, the supporter group unlocks private fandom rooms."
+        ready_body: "Choose a payment method to join the supporter tier. Stripe can grant access automatically when configured; crypto receipts are verified by staff."
         active_title: "Private room access is active"
         active_body: "You can open existing private rooms or request a new fandom, ship, readalong, or spoiler-heavy space."
       cta:
         create_account: "Create account"
         log_in: "Log in"
         join: "Join supporter tier"
+        choose_payment: "Choose payment method"
         open_rooms: "Open private rooms"
         browse_public: "Browse public rooms"
+      payments:
+        title: "Payment methods"
+        body: "Use Stripe for card payments when available, or send crypto and submit the transaction for staff verification."
+        stripe_title: "Stripe"
+        stripe_body: "Card checkout is the cleanest path because it can grant the supporter group automatically after payment."
+        stripe_cta: "Pay with Stripe"
+        stripe_unavailable: "Stripe checkout is not configured yet."
+        automatic_badge: "Automatic"
+        manual_badge: "Manual"
+        crypto_title: "Crypto"
+        crypto_body: "Send %{code} to this address, then submit the transaction id so staff can verify the payment and add supporter access."
+        crypto_cta: "Submit transaction"
+        crypto_login_note: "Create an account or log in before submitting a crypto transaction."
+        crypto_unavailable: "Crypto receiving addresses are not configured yet."
+        none_configured: "No payment methods are configured yet. Add a Stripe checkout URL or crypto receiving addresses in admin settings."
+        address_label: "%{code} address"
+        transaction_label: "Transaction id"
+        amount_label: "Amount or note"
     errors:
       fandom_required: "Add at least one fandom tag."
       invalid_discussion_type: "Choose a valid AO3 discussion type."
       invalid_content_warnings: "These content warnings are not allowed: %{warnings}."
+    crypto_payment:
+      methods:
+        btc:
+          name: "Bitcoin"
+          network: "BTC"
+        ltc:
+          name: "Litecoin"
+          network: "LTC"
+        xmr:
+          name: "Monero"
+          network: "XMR"
+      errors:
+        transaction_required: "Enter the transaction id before submitting."
+      flash:
+        submitted: "Transaction submitted for staff verification."
+        failed: "The transaction could not be submitted. Please try again."
+        unavailable: "That crypto payment method is not configured."
+      staff_message:
+        title: "AO3Chat crypto supporter payment: %{username} (%{code})"
+        body: |
+          A reader submitted a crypto supporter payment for verification.
+
+          **Reader:** @%{username}
+          **Profile:** %{user_url}
+          **Method:** %{method} (%{code})
+          **Receiving address:** `%{address}`
+          **Transaction id:** `%{transaction_id}`
+          **Amount or note:** %{amount_note}
+
+          After verifying the payment, add the reader to the AO3Chat supporter group.
+        unspecified: "Not specified"
     room_requests:
       title: "Private room request: %{fandom}"
       title_with_ship: "Private room request: %{fandom} - %{ship}"

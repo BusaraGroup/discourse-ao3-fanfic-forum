@@ -18,7 +18,8 @@ AO3Chat is a privacy-first fanfic reader forum with topic metadata and room stru
 - PostgreSQL 15+
 - Redis 7+
 - Node and package tooling required by the host forum runtime
-- Optional: Stripe keys for the paid supporter tier
+- Optional: Stripe checkout URL for automatic paid supporter access
+- Optional: Bitcoin, Litecoin, and Monero receiving addresses for manually verified supporter access
 
 ## Setup
 
@@ -72,7 +73,17 @@ The configure task creates:
 
 The featured fandom strip on the AO3Chat home page is controlled by `ao3_fanfic_featured_fandom_slugs`. The default launch set is `harry-potter|marvel|k-pop|bts`; admins can replace it with any category slugs that should act as high-traffic fandom homes.
 
-After Stripe keys are configured, create or verify the paid supporter product:
+After Stripe is configured, set `ao3_fanfic_supporter_checkout_url` to the checkout URL for the supporter product. Stripe is the automatic path when it grants the `ao3chat_supporters` group after payment.
+
+Crypto supporter payments are also supported as a staff-verified path. Set any of:
+
+- `ao3_fanfic_crypto_btc_address`
+- `ao3_fanfic_crypto_ltc_address`
+- `ao3_fanfic_crypto_xmr_address`
+
+Readers will see the configured addresses on `/ao3-fanfic/supporter`, submit a transaction id, and staff will receive a private verification message. After verifying the transaction, add the reader to the configured supporter group.
+
+If you are using Discourse Subscriptions, create or verify the paid supporter product:
 
 ```bash
 bin/rake ao3_fanfic_forum:setup_paid_tier

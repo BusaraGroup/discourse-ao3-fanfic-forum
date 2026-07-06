@@ -4,6 +4,30 @@ module Ao3FanficForum
   module SupporterAccess
     SUPPORTER_PATH = "/ao3-fanfic/supporter"
     CHECKOUT_FALLBACK_PATH = "/s"
+    CRYPTO_METHODS =
+      [
+        {
+          key: "btc",
+          code: "BTC",
+          address_setting: :ao3_fanfic_crypto_btc_address,
+          name_key: "ao3_fanfic.crypto_payment.methods.btc.name",
+          network_key: "ao3_fanfic.crypto_payment.methods.btc.network",
+        },
+        {
+          key: "ltc",
+          code: "LTC",
+          address_setting: :ao3_fanfic_crypto_ltc_address,
+          name_key: "ao3_fanfic.crypto_payment.methods.ltc.name",
+          network_key: "ao3_fanfic.crypto_payment.methods.ltc.network",
+        },
+        {
+          key: "xmr",
+          code: "XMR",
+          address_setting: :ao3_fanfic_crypto_xmr_address,
+          name_key: "ao3_fanfic.crypto_payment.methods.xmr.name",
+          network_key: "ao3_fanfic.crypto_payment.methods.xmr.network",
+        },
+      ].freeze
 
     module_function
 
@@ -47,8 +71,22 @@ module Ao3FanficForum
 
       legacy_url = SiteSetting.ao3_fanfic_subscribe_url.presence
       return legacy_url if legacy_url.present? && subscription_checkout_url?(legacy_url)
+    end
 
-      CHECKOUT_FALLBACK_PATH
+    def crypto_payment_methods
+      return [] if !SiteSetting.ao3_fanfic_crypto_payments_enabled
+
+      CRYPTO_METHODS.filter_map do |method|
+        address = SiteSetting.public_send(method[:address_setting]).presence
+        next if address.blank?
+
+        method.merge(address: address)
+      end
+    end
+
+    def crypto_payment_method(currency)
+      normalized_currency = currency.to_s.downcase
+      crypto_payment_methods.find { |method| method[:key] == normalized_currency }
     end
 
     def status_for(user)

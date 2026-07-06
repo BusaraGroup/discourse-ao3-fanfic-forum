@@ -495,6 +495,7 @@ html.discourse-no-touch .ao3-home__account-link:hover {
 }
 
 .ao3-supporter-page__state h2,
+.ao3-supporter-page__payment-copy h2,
 .ao3-supporter-page__benefits h2,
 .ao3-supporter-page__access h2 {
   color: var(--ao3-text);
@@ -528,6 +529,133 @@ html.discourse-no-touch .ao3-home__account-link:hover {
   font-weight: 800;
   justify-content: center;
   min-height: 2.4rem;
+}
+
+.ao3-supporter-page__payments {
+  border-block-end: 1px solid var(--ao3-line);
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.25rem, 4vw, 3rem);
+}
+
+.ao3-supporter-page__payment-copy {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 48rem;
+}
+
+.ao3-supporter-page__payment-copy p,
+.ao3-supporter-page__payment-method p,
+.ao3-supporter-page__payment-note {
+  color: var(--ao3-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.ao3-supporter-page__flash {
+  border: 1px solid var(--ao3-line-strong);
+  border-radius: var(--ao3-radius);
+  display: grid;
+  gap: 0.35rem;
+  max-width: 48rem;
+  padding: 0.75rem;
+}
+
+.ao3-supporter-page__flash p {
+  color: var(--ao3-text);
+  margin: 0;
+}
+
+.ao3-supporter-page__payment-list {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: minmax(0, 1fr);
+
+  @include viewport.from(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ao3-supporter-page__payment-method {
+  align-content: start;
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  display: grid;
+  gap: 0.85rem;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.ao3-supporter-page__payment-heading {
+  align-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.ao3-supporter-page__payment-heading h3 {
+  color: var(--ao3-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: var(--font-up-1);
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.ao3-supporter-page__payment-heading span {
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  color: var(--ao3-gold);
+  font-size: var(--font-down-2);
+  font-weight: 800;
+  padding: 0.2rem 0.4rem;
+}
+
+.ao3-supporter-page__address {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ao3-supporter-page__address span,
+.ao3-supporter-page__crypto-form span {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-2);
+  font-weight: 800;
+}
+
+.ao3-supporter-page__address code {
+  background: var(--ao3-surface-raised);
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  color: var(--ao3-text);
+  display: block;
+  font-size: var(--font-down-1);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  padding: 0.65rem;
+  white-space: normal;
+}
+
+.ao3-supporter-page__crypto-form {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.ao3-supporter-page__crypto-form label {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.ao3-supporter-page__crypto-form input {
+  background: var(--ao3-surface-raised);
+  border: 1px solid var(--ao3-line-strong);
+  border-radius: var(--ao3-radius);
+  box-sizing: border-box;
+  color: var(--ao3-text);
+  min-height: 2.35rem;
+  padding-inline: 0.6rem;
+  width: 100%;
 }
 
 .ao3-supporter-page__details {
@@ -1423,7 +1551,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
 }
 
 .ao3-auth-panel {
-  background: #141110;
+  background: var(--ao3-surface);
   border-bottom: 1px solid var(--ao3-line);
   border-radius: var(--ao3-radius) var(--ao3-radius) 0 0;
   display: grid;
@@ -1551,22 +1679,33 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
   width: 0.45rem;
 }
 
-.ao3-auth-panel__supporter {
+.ao3-auth-panel__actions {
   align-self: end;
-  border: 1px solid var(--ao3-line);
-  border-radius: var(--ao3-radius);
-  color: #ffe4b0;
-  font-size: var(--font-down-1);
-  font-weight: 800;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   grid-column: 2;
   justify-self: start;
+}
+
+.ao3-auth-panel__account,
+.ao3-auth-panel__supporter {
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  font-size: var(--font-down-1);
+  font-weight: 800;
+  min-height: 2.15rem;
   padding: 0.35rem 0.5rem;
   text-decoration: none;
 }
 
+.ao3-auth-panel__supporter {
+  color: var(--ao3-gold);
+}
+
 .ao3-auth-panel__supporter:hover {
-  border-color: rgba(215, 167, 93, 0.48);
-  color: #fff3d4;
+  border-color: var(--ao3-line-strong);
+  color: var(--ao3-text);
 }
 
 .login-page .input-group input,
@@ -1723,7 +1862,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
 
   .ao3-auth-panel__identity,
   .ao3-auth-panel__facts,
-  .ao3-auth-panel__supporter {
+  .ao3-auth-panel__actions {
     grid-column: 1;
   }
 

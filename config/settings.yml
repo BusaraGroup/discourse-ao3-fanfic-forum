@@ -30,6 +30,14 @@ ao3_fanfic:
     client: true
   ao3_fanfic_supporter_checkout_url:
     default: ""
+  ao3_fanfic_crypto_payments_enabled:
+    default: true
+  ao3_fanfic_crypto_btc_address:
+    default: ""
+  ao3_fanfic_crypto_ltc_address:
+    default: ""
+  ao3_fanfic_crypto_xmr_address:
+    default: ""
   ao3_fanfic_subscription_product_id:
     default: ""
     hidden: true

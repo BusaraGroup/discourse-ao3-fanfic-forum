@@ -6,7 +6,7 @@ module Ao3FanficForum
     requires_login
 
     def create
-      category = private_rooms_category
+      category = SupporterAccess.private_rooms_category
 
       if category.blank?
         return render_json_error(
@@ -15,12 +15,12 @@ module Ao3FanficForum
                )
       end
 
-      if !current_user.staff? && !supporter_group_member?
+      if !SupporterAccess.private_room_access?(current_user)
         return render json: {
                         errors: [
                           I18n.t("ao3_fanfic.room_requests.errors.supporter_required"),
                         ],
-                        subscribe_url: SiteSetting.ao3_fanfic_subscribe_url,
+                        subscribe_url: SupporterAccess.subscribe_url,
                       },
                       status: :forbidden
       end
@@ -57,20 +57,6 @@ module Ao3FanficForum
     end
 
     private
-
-    def private_rooms_category
-      slug =
-        SiteSetting.ao3_fanfic_private_rooms_category_slug.presence || "private-fandom-rooms"
-      Category.find_by(slug: slug)
-    end
-
-    def supporter_group_member?
-      group_name =
-        SiteSetting.ao3_fanfic_supporter_group_name.presence || "ao3chat_supporters"
-      group = Group.find_by(name: group_name)
-      group.present? &&
-        GroupUser.exists?(group_id: group.id, user_id: current_user.id)
-    end
 
     def permitted_request
       params

@@ -30,6 +30,38 @@ RSpec.describe "AO3 fanfic room requests" do
     }.merge(overrides)
   end
 
+  it "returns paid room access status for a signed-in non-supporter" do
+    get "/ao3-fanfic/supporter-status.json"
+
+    expect(response.status).to eq(200)
+    expect(response.parsed_body).to include(
+      "signed_in" => true,
+      "supporter" => false,
+      "staff" => false,
+      "has_private_room_access" => false,
+      "supporter_group_name" => supporter_group.name,
+      "subscribe_url" => "/s/ao3chat",
+      "private_rooms_url" => nil,
+    )
+  end
+
+  it "returns private room access status for supporters" do
+    GroupUser.create!(group: supporter_group, user: user)
+
+    get "/ao3-fanfic/supporter-status.json"
+
+    expect(response.status).to eq(200)
+    expect(response.parsed_body).to include(
+      "signed_in" => true,
+      "supporter" => true,
+      "staff" => false,
+      "has_private_room_access" => true,
+      "supporter_group_name" => supporter_group.name,
+      "subscribe_url" => "/s/ao3chat",
+      "private_rooms_url" => private_category.url,
+    )
+  end
+
   it "requires supporter access before creating a private room request" do
     expect {
       post "/ao3-fanfic/room-requests.json",

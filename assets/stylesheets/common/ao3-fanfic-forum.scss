@@ -341,6 +341,30 @@ body {
   gap: 0.55rem;
 }
 
+.ao3-room-request__gate {
+  background: #141110;
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.65rem;
+}
+
+.ao3-room-request__gate h4 {
+  color: var(--ao3-text);
+  font-size: var(--font-down-1);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.ao3-room-request__gate p {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-1);
+  line-height: 1.4;
+  margin: 0;
+}
+
 .ao3-room-request__field {
   display: grid;
   gap: 0.25rem;

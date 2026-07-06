@@ -74,6 +74,8 @@ Successful payments should grant the `ao3chat_supporters` group, which unlocks t
 
 Supporters can request new private fandom rooms from the AO3Chat home page. Requests create topics inside `Private Fandom Rooms`, so staff can review, reply, rename, split, approve, or archive them using the normal moderation workflow. Non-supporters receive the configured subscription URL instead of access to the restricted category.
 
+The home page checks `GET /ao3-fanfic/supporter-status.json` for the logged-in reader. Supporters see active private room access and can open or request rooms immediately; non-supporters see the supporter tier path before any restricted action is attempted.
+
 If importing or editing AO3 metadata outside the composer:
 
 ```bash

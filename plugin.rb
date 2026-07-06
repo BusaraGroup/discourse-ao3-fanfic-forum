@@ -19,6 +19,7 @@ require_relative "lib/ao3_fanfic_forum/engine"
 after_initialize do
   require_relative "lib/ao3_fanfic_forum/fields"
   require_relative "lib/ao3_fanfic_forum/normalizer"
+  require_relative "lib/ao3_fanfic_forum/supporter_access"
   require_relative "app/models/ao3_fanfic_forum/topic_metadata"
   require_relative "app/models/ao3_fanfic_forum/topic_term"
   require_relative "lib/ao3_fanfic_forum/metadata"

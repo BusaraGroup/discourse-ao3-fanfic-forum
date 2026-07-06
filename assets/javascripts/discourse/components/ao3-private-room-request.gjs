@@ -26,12 +26,62 @@ export default class Ao3PrivateRoomRequest extends Component {
   @tracked saving = false;
   @tracked error = null;
   @tracked successUrl = null;
+  @tracked status = null;
+  @tracked statusLoading = false;
   @tracked supporterRequired = false;
   @tracked subscribeUrlOverride = null;
 
+  constructor() {
+    super(...arguments);
+
+    if (this.currentUser) {
+      this.loadStatus();
+    }
+  }
+
   get subscribeUrl() {
     return getURL(
-      this.subscribeUrlOverride || this.siteSettings.ao3_fanfic_subscribe_url || "/s"
+      this.subscribeUrlOverride ||
+        this.status?.subscribe_url ||
+        this.siteSettings.ao3_fanfic_subscribe_url ||
+        "/s"
+    );
+  }
+
+  get privateRoomsUrl() {
+    if (!this.status?.private_rooms_url) {
+      return null;
+    }
+
+    return getURL(this.status.private_rooms_url);
+  }
+
+  get hasPrivateRoomAccess() {
+    return this.status?.has_private_room_access || false;
+  }
+
+  get shouldShowRequestForm() {
+    if (!this.currentUser) {
+      return false;
+    }
+
+    if (this.statusLoading) {
+      return false;
+    }
+
+    if (!this.status) {
+      return true;
+    }
+
+    return this.hasPrivateRoomAccess;
+  }
+
+  get shouldShowSupporterGate() {
+    return (
+      this.currentUser &&
+      !this.statusLoading &&
+      this.status &&
+      !this.hasPrivateRoomAccess
     );
   }
 
@@ -58,6 +108,19 @@ export default class Ao3PrivateRoomRequest extends Component {
   }
 
   @action
+  async loadStatus() {
+    this.statusLoading = true;
+
+    try {
+      this.status = await ajax(getURL("/ao3-fanfic/supporter-status.json"));
+    } catch {
+      this.status = null;
+    } finally {
+      this.statusLoading = false;
+    }
+  }
+
+  @action
   updateField(field, event) {
     this.request = { ...this.request, [field]: event.target.value };
   }
@@ -79,6 +142,7 @@ export default class Ao3PrivateRoomRequest extends Component {
       });
       this.successUrl = getURL(payload.topic_url);
       this.request = { ...EMPTY_REQUEST };
+      await this.loadStatus();
     } catch (error) {
       this.error = this.responseMessage(error);
     } finally {
@@ -93,81 +157,108 @@ export default class Ao3PrivateRoomRequest extends Component {
         <p>{{i18n "ao3_fanfic.room_request.body"}}</p>
       </div>
 
+      {{#if this.statusLoading}}
+        <p class="ao3-room-request__status">
+          {{i18n "ao3_fanfic.room_request.status_loading"}}
+        </p>
+      {{else if this.hasPrivateRoomAccess}}
+        <p class="ao3-room-request__status ao3-room-request__status--success">
+          {{i18n "ao3_fanfic.room_request.access_active"}}
+          {{#if this.privateRoomsUrl}}
+            <a href={{this.privateRoomsUrl}}>{{i18n "ao3_fanfic.room_request.private_rooms_link"}}</a>
+          {{/if}}
+        </p>
+      {{/if}}
+
       {{#if this.currentUser}}
-        <form class="ao3-room-request__form" {{on "submit" this.submit}}>
-          <label class="ao3-room-request__field">
-            <span>{{i18n "ao3_fanfic.room_request.fandom"}}</span>
-            <input
-              required
-              maxlength="120"
-              value={{this.request.fandom}}
-              {{on "input" (fn this.updateField "fandom")}}
-            />
-          </label>
+        {{#if this.shouldShowRequestForm}}
+          <form class="ao3-room-request__form" {{on "submit" this.submit}}>
+            <label class="ao3-room-request__field">
+              <span>{{i18n "ao3_fanfic.room_request.fandom"}}</span>
+              <input
+                required
+                maxlength="120"
+                value={{this.request.fandom}}
+                {{on "input" (fn this.updateField "fandom")}}
+              />
+            </label>
 
-          <label class="ao3-room-request__field">
-            <span>{{i18n "ao3_fanfic.room_request.ship"}}</span>
-            <input
-              maxlength="120"
-              value={{this.request.ship}}
-              {{on "input" (fn this.updateField "ship")}}
-            />
-          </label>
+            <label class="ao3-room-request__field">
+              <span>{{i18n "ao3_fanfic.room_request.ship"}}</span>
+              <input
+                maxlength="120"
+                value={{this.request.ship}}
+                {{on "input" (fn this.updateField "ship")}}
+              />
+            </label>
 
-          <label class="ao3-room-request__field">
-            <span>{{i18n "ao3_fanfic.room_request.purpose"}}</span>
-            <textarea
-              maxlength="800"
-              value={{this.request.purpose}}
-              {{on "input" (fn this.updateField "purpose")}}
-            ></textarea>
-          </label>
+            <label class="ao3-room-request__field">
+              <span>{{i18n "ao3_fanfic.room_request.purpose"}}</span>
+              <textarea
+                maxlength="800"
+                value={{this.request.purpose}}
+                {{on "input" (fn this.updateField "purpose")}}
+              ></textarea>
+            </label>
 
-          <label class="ao3-room-request__field">
-            <span>{{i18n "ao3_fanfic.room_request.spoiler_policy"}}</span>
-            <input
-              maxlength="300"
-              value={{this.request.spoilerPolicy}}
-              {{on "input" (fn this.updateField "spoilerPolicy")}}
-            />
-          </label>
+            <label class="ao3-room-request__field">
+              <span>{{i18n "ao3_fanfic.room_request.spoiler_policy"}}</span>
+              <input
+                maxlength="300"
+                value={{this.request.spoilerPolicy}}
+                {{on "input" (fn this.updateField "spoilerPolicy")}}
+              />
+            </label>
 
-          <label class="ao3-room-request__field">
-            <span>{{i18n "ao3_fanfic.room_request.comfort_notes"}}</span>
-            <textarea
-              maxlength="500"
-              value={{this.request.comfortNotes}}
-              {{on "input" (fn this.updateField "comfortNotes")}}
-            ></textarea>
-          </label>
+            <label class="ao3-room-request__field">
+              <span>{{i18n "ao3_fanfic.room_request.comfort_notes"}}</span>
+              <textarea
+                maxlength="500"
+                value={{this.request.comfortNotes}}
+                {{on "input" (fn this.updateField "comfortNotes")}}
+              ></textarea>
+            </label>
 
-          {{#if this.error}}
-            <p class="ao3-room-request__status ao3-room-request__status--error">
-              {{this.error}}
-            </p>
-          {{/if}}
+            {{#if this.error}}
+              <p class="ao3-room-request__status ao3-room-request__status--error">
+                {{this.error}}
+              </p>
+            {{/if}}
 
-          {{#if this.successUrl}}
-            <p class="ao3-room-request__status ao3-room-request__status--success">
-              {{i18n "ao3_fanfic.room_request.success"}}
-              <a href={{this.successUrl}}>{{i18n "ao3_fanfic.room_request.view_request"}}</a>
-            </p>
-          {{/if}}
+            {{#if this.successUrl}}
+              <p class="ao3-room-request__status ao3-room-request__status--success">
+                {{i18n "ao3_fanfic.room_request.success"}}
+                <a href={{this.successUrl}}>{{i18n "ao3_fanfic.room_request.view_request"}}</a>
+              </p>
+            {{/if}}
 
-          {{#if this.supporterRequired}}
-            <a class="btn btn-default ao3-room-request__subscribe" href={{this.subscribeUrl}}>
+            {{#if this.supporterRequired}}
+              <a class="btn btn-default ao3-room-request__subscribe" href={{this.subscribeUrl}}>
+                {{i18n "ao3_fanfic.room_request.supporter_cta"}}
+              </a>
+            {{/if}}
+
+            <button
+              type="submit"
+              class="btn btn-primary ao3-room-request__submit"
+              disabled={{this.saving}}
+            >
+              {{#if this.saving}}
+                {{i18n "ao3_fanfic.room_request.saving"}}
+              {{else}}
+                {{i18n "ao3_fanfic.room_request.submit"}}
+              {{/if}}
+            </button>
+          </form>
+        {{else if this.shouldShowSupporterGate}}
+          <div class="ao3-room-request__gate">
+            <h4>{{i18n "ao3_fanfic.room_request.supporter_required_title"}}</h4>
+            <p>{{i18n "ao3_fanfic.room_request.supporter_required_body"}}</p>
+            <a class="btn btn-primary ao3-room-request__subscribe" href={{this.subscribeUrl}}>
               {{i18n "ao3_fanfic.room_request.supporter_cta"}}
             </a>
-          {{/if}}
-
-          <button type="submit" class="btn btn-primary ao3-room-request__submit" disabled={{this.saving}}>
-            {{#if this.saving}}
-              {{i18n "ao3_fanfic.room_request.saving"}}
-            {{else}}
-              {{i18n "ao3_fanfic.room_request.submit"}}
-            {{/if}}
-          </button>
-        </form>
+          </div>
+        {{/if}}
       {{else}}
         <div class="ao3-room-request__login">
           <p>{{i18n "ao3_fanfic.room_request.login_note"}}</p>

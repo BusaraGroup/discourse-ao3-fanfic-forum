@@ -338,6 +338,69 @@ body {
   max-width: 46rem;
 }
 
+.ao3-browser__term-directory {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ao3-browser-terms {
+  background: #151211;
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  min-width: 0;
+  padding: 0.65rem;
+}
+
+.ao3-browser-terms h3 {
+  color: var(--ao3-gold);
+  font-size: var(--font-down-1);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+.ao3-browser-terms__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.ao3-browser-term {
+  align-items: center;
+  background: rgba(239, 225, 210, 0.06);
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  color: var(--ao3-text);
+  display: inline-flex;
+  font-size: var(--font-down-2);
+  font-weight: 700;
+  gap: 0.35rem;
+  min-height: 1.85rem;
+  min-width: 0;
+  padding: 0.25rem 0.45rem;
+}
+
+.ao3-browser-term:hover {
+  background: rgba(36, 106, 115, 0.24);
+  border-color: rgba(135, 197, 201, 0.45);
+  color: #d6fbff;
+}
+
+.ao3-browser-term span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ao3-browser-term strong {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-2);
+  font-weight: 800;
+}
+
 .ao3-browser__form {
   align-items: end;
   display: grid;
@@ -800,6 +863,10 @@ body {
   }
 
   .ao3-auth-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .ao3-browser__term-directory {
     grid-template-columns: 1fr;
   }
 

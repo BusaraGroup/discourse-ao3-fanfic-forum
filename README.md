@@ -84,6 +84,7 @@ The plugin exposes:
 
 ```text
 GET /ao3-fanfic/topics.json
+GET /ao3-fanfic/terms.json
 ```
 
 Supported query params:
@@ -100,6 +101,8 @@ Supported query params:
 All results still use normal topic visibility checks. The plugin does not bypass category or group permissions.
 
 The AO3Chat home page includes a reader-facing browser backed by this endpoint, so fandom, ship, warning, spoiler-safe, and thread-type filtering work without leaving the main discussion view.
+
+`/ao3-fanfic/terms.json` returns visible fandom, ship, and warning terms with topic counts. The home-page browser uses it to show live one-click tag filters; it uses the same topic visibility checks as discussion search.
 
 ## Privacy Model
 

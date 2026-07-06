@@ -24,6 +24,7 @@ function compactText(value) {
 
 export default class Ao3FanficBrowser extends Component {
   @tracked filters = { ...EMPTY_FILTERS };
+  @tracked terms = { fandom: [], ship: [], warning: [] };
   @tracked topics = [];
   @tracked loading = false;
   @tracked loaded = false;
@@ -31,11 +32,40 @@ export default class Ao3FanficBrowser extends Component {
 
   constructor() {
     super(...arguments);
+    this.loadTerms();
     this.loadTopics();
   }
 
   get hasTopics() {
     return this.topics.length > 0;
+  }
+
+  get fandomTerms() {
+    return this.terms.fandom || [];
+  }
+
+  get shipTerms() {
+    return this.terms.ship || [];
+  }
+
+  get warningTerms() {
+    return this.terms.warning || [];
+  }
+
+  get hasTermDirectory() {
+    return this.hasFandomTerms || this.hasShipTerms || this.hasWarningTerms;
+  }
+
+  get hasFandomTerms() {
+    return this.fandomTerms.length > 0;
+  }
+
+  get hasShipTerms() {
+    return this.shipTerms.length > 0;
+  }
+
+  get hasWarningTerms() {
+    return this.warningTerms.length > 0;
   }
 
   get queryParams() {
@@ -144,6 +174,22 @@ export default class Ao3FanficBrowser extends Component {
   }
 
   @action
+  async loadTerms() {
+    try {
+      const payload = await ajax(getURL("/ao3-fanfic/terms.json"), {
+        data: { limit: 8 },
+      });
+      this.terms = {
+        fandom: payload.terms?.fandom || [],
+        ship: payload.terms?.ship || [],
+        warning: payload.terms?.warning || [],
+      };
+    } catch {
+      this.terms = { fandom: [], ship: [], warning: [] };
+    }
+  }
+
+  @action
   updateDiscussionType(event) {
     this.filters = { ...this.filters, discussionType: event.target.value };
   }
@@ -156,6 +202,13 @@ export default class Ao3FanficBrowser extends Component {
   @action
   updateSpoilerSafe(event) {
     this.filters = { ...this.filters, spoilerSafe: event.target.checked };
+  }
+
+  @action
+  applyTerm(field, value, event) {
+    event.preventDefault();
+    this.filters = { ...this.filters, [field]: value };
+    this.loadTopics();
   }
 
   @action
@@ -173,6 +226,67 @@ export default class Ao3FanficBrowser extends Component {
           <p>{{i18n "ao3_fanfic.browser.subtitle"}}</p>
         </div>
       </div>
+
+      {{#if this.hasTermDirectory}}
+        <div
+          class="ao3-browser__term-directory"
+          aria-label={{i18n "ao3_fanfic.browser.terms_label"}}
+        >
+          {{#if this.hasFandomTerms}}
+            <section class="ao3-browser-terms">
+              <h3>{{i18n "ao3_fanfic.browser.fandom_terms"}}</h3>
+              <div class="ao3-browser-terms__list">
+                {{#each this.fandomTerms as |term|}}
+                  <button
+                    type="button"
+                    class="ao3-browser-term"
+                    {{on "click" (fn this.applyTerm "fandom" term.value)}}
+                  >
+                    <span>{{term.value}}</span>
+                    <strong>{{term.topic_count}}</strong>
+                  </button>
+                {{/each}}
+              </div>
+            </section>
+          {{/if}}
+
+          {{#if this.hasShipTerms}}
+            <section class="ao3-browser-terms">
+              <h3>{{i18n "ao3_fanfic.browser.ship_terms"}}</h3>
+              <div class="ao3-browser-terms__list">
+                {{#each this.shipTerms as |term|}}
+                  <button
+                    type="button"
+                    class="ao3-browser-term"
+                    {{on "click" (fn this.applyTerm "ship" term.value)}}
+                  >
+                    <span>{{term.value}}</span>
+                    <strong>{{term.topic_count}}</strong>
+                  </button>
+                {{/each}}
+              </div>
+            </section>
+          {{/if}}
+
+          {{#if this.hasWarningTerms}}
+            <section class="ao3-browser-terms">
+              <h3>{{i18n "ao3_fanfic.browser.warning_terms"}}</h3>
+              <div class="ao3-browser-terms__list">
+                {{#each this.warningTerms as |term|}}
+                  <button
+                    type="button"
+                    class="ao3-browser-term"
+                    {{on "click" (fn this.applyTerm "warning" term.value)}}
+                  >
+                    <span>{{term.value}}</span>
+                    <strong>{{term.topic_count}}</strong>
+                  </button>
+                {{/each}}
+              </div>
+            </section>
+          {{/if}}
+        </div>
+      {{/if}}
 
       <form class="ao3-browser__form" {{on "submit" this.loadTopics}}>
         <label class="ao3-browser__field">

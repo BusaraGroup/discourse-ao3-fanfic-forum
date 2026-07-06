@@ -178,6 +178,10 @@ en:
         loading: "Loading AO3Chat discussions..."
         empty: "No matching AO3Chat discussions yet."
         error: "AO3Chat discussions could not load."
+        terms_label: "AO3Chat tag directory"
+        fandom_terms: "Fandoms readers are discussing"
+        ship_terms: "Ships in current threads"
+        warning_terms: "Warnings in current threads"
         results_label:
           one: "%{count} matching discussion"
           other: "%{count} matching discussions"

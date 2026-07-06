@@ -76,4 +76,41 @@ RSpec.describe "AO3 fanfic topics" do
     expect(topic_ids).to include(matching.id)
     expect(topic_ids).not_to include(other.id)
   end
+
+  it "returns visible fandom, ship, and warning terms" do
+    topic = Fabricate(:topic, category: category, title: "Indexed fic rec")
+    topic.custom_fields = ao3_fields
+    topic.save!
+    Ao3FanficForum::Metadata.sync_from_topic!(topic)
+
+    private_category = Fabricate(:private_category, group: Fabricate(:group))
+    private_topic =
+      Fabricate(:topic, category: private_category, title: "Private fic rec")
+    private_topic.custom_fields =
+      ao3_fields("ao3_fandom_tags" => ["Leverage"].to_json)
+    private_topic.save!
+    Ao3FanficForum::Metadata.sync_from_topic!(private_topic)
+
+    get "/ao3-fanfic/terms.json", params: { limit: 5 }
+
+    expect(response.status).to eq(200)
+    expect(response.parsed_body.dig("terms", "fandom").first).to include(
+      "value" => "The Untamed",
+      "normalized" => "the-untamed",
+      "topic_count" => 1,
+    )
+    expect(response.parsed_body.dig("terms", "ship").first).to include(
+      "value" => "Lan Wangji/Wei Wuxian",
+      "normalized" => "lan-wangji-wei-wuxian",
+      "topic_count" => 1,
+    )
+    expect(response.parsed_body.dig("terms", "warning").first).to include(
+      "value" => "Creator Chose Not To Use Archive Warnings",
+      "normalized" => "creator-chose-not-to-use-archive-warnings",
+      "topic_count" => 1,
+    )
+    fandom_values =
+      response.parsed_body.dig("terms", "fandom").map { |term| term["value"] }
+    expect(fandom_values).not_to include("Leverage")
+  end
 end

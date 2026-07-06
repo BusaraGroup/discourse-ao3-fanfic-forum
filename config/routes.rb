@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Ao3FanficForum::Engine.routes.draw do
+  get "terms" => "terms#index"
   get "topics" => "topics#index"
   put "topics/:topic_id/metadata" => "metadata#update"
 end

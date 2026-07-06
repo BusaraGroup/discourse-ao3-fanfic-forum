@@ -120,4 +120,4 @@ Privacy is enforced through normal category and group permissions. Public AO3Cha
 
 Private fandom spaces are enforced through the `Private Fandom Rooms` category and the configured supporter group. Anonymous posting should only be enabled through the forum platform's real anonymous-posting feature, where administrators can still audit the real account behind the activity.
 
-Legacy composer privacy custom fields such as `ao3_visibility`, `ao3_space_group_id`, and `ao3_post_anonymously` are ignored by the metadata service. They are retained only as cleanup keys for old drafts and should not be rendered, serialized, or used for permissions.
+Legacy composer privacy custom fields such as `ao3_visibility`, `ao3_space_group_id`, and `ao3_post_anonymously` are scrubbed by the metadata service. They are retained only as cleanup keys for old drafts and should not be rendered, serialized, or used for permissions.

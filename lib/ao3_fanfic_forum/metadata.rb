@@ -54,8 +54,10 @@ module Ao3FanficForum
 
     def apply!(topic, fields)
       fields = sanitize_fields(fields)
+      delete_legacy_fields(topic)
+
       if !raw_present?(fields)
-        Fields.all_field_names.each { |field| topic.custom_fields.delete(field) }
+        Fields.field_names.each { |field| topic.custom_fields.delete(field) }
         topic.save!
         sync_from_topic!(topic)
         return topic
@@ -64,7 +66,6 @@ module Ao3FanficForum
       data = coerce(fields)
       validate_data!(data, topic)
 
-      Fields.legacy_field_names.each { |field| topic.custom_fields.delete(field) }
       fields.each { |field, value| topic.custom_fields[field] = value.presence }
       topic.save!
       sync_from_topic!(topic)
@@ -72,9 +73,11 @@ module Ao3FanficForum
     end
 
     def sync_from_topic!(topic)
+      legacy_fields_deleted = delete_legacy_fields(topic)
       fields = read_custom_fields(topic)
 
       if !raw_present?(fields)
+        topic.save! if legacy_fields_deleted
         TopicMetadata.where(topic_id: topic.id).destroy_all
         TopicTerm.where(topic_id: topic.id).delete_all
         return
@@ -100,6 +103,7 @@ module Ao3FanficForum
 
       TopicTerm.where(topic_id: topic.id).delete_all
       term_rows(data).each { |attrs| TopicTerm.create!(attrs.merge(topic_id: topic.id)) }
+      topic.save! if legacy_fields_deleted
     end
 
     def validate_topic!(topic)
@@ -157,6 +161,19 @@ module Ao3FanficForum
       rescue HasCustomFields::NotPreloadedError
         nil
       end
+    end
+
+    def delete_legacy_fields(topic)
+      deleted = false
+
+      Fields.legacy_field_names.each do |field|
+        next if !topic.custom_fields.key?(field)
+
+        topic.custom_fields.delete(field)
+        deleted = true
+      end
+
+      deleted
     end
 
     def raw_present?(fields)

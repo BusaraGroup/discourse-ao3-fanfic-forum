@@ -116,6 +116,25 @@ RSpec.describe "AO3 fanfic topics" do
     expect(metadata.post_anonymously).to eq(false)
   end
 
+  it "removes stale privacy intent custom fields" do
+    topic = Fabricate(:topic, category: category, title: "Legacy privacy custom fields")
+    topic.custom_fields =
+      ao3_fields(
+        "ao3_visibility" => "space",
+        "ao3_space_group_id" => "42",
+        "ao3_post_anonymously" => "true",
+      )
+    topic.save!
+
+    Ao3FanficForum::Metadata.sync_from_topic!(topic)
+
+    expect(topic.reload.custom_fields.keys).not_to include(
+      "ao3_visibility",
+      "ao3_space_group_id",
+      "ao3_post_anonymously",
+    )
+  end
+
   it "clears metadata when the edit payload has no AO3 fields" do
     topic = Fabricate(:topic, category: category, user: user, title: "Metadata to clear")
     topic.custom_fields = ao3_fields

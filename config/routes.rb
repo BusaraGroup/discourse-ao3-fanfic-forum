@@ -2,6 +2,7 @@
 
 Ao3FanficForum::Engine.routes.draw do
   post "room-requests" => "room_requests#create"
+  get "supporter" => "supporter#show"
   get "supporter-status" => "supporter_status#show"
   get "terms" => "terms#index"
   get "topics" => "topics#index"

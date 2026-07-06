@@ -1,3 +1,5 @@
+@use "lib/viewport";
+
 :root {
   --ao3-bg: #11100f;
   --ao3-surface: #171412;
@@ -10,6 +12,7 @@
   --ao3-accent: #9f2536;
   --ao3-accent-strong: #bd3348;
   --ao3-teal: #246a73;
+  --ao3-teal-light: #87c5c9;
   --ao3-gold: #d7a75d;
   --ao3-radius: 6px;
 }
@@ -373,6 +376,247 @@ body {
 .ao3-supporter-card__button {
   justify-content: center;
   width: 100%;
+}
+
+.ao3-supporter-page {
+  color: var(--ao3-text);
+  margin-inline: auto;
+  max-width: 76rem;
+  padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+.ao3-supporter-page__shell {
+  background: var(--ao3-surface);
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.24);
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+}
+
+.ao3-supporter-page__mast {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr);
+  padding: clamp(1.25rem, 4vw, 3rem);
+
+  @include viewport.from(md) {
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.34fr);
+  }
+}
+
+.ao3-supporter-page__copy {
+  min-width: 0;
+}
+
+.ao3-supporter-page__brand {
+  color: var(--ao3-text);
+  display: inline-flex;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: var(--font-up-2);
+  font-weight: 700;
+  line-height: 1;
+  margin-block-end: 1.25rem;
+  text-decoration: none;
+}
+
+.ao3-supporter-page__copy h1 {
+  color: var(--ao3-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.4rem, 8vw, 5.25rem);
+  letter-spacing: 0;
+  line-height: 0.96;
+  margin: 0;
+  max-width: 11ch;
+}
+
+.ao3-supporter-page__copy p {
+  color: var(--ao3-muted);
+  font-size: var(--font-up-1);
+  line-height: 1.45;
+  margin: 1rem 0 0;
+  max-width: 44rem;
+}
+
+.ao3-supporter-page__price {
+  align-content: end;
+  align-self: stretch;
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  display: grid;
+  gap: 0.25rem;
+  min-height: 10rem;
+  padding: 1rem;
+}
+
+.ao3-supporter-page__price span {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-1);
+  font-weight: 800;
+}
+
+.ao3-supporter-page__price strong {
+  color: var(--ao3-gold);
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.ao3-supporter-page__action {
+  align-items: center;
+  border-block: 1px solid var(--ao3-line);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 1rem clamp(1.25rem, 4vw, 3rem);
+
+  @include viewport.from(md) {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.ao3-supporter-page__state {
+  min-width: 0;
+}
+
+.ao3-supporter-page__state h2,
+.ao3-supporter-page__benefits h2,
+.ao3-supporter-page__access h2 {
+  color: var(--ao3-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: var(--font-up-2);
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.ao3-supporter-page__state p {
+  color: var(--ao3-muted);
+  line-height: 1.45;
+  margin: 0.4rem 0 0;
+  max-width: 42rem;
+}
+
+.ao3-supporter-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: start;
+
+  @include viewport.from(md) {
+    justify-content: end;
+  }
+}
+
+.ao3-supporter-page__button {
+  border-radius: var(--ao3-radius);
+  font-weight: 800;
+  justify-content: center;
+  min-height: 2.4rem;
+}
+
+.ao3-supporter-page__details {
+  display: grid;
+  gap: 0;
+  grid-template-columns: minmax(0, 1fr);
+
+  @include viewport.from(md) {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.42fr);
+  }
+}
+
+.ao3-supporter-page__benefits,
+.ao3-supporter-page__access {
+  display: grid;
+  gap: 0.85rem;
+  padding: clamp(1.25rem, 4vw, 3rem);
+}
+
+.ao3-supporter-page__access {
+  background: var(--ao3-surface-raised);
+  border-block-start: 1px solid var(--ao3-line);
+
+  @include viewport.from(md) {
+    border-block-start: 0;
+    border-inline-start: 1px solid var(--ao3-line);
+  }
+}
+
+.ao3-supporter-page__benefits ul,
+.ao3-supporter-page__access ol {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+}
+
+.ao3-supporter-page__benefits li,
+.ao3-supporter-page__access li {
+  color: var(--ao3-text);
+  line-height: 1.4;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ao3-supporter-page__benefits li {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  list-style: none;
+}
+
+.ao3-supporter-page__benefits li::before {
+  border-block-end: 2px solid var(--ao3-teal-light);
+  border-inline-end: 2px solid var(--ao3-teal-light);
+  content: "";
+  height: 0.58rem;
+  margin-inline-start: 0.18rem;
+  margin-block-start: 0.12rem;
+  transform: rotate(45deg);
+  width: 0.32rem;
+}
+
+.ao3-supporter-page__access ol {
+  counter-reset: ao3-supporter-step;
+  list-style: none;
+}
+
+.ao3-supporter-page__access li {
+  counter-increment: ao3-supporter-step;
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: 2rem minmax(0, 1fr);
+}
+
+.ao3-supporter-page__access li::before {
+  align-items: center;
+  border: 1px solid var(--ao3-line-strong);
+  border-radius: 999px;
+  color: var(--ao3-gold);
+  content: counter(ao3-supporter-step);
+  display: inline-flex;
+  font-size: var(--font-down-1);
+  font-weight: 800;
+  height: 2rem;
+  justify-content: center;
+  width: 2rem;
+}
+
+.ao3-supporter-page__footer {
+  border-block-start: 1px solid var(--ao3-line);
+  padding: 1rem clamp(1.25rem, 4vw, 3rem);
+}
+
+.ao3-supporter-page__footer p {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-1);
+  line-height: 1.45;
+  margin: 0;
+}
+
+html.discourse-no-touch .ao3-supporter-page__brand:hover {
+  color: var(--ao3-gold);
 }
 
 .ao3-room-request {

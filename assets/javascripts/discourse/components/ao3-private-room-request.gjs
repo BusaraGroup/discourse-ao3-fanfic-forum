@@ -20,7 +20,6 @@ const EMPTY_REQUEST = {
 
 export default class Ao3PrivateRoomRequest extends Component {
   @service currentUser;
-  @service siteSettings;
 
   @tracked request = { ...EMPTY_REQUEST };
   @tracked saving = false;
@@ -43,8 +42,7 @@ export default class Ao3PrivateRoomRequest extends Component {
     return getURL(
       this.subscribeUrlOverride ||
         this.status?.subscribe_url ||
-        this.siteSettings.ao3_fanfic_subscribe_url ||
-        "/s"
+        "/ao3-fanfic/supporter"
     );
   }
 

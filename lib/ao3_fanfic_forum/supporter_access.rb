@@ -2,6 +2,9 @@
 
 module Ao3FanficForum
   module SupporterAccess
+    SUPPORTER_PATH = "/ao3-fanfic/supporter"
+    CHECKOUT_FALLBACK_PATH = "/s"
+
     module_function
 
     def group_name
@@ -28,7 +31,24 @@ module Ao3FanficForum
     end
 
     def subscribe_url
-      SiteSetting.ao3_fanfic_subscribe_url.presence || "/s"
+      configured_url = SiteSetting.ao3_fanfic_subscribe_url.presence
+
+      return configured_url if configured_url.present? && !subscription_checkout_url?(configured_url)
+
+      SUPPORTER_PATH
+    end
+
+    def checkout_url
+      configured_url =
+        if SiteSetting.respond_to?(:ao3_fanfic_supporter_checkout_url)
+          SiteSetting.ao3_fanfic_supporter_checkout_url.presence
+        end
+      return configured_url if configured_url.present?
+
+      legacy_url = SiteSetting.ao3_fanfic_subscribe_url.presence
+      return legacy_url if legacy_url.present? && subscription_checkout_url?(legacy_url)
+
+      CHECKOUT_FALLBACK_PATH
     end
 
     def status_for(user)
@@ -47,6 +67,10 @@ module Ao3FanficForum
       return if !private_room_access?(user)
 
       private_rooms_category&.url
+    end
+
+    def subscription_checkout_url?(url)
+      url == CHECKOUT_FALLBACK_PATH || url.start_with?("#{CHECKOUT_FALLBACK_PATH}/")
     end
   end
 end

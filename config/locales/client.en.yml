@@ -30,7 +30,7 @@ en:
       congrats_onboarding_complete: "AO3Chat setup is complete."
       select_theme:
         title: "Tune the reader look"
-        description: "Use the AO3Chat visual system instead of stock defaults"
+        description: "Use the AO3Chat visual system across reader surfaces"
         action: "Theme settings"
       invite_collaborators:
         title: "Invite trusted readers"
@@ -157,7 +157,7 @@ en:
         supporter_badge: "Supporter"
         supporter_body: "Group-restricted spaces for smaller fandom circles, ship rooms, readalongs, and spoiler-heavy threads."
         supporter_price_prefix: "From"
-        supporter_cta: "View supporter tier"
+        supporter_cta: "Supporter tier"
         supporter_features:
           private_rooms: "Private rooms by fandom or ship"
           archive_access: "Access controlled by supporter groups"

@@ -39,7 +39,7 @@ The configure task:
 - creates the `ao3chat_supporters` group
 - creates the supporter-only private fandom rooms category
 - hides public powered-by branding
-- disables and visually suppresses stock owner onboarding and tutorial-style welcome messages
+- disables and visually suppresses built-in owner onboarding and tutorial-style welcome messages
 - adds AO3Chat-branded account panels to login and signup
 - relabels public navigation around AO3Chat rooms and discussions
 
@@ -79,9 +79,9 @@ bin/rake ao3_fanfic_forum:setup_paid_tier
 
 Successful payments should grant the `ao3chat_supporters` group, which unlocks the private fandom rooms category.
 
-Supporters can request new private fandom rooms from the AO3Chat home page. Requests create topics inside `Private Fandom Rooms`, so staff can review, reply, rename, split, approve, or archive them using the normal moderation workflow. Non-supporters receive the configured subscription URL instead of access to the restricted category.
+Supporters can request new private fandom rooms from the AO3Chat home page. Requests create topics inside `Private Fandom Rooms`, so staff can review, reply, rename, split, approve, or archive them using the normal moderation workflow. Non-supporters receive the AO3Chat supporter page instead of access to the restricted category.
 
-The home page checks `GET /ao3-fanfic/supporter-status.json` for the logged-in reader. Supporters see active private room access and can open or request rooms immediately; non-supporters see the supporter tier path before any restricted action is attempted.
+The home page checks `GET /ao3-fanfic/supporter-status.json` for the logged-in reader. Supporters see active private room access and can open or request rooms immediately; non-supporters see the supporter tier path before any restricted action is attempted. `/ao3-fanfic/supporter` is the reader-facing paid tier page; `ao3_fanfic_supporter_checkout_url` stores the underlying checkout path.
 
 If importing or editing AO3 metadata outside the composer:
 
@@ -118,6 +118,6 @@ The AO3Chat home page includes a reader-facing browser backed by this endpoint, 
 
 Privacy is enforced through normal category and group permissions. Public AO3Chat metadata is for labeling, filtering, and search; it must not be used to hide author identity or restrict who can read a topic.
 
-Private fandom spaces are enforced through the `Private Fandom Rooms` category and the configured supporter group. Anonymous posting should only be enabled through the forum platform's real anonymous-posting feature, where administrators can still audit the real account behind the activity.
+Private fandom spaces are enforced through the `Private Fandom Rooms` category and the configured supporter group. Anonymous posting should only be enabled through the platform's real anonymous-posting feature, where administrators can still audit the real account behind the activity.
 
 Legacy composer privacy custom fields such as `ao3_visibility`, `ao3_space_group_id`, and `ao3_post_anonymously` are scrubbed by the metadata service. They are retained only as cleanup keys for old drafts and should not be rendered, serialized, or used for permissions.

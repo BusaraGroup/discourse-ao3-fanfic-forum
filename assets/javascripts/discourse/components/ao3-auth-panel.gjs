@@ -1,11 +1,8 @@
 import Component from "@glimmer/component";
-import { service } from "@ember/service";
 import getURL from "discourse/lib/get-url";
 import { i18n } from "discourse-i18n";
 
 export default class Ao3AuthPanel extends Component {
-  @service siteSettings;
-
   get isSignup() {
     return this.args.mode === "signup";
   }
@@ -35,7 +32,7 @@ export default class Ao3AuthPanel extends Component {
   }
 
   get subscribeUrl() {
-    return getURL(this.siteSettings.ao3_fanfic_subscribe_url || "/s");
+    return getURL("/ao3-fanfic/supporter");
   }
 
   <template>

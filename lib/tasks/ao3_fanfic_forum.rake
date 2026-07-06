@@ -93,6 +93,7 @@ module Ao3FanficForum
     end
 
     def configure_subscription_settings!(supporter_group)
+      set_site_setting(:ao3_fanfic_subscribe_url, Ao3FanficForum::SupporterAccess::SUPPORTER_PATH)
       return if !site_setting_exists?(:discourse_subscriptions_campaign_group)
 
       set_site_setting(:discourse_subscriptions_campaign_group, supporter_group.id)
@@ -122,7 +123,8 @@ module Ao3FanficForum
       DiscourseSubscriptions::Product.find_or_create_by!(external_id: product[:id])
       set_site_setting(:ao3_fanfic_subscription_product_id, product[:id])
       set_site_setting(:discourse_subscriptions_campaign_product, product[:id])
-      set_site_setting(:ao3_fanfic_subscribe_url, "/s/#{product[:id]}")
+      set_site_setting(:ao3_fanfic_supporter_checkout_url, "/s/#{product[:id]}")
+      set_site_setting(:ao3_fanfic_subscribe_url, Ao3FanficForum::SupporterAccess::SUPPORTER_PATH)
       product
     end
 
@@ -426,6 +428,7 @@ namespace :ao3_fanfic_forum do
     puts "Stripe product: #{product[:id]}"
     puts "Monthly price: #{price[:id]}"
     puts "Supporter URL: #{SiteSetting.ao3_fanfic_subscribe_url}"
+    puts "Checkout URL: #{SiteSetting.ao3_fanfic_supporter_checkout_url}"
     puts "Successful payments grant group: #{supporter_group.name}"
   end
 

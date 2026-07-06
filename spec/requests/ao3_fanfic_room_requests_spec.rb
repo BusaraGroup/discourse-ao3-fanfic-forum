@@ -17,6 +17,7 @@ RSpec.describe "AO3 fanfic room requests" do
     SiteSetting.ao3_fanfic_supporter_group_name = supporter_group.name
     SiteSetting.ao3_fanfic_private_rooms_category_slug = private_category.slug
     SiteSetting.ao3_fanfic_subscribe_url = "/s/ao3chat"
+    SiteSetting.ao3_fanfic_supporter_checkout_url = "/s/ao3chat"
     sign_in(user)
   end
 
@@ -40,7 +41,7 @@ RSpec.describe "AO3 fanfic room requests" do
       "staff" => false,
       "has_private_room_access" => false,
       "supporter_group_name" => supporter_group.name,
-      "subscribe_url" => "/s/ao3chat",
+      "subscribe_url" => "/ao3-fanfic/supporter",
       "private_rooms_url" => nil,
     )
   end
@@ -57,9 +58,18 @@ RSpec.describe "AO3 fanfic room requests" do
       "staff" => false,
       "has_private_room_access" => true,
       "supporter_group_name" => supporter_group.name,
-      "subscribe_url" => "/s/ao3chat",
+      "subscribe_url" => "/ao3-fanfic/supporter",
       "private_rooms_url" => private_category.url,
     )
+  end
+
+  it "renders the AO3Chat supporter page" do
+    get "/ao3-fanfic/supporter"
+
+    expect(response.status).to eq(200)
+    expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.title"))
+    expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.cta.join"))
+    expect(response.body).to include("/s/ao3chat")
   end
 
   it "requires supporter access before creating a private room request" do
@@ -74,7 +84,7 @@ RSpec.describe "AO3 fanfic room requests" do
     expect(response.parsed_body["errors"]).to include(
       I18n.t("ao3_fanfic.room_requests.errors.supporter_required"),
     )
-    expect(response.parsed_body["subscribe_url"]).to eq("/s/ao3chat")
+    expect(response.parsed_body["subscribe_url"]).to eq("/ao3-fanfic/supporter")
   end
 
   it "creates a private category topic for supporters" do

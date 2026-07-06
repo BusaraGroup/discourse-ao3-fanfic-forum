@@ -1,0 +1,64 @@
+<main class="ao3-supporter-page">
+  <div class="ao3-supporter-page__shell">
+    <header class="ao3-supporter-page__mast">
+      <div class="ao3-supporter-page__copy">
+        <a class="ao3-supporter-page__brand" href="<%= h @home_url %>">
+          <%= I18n.t("ao3_fanfic.supporter_page.brand") %>
+        </a>
+        <h1><%= I18n.t("ao3_fanfic.supporter_page.title") %></h1>
+        <p><%= I18n.t("ao3_fanfic.supporter_page.body") %></p>
+      </div>
+
+      <aside
+        class="ao3-supporter-page__price"
+        aria-label="<%= I18n.t("ao3_fanfic.supporter_page.price_label") %>"
+      >
+        <span><%= I18n.t("ao3_fanfic.supporter_page.price_prefix") %></span>
+        <strong><%= h @price_label %></strong>
+      </aside>
+    </header>
+
+    <section class="ao3-supporter-page__action" aria-labelledby="ao3-supporter-state-title">
+      <div class="ao3-supporter-page__state">
+        <h2 id="ao3-supporter-state-title"><%= I18n.t(@state_title_key) %></h2>
+        <p><%= I18n.t(@state_body_key) %></p>
+      </div>
+
+      <div class="ao3-supporter-page__actions">
+        <a class="btn btn-primary ao3-supporter-page__button" href="<%= h @primary_url %>">
+          <%= I18n.t(@primary_label_key) %>
+        </a>
+        <a class="btn btn-default ao3-supporter-page__button" href="<%= h @secondary_url %>">
+          <%= I18n.t(@secondary_label_key) %>
+        </a>
+      </div>
+    </section>
+
+    <section
+      class="ao3-supporter-page__details"
+      aria-label="<%= I18n.t("ao3_fanfic.supporter_page.details_label") %>"
+    >
+      <div class="ao3-supporter-page__benefits">
+        <h2><%= I18n.t("ao3_fanfic.supporter_page.benefits_title") %></h2>
+        <ul>
+          <% I18n.t("ao3_fanfic.supporter_page.benefits").each do |benefit| %>
+            <li><%= benefit %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="ao3-supporter-page__access">
+        <h2><%= I18n.t("ao3_fanfic.supporter_page.access_title") %></h2>
+        <ol>
+          <% I18n.t("ao3_fanfic.supporter_page.access_steps").each do |step| %>
+            <li><%= step %></li>
+          <% end %>
+        </ol>
+      </div>
+    </section>
+
+    <footer class="ao3-supporter-page__footer">
+      <p><%= I18n.t("ao3_fanfic.supporter_page.footer") %></p>
+    </footer>
+  </div>
+</main>

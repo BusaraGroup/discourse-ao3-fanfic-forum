@@ -43,7 +43,7 @@ export default class Ao3FanficHome extends Component {
   @service siteSettings;
 
   get subscribeUrl() {
-    return getURL(this.siteSettings.ao3_fanfic_subscribe_url || "/s");
+    return getURL("/ao3-fanfic/supporter");
   }
 
   get newTopicUrl() {

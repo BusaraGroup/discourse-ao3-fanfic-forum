@@ -44,11 +44,11 @@ module Ao3FanficForum
       set_site_setting(:short_title, "AO3Chat")
       set_site_setting(
         :site_description,
-        "A privacy-first fanfic discussion forum for AO3 readers: fic recs, chapter threads, fic finding, fandom spaces, spoilers, and content warnings.",
+        "A privacy-first AO3 reader discussion space for fic recs, chapter threads, fic finding, fandom rooms, spoilers, and content warnings.",
       )
       set_site_setting(
         :extended_site_description,
-        "AO3Chat is an unofficial, reader-run forum for discussing fanfiction. It is not affiliated with Archive of Our Own or the Organization for Transformative Works.",
+        "AO3Chat is an unofficial, reader-run space for discussing fanfiction. It is not affiliated with Archive of Our Own or the Organization for Transformative Works.",
       )
       set_site_setting(:enable_powered_by_discourse, false)
       set_site_setting(:enable_site_owner_onboarding, false)
@@ -319,7 +319,7 @@ namespace :ao3_fanfic_forum do
         name: "Guidelines",
         slug: "guidelines",
         legacy_slugs: ["site-rules"],
-        description: "Forum rules, privacy notes, moderation policy, and unofficial AO3Chat status.",
+        description: "Community rules, privacy notes, moderation policy, and unofficial AO3Chat status.",
         color: "4A5568",
         position: 12,
         permissions: {

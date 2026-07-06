@@ -25,6 +25,82 @@ en:
     discourse_subscriptions:
       navigation:
         subscribe: "Supporter"
+    sidebar:
+      community:
+        links:
+          topics:
+            content: "Rooms"
+            title: "All reader discussions"
+          my_posts:
+            content: "My threads"
+            content_drafts: "My drafts"
+            title: "My recent reader activity"
+            title_drafts: "My unposted drafts"
+          my_messages:
+            content: "Private notes"
+            title: "My private messages"
+          review:
+            content: "Mod queue"
+            title: "Flagged posts and queued items"
+          invite:
+            content: "Invite readers"
+            title: "Invite trusted readers"
+          faq:
+            content: "Guidelines"
+            title: "AO3Chat community guidelines"
+          guidelines:
+            content: "Guidelines"
+            title: "AO3Chat community guidelines"
+          groups:
+            content: "Reader groups"
+            title: "Available reader groups"
+          users:
+            content: "Readers"
+            title: "Reader directory"
+      panels:
+        forum:
+          label: AO3Chat
+      back_to_forum: "Back to AO3Chat"
+      filter_links: "Filter rooms..."
+    filters:
+      with_topics: "%{filter} discussions"
+      with_category: "%{filter} %{category} discussions"
+      latest:
+        title: "Recent"
+        title_with_count:
+          one: "Recent (%{count})"
+          other: "Recent (%{count})"
+        help: "discussions with recent replies"
+      categories:
+        title: "Rooms"
+        title_in: "Room - %{categoryName}"
+        help: "discussions grouped by room"
+      hot:
+        title: "Active"
+        lower_title: "active"
+        help: "recently active discussions"
+      posted:
+        title: "My threads"
+        help: "discussions you have joined"
+      category:
+        help: "recent discussions in the %{categoryName} room"
+    topic:
+      create: "New discussion"
+      create_long: "Create a new discussion"
+      list: "Discussions"
+      new: "new discussion"
+      new_topics:
+        one: "%{count} new discussion"
+        other: "%{count} new discussions"
+      unread_topics:
+        one: "%{count} unread discussion"
+        other: "%{count} unread discussions"
+      title: "Discussion"
+    category:
+      all: "All rooms"
+      choose: "room&hellip;"
+      view: "View discussions in room"
+      back: "Back to room"
     ao3_fanfic:
       auth:
         login_note: "Use your AO3Chat account here. Public anonymous posting can still hide your account from other readers."

@@ -55,7 +55,7 @@ module Ao3FanficForum
     def apply!(topic, fields)
       fields = sanitize_fields(fields)
       if !raw_present?(fields)
-        Fields.field_names.each { |field| topic.custom_fields.delete(field) }
+        Fields.all_field_names.each { |field| topic.custom_fields.delete(field) }
         topic.save!
         sync_from_topic!(topic)
         return topic
@@ -64,6 +64,7 @@ module Ao3FanficForum
       data = coerce(fields)
       validate_data!(data, topic)
 
+      Fields.legacy_field_names.each { |field| topic.custom_fields.delete(field) }
       fields.each { |field, value| topic.custom_fields[field] = value.presence }
       topic.save!
       sync_from_topic!(topic)
@@ -91,9 +92,9 @@ module Ao3FanficForum
         fic_title: data[:fic_title].presence,
         fic_author: data[:fic_author].presence,
         chapter_ref: data[:chapter_ref].presence,
-        visibility: data[:visibility],
-        space_group_id: data[:space_group_id],
-        post_anonymously: data[:post_anonymously],
+        visibility: "public",
+        space_group_id: nil,
+        post_anonymously: false,
       )
       record.save!
 
@@ -132,9 +133,6 @@ module Ao3FanficForum
         fic_title: Normalizer.text(fields[Fields::FIC_TITLE], max_length: 240),
         fic_author: Normalizer.text(fields[Fields::FIC_AUTHOR], max_length: 160),
         chapter_ref: Normalizer.text(fields[Fields::CHAPTER_REF], max_length: 80),
-        visibility: normalize_visibility(fields[Fields::VISIBILITY]),
-        space_group_id: Normalizer.integer(fields[Fields::SPACE_GROUP_ID]),
-        post_anonymously: Normalizer.boolean(fields[Fields::POST_ANONYMOUSLY]),
       }
     end
 
@@ -150,9 +148,6 @@ module Ao3FanficForum
         Fields::FIC_TITLE => data[:fic_title],
         Fields::FIC_AUTHOR => data[:fic_author],
         Fields::CHAPTER_REF => data[:chapter_ref],
-        Fields::VISIBILITY => data[:visibility],
-        Fields::SPACE_GROUP_ID => data[:space_group_id],
-        Fields::POST_ANONYMOUSLY => data[:post_anonymously].to_s,
       }
     end
 
@@ -189,22 +184,12 @@ module Ao3FanficForum
         raise Discourse::InvalidParameters.new(I18n.t("ao3_fanfic.errors.invalid_discussion_type"))
       end
 
-      if !Fields::VISIBILITIES.include?(data[:visibility])
-        raise Discourse::InvalidParameters.new(I18n.t("ao3_fanfic.errors.invalid_visibility"))
-      end
-
       validate_allowed_warnings!(data[:content_warnings])
-      validate_space_group!(data)
     end
 
     def normalize_discussion_type(value)
       value = Normalizer.text(value)
       value.presence || "general"
-    end
-
-    def normalize_visibility(value)
-      value = Normalizer.text(value)
-      value.presence || "public"
     end
 
     def spoiler_active?(value)
@@ -233,23 +218,6 @@ module Ao3FanficForum
       raise Discourse::InvalidParameters.new(
               I18n.t("ao3_fanfic.errors.invalid_content_warnings", warnings: invalid.join(", ")),
             )
-    end
-
-    def validate_space_group!(data)
-      return if data[:visibility] != "space"
-
-      if data[:space_group_id].blank?
-        raise Discourse::InvalidParameters.new(I18n.t("ao3_fanfic.errors.space_group_required"))
-      end
-
-      allowed_group_ids = SiteSetting.ao3_fanfic_allowed_space_groups.to_s.split("|").map(&:to_i)
-      if allowed_group_ids.present? && !allowed_group_ids.include?(data[:space_group_id])
-        raise Discourse::InvalidParameters.new(I18n.t("ao3_fanfic.errors.space_group_not_allowed"))
-      end
-
-      if !Group.exists?(id: data[:space_group_id])
-        raise Discourse::InvalidParameters.new(I18n.t("ao3_fanfic.errors.space_group_missing"))
-      end
     end
   end
 end

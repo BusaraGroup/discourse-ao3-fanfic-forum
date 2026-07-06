@@ -17,8 +17,8 @@ module Ao3FanficForum
     POST_ANONYMOUSLY = "ao3_post_anonymously"
 
     DISCUSSION_TYPES = %w[general fic_recommendation chapter_discussion looking_for_fic].freeze
-    VISIBILITIES = %w[public members space].freeze
     TERM_FIELDS = [FANDOM_TAGS, SHIP_TAGS, CONTENT_WARNINGS].freeze
+    LEGACY_FIELD_NAMES = [VISIBILITY, SPACE_GROUP_ID, POST_ANONYMOUSLY].freeze
     FIELD_NAMES =
       [
         DISCUSSION_TYPE,
@@ -31,9 +31,6 @@ module Ao3FanficForum
         FIC_TITLE,
         FIC_AUTHOR,
         CHAPTER_REF,
-        VISIBILITY,
-        SPACE_GROUP_ID,
-        POST_ANONYMOUSLY,
       ].freeze
 
     CUSTOM_FIELD_TYPES =
@@ -68,19 +65,18 @@ module Ao3FanficForum
         CHAPTER_REF => {
           max_length: 80,
         },
-        VISIBILITY => {
-          max_length: 24,
-        },
-        SPACE_GROUP_ID => {
-          max_length: 24,
-        },
-        POST_ANONYMOUSLY => {
-          max_length: 8,
-        },
       }.freeze
 
     def self.field_names
       FIELD_NAMES
+    end
+
+    def self.all_field_names
+      FIELD_NAMES + LEGACY_FIELD_NAMES
+    end
+
+    def self.legacy_field_names
+      LEGACY_FIELD_NAMES
     end
   end
 end

@@ -20,8 +20,6 @@ RSpec.describe "AO3 fanfic topics" do
       "ao3_fic_title" => "A Good Fic",
       "ao3_fic_author" => "ao3writer",
       "ao3_chapter_ref" => "Chapter 3",
-      "ao3_visibility" => "public",
-      "ao3_post_anonymously" => "true",
     }.merge(overrides)
   end
 
@@ -59,7 +57,8 @@ RSpec.describe "AO3 fanfic topics" do
              category: category.id,
              topic_custom_fields: {
                "ao3_discussion_type" => "general",
-               "ao3_visibility" => "public",
+               "ao3_visibility" => "space",
+               "ao3_space_group_id" => "42",
                "ao3_post_anonymously" => "true",
              },
            }
@@ -93,6 +92,28 @@ RSpec.describe "AO3 fanfic topics" do
       "fandom_tags" => ["The Untamed"],
     )
     expect(metadata.keys).not_to include("post_anonymously", "visibility", "space_group_id")
+  end
+
+  it "does not persist legacy privacy intent fields as AO3 metadata" do
+    post "/posts.json",
+         params: {
+           raw: "A detailed recommendation with stale privacy fields from an old draft.",
+           title: "A recommendation with stale privacy fields",
+           category: category.id,
+           topic_custom_fields:
+             ao3_fields(
+               "ao3_visibility" => "space",
+               "ao3_space_group_id" => "42",
+               "ao3_post_anonymously" => "true",
+             ),
+         }
+
+    expect(response.status).to eq(200)
+
+    metadata = Ao3FanficForum::TopicMetadata.find_by(topic_id: Topic.last.id)
+    expect(metadata.visibility).to eq("public")
+    expect(metadata.space_group_id).to eq(nil)
+    expect(metadata.post_anonymously).to eq(false)
   end
 
   it "clears metadata when the edit payload has no AO3 fields" do

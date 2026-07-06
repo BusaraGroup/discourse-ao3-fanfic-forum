@@ -62,7 +62,7 @@ export default class Ao3AuthPanel extends Component {
 
       <ul class="ao3-auth-panel__facts">
         <li>{{i18n "ao3_fanfic.auth.facts.reader_identity"}}</li>
-        <li>{{i18n "ao3_fanfic.auth.facts.anonymous_posts"}}</li>
+        <li>{{i18n "ao3_fanfic.auth.facts.restricted_rooms"}}</li>
         <li>{{i18n "ao3_fanfic.auth.facts.private_rooms"}}</li>
       </ul>
 

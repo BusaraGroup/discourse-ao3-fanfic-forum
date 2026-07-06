@@ -392,7 +392,6 @@ namespace :ao3_fanfic_forum do
       created_categories.find { |attrs, _| attrs[:slug] == "fic-recs" }&.last ||
         created_categories.first.last
 
-    SiteSetting.ao3_fanfic_allowed_space_groups = supporter_group.id.to_s
     SiteSetting.ao3_fanfic_featured_fandom_slugs = "harry-potter|marvel|k-pop|bts"
     SiteSetting.default_navigation_menu_categories = sidebar_category_ids.join("|")
     SiteSetting.default_composer_category = default_composer_category.id

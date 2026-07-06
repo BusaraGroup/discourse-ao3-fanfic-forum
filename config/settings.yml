@@ -5,15 +5,6 @@ ao3_fanfic:
   ao3_fanfic_require_fandom_tags:
     default: true
     client: true
-  ao3_fanfic_default_anonymous:
-    default: false
-    hidden: true
-  ao3_fanfic_allowed_space_groups:
-    default: ""
-    type: group_list
-    allow_any: false
-    refresh: true
-    client: true
   ao3_fanfic_paid_rooms_enabled:
     default: true
     client: true

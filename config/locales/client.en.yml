@@ -133,7 +133,7 @@ en:
         identity_body: "Local account, email login, private-room access."
         facts:
           reader_identity: "Separate AO3Chat handle"
-          anonymous_posts: "Private rooms where enabled"
+          restricted_rooms: "Restricted rooms use real group permissions"
           private_rooms: "Supporter access to private fandom rooms"
       home:
         title: "AO3Chat"

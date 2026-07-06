@@ -10,8 +10,8 @@ en:
       to_continue: "Log in to AO3Chat"
       previous_sign_up: "Already have an AO3Chat account?"
       discourse_id:
-        name: "AO3Chat ID"
-        title: "Log in with AO3Chat ID"
+        name: "AO3Chat account"
+        title: "Log in with AO3Chat"
     create_account:
       header_title: "Join AO3Chat"
       title: "Create account"
@@ -25,6 +25,21 @@ en:
     discourse_subscriptions:
       navigation:
         subscribe: "Supporter"
+    admin_onboarding_banner:
+      launch_in_easy_steps: "Finish AO3Chat setup"
+      congrats_onboarding_complete: "AO3Chat setup is complete."
+      select_theme:
+        title: "Tune the reader look"
+        description: "Use the AO3Chat visual system instead of stock forum defaults"
+        action: "Theme settings"
+      invite_collaborators:
+        title: "Invite trusted readers"
+        description: "Bring in moderators and early fandom-room hosts"
+        action: "Create invite"
+      start_posting:
+        title: "Seed reader discussions"
+        description: "Start with recs, chapter threads, fic searches, or guidelines"
+        action: "Discussion ideas"
     sidebar:
       community:
         links:
@@ -103,8 +118,18 @@ en:
       back: "Back to room"
     ao3_fanfic:
       auth:
+        panel_label: "AO3Chat account access"
+        login_title: "Your reader identity stays separate."
+        login_body: "Log in with an AO3Chat account made for fandom discussion, not a social profile or public AO3 name."
+        signup_title: "Create a reader account."
+        signup_body: "Choose a handle that works for private recs, spoiler threads, fic searches, and fandom-room access."
         login_note: "Use your AO3Chat account here. Public anonymous posting can still hide your account from other readers."
         signup_note: "Choose an AO3Chat name that is separate from your AO3, social, or public fandom identity."
+        supporter_link: "Supporter tier for private rooms"
+        facts:
+          reader_identity: "Separate AO3Chat handle"
+          anonymous_posts: "Anonymous posting where enabled"
+          private_rooms: "Supporter access to private fandom rooms"
       home:
         title: "AO3Chat"
         subtitle: "A privacy-first space for AO3 readers to share recs, chapter reactions, fic searches, and spoiler-safe fandom threads."

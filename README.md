@@ -34,10 +34,32 @@ The configure task:
 - enables AO3Chat topic metadata
 - enables local AO3Chat accounts
 - disables third-party/social sign-in methods
-- creates public reader categories
+- creates the AO3Chat category structure
 - creates the `ao3chat_supporters` group
 - creates the supporter-only private fandom rooms category
 - hides public powered-by branding
+
+## Category Structure
+
+AO3Chat uses categories for reader workflows, not for every fandom or ship. Fandoms, ships, warnings, spoiler labels, fic titles, authors, and chapter references belong in AO3Chat metadata fields and tags so the forum can scale.
+
+The configure task creates:
+
+- `Welcome Desk`
+- `Fic Recs`
+- `Looking for a Fic`
+- `Chapter Discussions`
+- `Spoiler Zone`
+- `Content Warnings`
+- `Fandom Spaces`
+- `Reader Lounge`
+- `Site Help`
+- `Private Fandom Rooms`
+- `Announcements`
+- `Guidelines`
+- `Moderation`
+
+`Private Fandom Rooms` is restricted to staff and the configured supporter group. `Announcements` and `Guidelines` are public read-only rooms managed by staff. `Moderation` is staff-only.
 
 After Stripe keys are configured, create or verify the paid supporter product:
 

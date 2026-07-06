@@ -52,7 +52,7 @@ export default class Ao3FanficHome extends Component {
         </div>
 
         <div class="ao3-home__filters" aria-label={{i18n "ao3_fanfic.home.filters_label"}}>
-          <a href="/tags" class="ao3-home-filter">
+          <a href="/c/fandom-spaces" class="ao3-home-filter">
             <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.fandoms"}}</span>
             <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.fandoms_value"}}</span>
           </a>
@@ -60,21 +60,23 @@ export default class Ao3FanficHome extends Component {
             <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.ships"}}</span>
             <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.ships_value"}}</span>
           </a>
-          <a href="/latest?spoiler_safe=true" class="ao3-home-filter">
+          <a href="/c/spoiler-zone" class="ao3-home-filter">
             <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.spoilers"}}</span>
             <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.spoilers_value"}}</span>
           </a>
-          <a href="/latest?exclude_warning=Major%20Character%20Death" class="ao3-home-filter">
+          <a href="/c/content-warnings" class="ao3-home-filter">
             <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.warnings"}}</span>
             <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.warnings_value"}}</span>
           </a>
         </div>
 
         <nav class="ao3-home__quick-links" aria-label={{i18n "ao3_fanfic.home.quick_links_label"}}>
+          <a href="/c/welcome-desk">{{i18n "ao3_fanfic.home.welcome_desk"}}</a>
           <a href="/c/fic-recs">{{i18n "ao3_fanfic.home.fic_recs"}}</a>
           <a href="/c/chapter-discussions">{{i18n "ao3_fanfic.home.chapter_threads"}}</a>
           <a href="/c/looking-for-a-fic">{{i18n "ao3_fanfic.home.looking_for_fic"}}</a>
           <a href="/c/fandom-spaces">{{i18n "ao3_fanfic.home.fandom_spaces"}}</a>
+          <a href="/c/site-help">{{i18n "ao3_fanfic.home.site_help"}}</a>
           <a href={{this.privateRoomsUrl}}>{{i18n "ao3_fanfic.home.private_rooms"}}</a>
         </nav>
       </div>

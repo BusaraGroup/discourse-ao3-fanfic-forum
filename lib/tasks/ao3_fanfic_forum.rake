@@ -198,20 +198,20 @@ namespace :ao3_fanfic_forum do
 
     categories = [
       {
-        name: "Fic Recs",
-        slug: "fic-recs",
-        description: "Recommend completed works, hidden gems, rereads, and themed rec lists.",
-        color: "A71930",
+        name: "Welcome Desk",
+        slug: "welcome-desk",
+        description: "New reader introductions, account help, and orientation for AO3Chat norms.",
+        color: "B33951",
         position: 1,
         permissions: {
           everyone: :full,
         },
       },
       {
-        name: "Chapter Discussions",
-        slug: "chapter-discussions",
-        description: "Discuss updates chapter by chapter with spoiler labels and readalong threads.",
-        color: "6B4E71",
+        name: "Fic Recs",
+        slug: "fic-recs",
+        description: "Recommend completed works, hidden gems, rereads, and themed rec lists.",
+        color: "A71930",
         position: 2,
         permissions: {
           everyone: :full,
@@ -228,24 +228,23 @@ namespace :ao3_fanfic_forum do
         },
       },
       {
-        name: "Fandom Spaces",
-        slug: "fandom-spaces",
-        description: "Create fandom-specific conversations, ship talk, trope threads, and semi-private spaces.",
-        color: "2F6F4E",
+        name: "Chapter Discussions",
+        slug: "chapter-discussions",
+        description: "Discuss updates chapter by chapter with spoiler labels and readalong threads.",
+        color: "6B4E71",
         position: 4,
         permissions: {
           everyone: :full,
         },
       },
       {
-        name: "Private Fandom Rooms",
-        slug: SiteSetting.ao3_fanfic_private_rooms_category_slug,
-        description: "Supporter-only fandom circles, private ship rooms, readalongs, and higher-privacy discussion threads.",
-        color: "9F2536",
+        name: "Spoiler Zone",
+        slug: "spoiler-zone",
+        description: "Current-chapter reactions, ending discussion, reread reveals, and clearly labeled spoiler threads.",
+        color: "7C315D",
         position: 5,
         permissions: {
-          supporter_group.name => :full,
-          staff: :full,
+          everyone: :full,
         },
       },
       {
@@ -259,30 +258,103 @@ namespace :ao3_fanfic_forum do
         },
       },
       {
-        name: "Site Rules",
-        slug: "site-rules",
-        description: "Forum rules, privacy notes, moderation policy, and unofficial AO3Chat status.",
-        color: "4A5568",
+        name: "Fandom Spaces",
+        slug: "fandom-spaces",
+        description: "Broad fandom talk, ship discussion, trope threads, and semi-private space requests.",
+        color: "2F6F4E",
         position: 7,
+        permissions: {
+          everyone: :full,
+        },
+      },
+      {
+        name: "Reader Lounge",
+        slug: "reader-lounge",
+        description: "Off-topic reader chat, reading moods, events, and community conversation.",
+        color: "4E6A8D",
+        position: 8,
+        permissions: {
+          everyone: :full,
+        },
+      },
+      {
+        name: "Site Help",
+        slug: "site-help",
+        description: "Questions about accounts, privacy settings, anonymous posting, tags, and forum tools.",
+        color: "5E6C75",
+        position: 9,
+        permissions: {
+          everyone: :full,
+        },
+      },
+      {
+        name: "Private Fandom Rooms",
+        slug: SiteSetting.ao3_fanfic_private_rooms_category_slug,
+        description: "Supporter-only fandom circles, private ship rooms, readalongs, and higher-privacy discussion threads.",
+        color: "9F2536",
+        position: 10,
+        permissions: {
+          supporter_group.name => :full,
+          staff: :full,
+        },
+      },
+      {
+        name: "Announcements",
+        slug: "announcements",
+        description: "Official AO3Chat updates, maintenance notices, and policy changes.",
+        color: "3B5D8F",
+        position: 11,
         permissions: {
           everyone: :readonly,
           staff: :full,
         },
       },
+      {
+        name: "Guidelines",
+        slug: "guidelines",
+        description: "Forum rules, privacy notes, moderation policy, and unofficial AO3Chat status.",
+        color: "4A5568",
+        position: 12,
+        permissions: {
+          everyone: :readonly,
+          staff: :full,
+        },
+      },
+      {
+        name: "Moderation",
+        slug: "moderation",
+        description: "Staff-only reports, policy review, and moderation coordination.",
+        color: "2E3440",
+        position: 13,
+        permissions: {
+          staff: :full,
+        },
+      },
     ]
 
-    category_ids =
+    created_categories =
       categories.map do |attrs|
-        Ao3FanficForum::Setup.ensure_category!(attrs).id
+        [attrs, Ao3FanficForum::Setup.ensure_category!(attrs)]
       end
+    category_ids = created_categories.map { |_, category| category.id }
+    sidebar_category_ids =
+      created_categories
+        .select { |attrs, _| attrs.dig(:permissions, :everyone).present? }
+        .map { |_, category| category.id }
+    default_composer_category =
+      created_categories.find { |attrs, _| attrs[:slug] == "fic-recs" }&.last ||
+        created_categories.first.last
 
     SiteSetting.ao3_fanfic_allowed_space_groups = supporter_group.id.to_s
-    SiteSetting.default_navigation_menu_categories = category_ids.join("|")
-    SiteSetting.default_composer_category = category_ids.first
+    SiteSetting.default_navigation_menu_categories = sidebar_category_ids.join("|")
+    SiteSetting.default_composer_category = default_composer_category.id
     Ao3FanficForum::Setup.configure_subscription_settings!(supporter_group)
 
     User.real.where(staged: false).find_each do |user|
-      SidebarSectionLinksUpdater.update_category_section_links(user, category_ids: category_ids)
+      SidebarSectionLinksUpdater.update_category_section_links(
+        user,
+        category_ids: sidebar_category_ids,
+      )
     end
 
     puts "AO3Chat defaults applied: local auth enabled, #{category_ids.length} categories ready, private rooms gated by #{supporter_group.name}."

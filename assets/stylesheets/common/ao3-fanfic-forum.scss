@@ -1065,6 +1065,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
 }
 
 .ao3-auth-panel__identity {
+  background: rgba(239, 225, 210, 0.04);
   border: 1px solid var(--ao3-line);
   border-radius: var(--ao3-radius);
   display: grid;
@@ -1111,8 +1112,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
   grid-template-columns: 0.7rem minmax(0, 1fr);
   line-height: 1.25;
   min-width: 0;
-  overflow-wrap: normal;
-  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 .ao3-auth-panel__facts li::before {

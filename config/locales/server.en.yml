@@ -1,6 +1,6 @@
 en:
   site_settings:
-    ao3_fanfic_enabled: "Enable AO3 fanfic forum workflows."
+    ao3_fanfic_enabled: "Enable AO3Chat reader workflows."
     ao3_fanfic_require_fandom_tags: "Require at least one fandom tag on AO3 fanfic topics."
     ao3_fanfic_paid_rooms_enabled: "Show AO3Chat supporter tier and private fandom room prompts."
     ao3_fanfic_supporter_group_name: "Group that unlocks AO3Chat private fandom rooms. Subscription plans should grant this group."

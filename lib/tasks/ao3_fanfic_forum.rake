@@ -185,7 +185,7 @@ module Ao3FanficForum
 end
 
 namespace :ao3_fanfic_forum do
-  desc "Apply production-oriented defaults for an AO3 reader forum"
+  desc "Apply production-oriented defaults for AO3Chat"
   task configure: :environment do
     SiteSetting.ao3_fanfic_enabled = true
     Ao3FanficForum::Setup.configure_brand!
@@ -326,7 +326,7 @@ namespace :ao3_fanfic_forum do
       {
         name: "Site Help",
         slug: "site-help",
-        description: "Questions about accounts, private rooms, tags, and forum tools.",
+        description: "Questions about accounts, private rooms, tags, and AO3Chat tools.",
         color: "5E6C75",
         position: 13,
         permissions: {

@@ -9,7 +9,7 @@ module Ao3FanficForum
       @username = current_user&.username
       @home_url = discourse_path("/")
       @login_url = discourse_path("/login")
-      @signup_url = discourse_path("/signup")
+      @signup_url = discourse_path("/ao3-fanfic/signup")
       @supporter_url = discourse_path(SupporterAccess.subscribe_url)
 
       assign_cta

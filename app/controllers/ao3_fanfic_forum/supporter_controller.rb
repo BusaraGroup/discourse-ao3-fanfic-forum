@@ -12,8 +12,10 @@ module Ao3FanficForum
       @price_label = SiteSetting.ao3_fanfic_supporter_price_label
       @home_url = discourse_path("/")
       @login_url = discourse_path("/login")
-      @signup_url = discourse_path("/signup")
+      @signup_url = discourse_path("/ao3-fanfic/signup")
       @payment_methods_url = discourse_path("/ao3-fanfic/supporter#payment-methods")
+      @payment_settings_url =
+        discourse_path("/admin/site_settings/category/plugins?filter=ao3_fanfic")
       @stripe_checkout_url = discourse_path(SupporterAccess.checkout_url)
       @crypto_payment_methods = SupporterAccess.crypto_payment_methods
       @crypto_receipt_url = discourse_path("/ao3-fanfic/crypto-payments")
@@ -37,10 +39,19 @@ module Ao3FanficForum
         @secondary_url = @home_url
         @secondary_label_key = "ao3_fanfic.supporter_page.cta.browse_public"
       elsif @signed_in
-        @state_title_key = "ao3_fanfic.supporter_page.state.ready_title"
-        @state_body_key = "ao3_fanfic.supporter_page.state.ready_body"
-        @primary_url = @payment_methods_url
-        @primary_label_key = "ao3_fanfic.supporter_page.cta.choose_payment"
+        if @payment_methods_configured
+          @state_title_key = "ao3_fanfic.supporter_page.state.ready_title"
+          @state_body_key = "ao3_fanfic.supporter_page.state.ready_body"
+          @primary_url = @payment_methods_url
+          @primary_label_key = "ao3_fanfic.supporter_page.cta.choose_payment"
+        else
+          @state_title_key = "ao3_fanfic.supporter_page.state.configure_title"
+          @state_body_key = "ao3_fanfic.supporter_page.state.configure_body"
+          @primary_url = current_user&.staff? ? @payment_settings_url : @home_url
+          @primary_label_key =
+            current_user&.staff? ? "ao3_fanfic.supporter_page.cta.configure_payments" :
+                                   "ao3_fanfic.supporter_page.cta.browse_public"
+        end
         @secondary_url = @home_url
         @secondary_label_key = "ao3_fanfic.supporter_page.cta.browse_public"
       else

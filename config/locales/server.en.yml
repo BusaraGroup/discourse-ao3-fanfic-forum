@@ -68,6 +68,8 @@ en:
         account_body: "Create a local reader account first, then return here to join the supporter tier and request private rooms."
         ready_title: "Your account is ready"
         ready_body: "Choose a payment method to join the supporter tier. Stripe can grant access automatically when configured; crypto receipts are verified by staff."
+        configure_title: "Payment setup is needed"
+        configure_body: "Add a Stripe checkout URL or crypto receiving addresses before readers can join the supporter tier."
         active_title: "Private room access is active"
         active_body: "You can open existing private rooms or request a new fandom, ship, readalong, or spoiler-heavy space."
       cta:
@@ -75,6 +77,7 @@ en:
         log_in: "Log in"
         join: "Join supporter tier"
         choose_payment: "Choose payment method"
+        configure_payments: "Configure payments"
         open_rooms: "Open private rooms"
         browse_public: "Browse public rooms"
       payments:

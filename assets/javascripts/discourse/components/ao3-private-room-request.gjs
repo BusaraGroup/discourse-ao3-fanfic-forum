@@ -6,7 +6,6 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { ajax } from "discourse/lib/ajax";
 import getURL from "discourse/lib/get-url";
-import routeAction from "discourse/helpers/route-action";
 import DButton from "discourse/ui-kit/d-button";
 import { i18n } from "discourse-i18n";
 
@@ -52,6 +51,10 @@ export default class Ao3PrivateRoomRequest extends Component {
     }
 
     return getURL(this.status.private_rooms_url);
+  }
+
+  get signupUrl() {
+    return getURL("/ao3-fanfic/signup");
   }
 
   get hasPrivateRoomAccess() {
@@ -103,6 +106,11 @@ export default class Ao3PrivateRoomRequest extends Component {
     }
 
     return message;
+  }
+
+  @action
+  openSignupPage() {
+    window.location.href = this.signupUrl;
   }
 
   @action
@@ -287,7 +295,7 @@ export default class Ao3PrivateRoomRequest extends Component {
           <p>{{i18n "ao3_fanfic.room_request.login_note"}}</p>
           <DButton
             class="btn-primary ao3-room-request__join"
-            @action={{routeAction "showCreateAccount"}}
+            @action={{this.openSignupPage}}
             @label="ao3_fanfic.room_request.join"
           />
         </div>

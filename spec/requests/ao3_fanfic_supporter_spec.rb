@@ -26,8 +26,21 @@ RSpec.describe Ao3FanficForum::SupporterController do
       get "/ao3-fanfic/supporter"
 
       expect(response.status).to eq(200)
-      expect(response.body).to include("/signup")
+      expect(response.body).to include("/ao3-fanfic/signup")
       expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.payments.crypto_login_note"))
+    end
+
+    it "links staff to payment settings when payments are missing", :aggregate_failures do
+      SiteSetting.ao3_fanfic_supporter_checkout_url = ""
+      SiteSetting.ao3_fanfic_crypto_btc_address = ""
+      sign_in(Fabricate(:admin))
+
+      get "/ao3-fanfic/supporter"
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.state.configure_title"))
+      expect(response.body).to include("/admin/site_settings/category/plugins?filter=ao3_fanfic")
+      expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.cta.configure_payments"))
     end
   end
 end

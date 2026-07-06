@@ -52,6 +52,10 @@ export default class Ao3FanficHome extends Component {
     return getURL("/ao3-fanfic/account");
   }
 
+  get signupUrl() {
+    return getURL("/ao3-fanfic/signup");
+  }
+
   get newTopicUrl() {
     return getURL("/new-topic");
   }
@@ -137,6 +141,11 @@ export default class Ao3FanficHome extends Component {
   }
 
   @action
+  openSignupPage() {
+    window.location.href = this.signupUrl;
+  }
+
+  @action
   openSupporterPage(event) {
     if (
       event.defaultPrevented ||
@@ -174,7 +183,7 @@ export default class Ao3FanficHome extends Component {
             />
             <DButton
               class="btn-default ao3-home__button"
-              @action={{routeAction "showCreateAccount"}}
+              @action={{this.openSignupPage}}
               @label="ao3_fanfic.home.create_account"
             />
             <a href={{this.accountUrl}} class="ao3-home__account-link">

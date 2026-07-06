@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Ao3FanficForum::Engine.routes.draw do
+  get "account" => "account#show"
   post "room-requests" => "room_requests#create"
   get "supporter" => "supporter#show"
   get "supporter-status" => "supporter_status#show"

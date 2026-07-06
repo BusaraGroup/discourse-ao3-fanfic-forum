@@ -1,0 +1,50 @@
+<main class="ao3-account-page">
+  <div class="ao3-account-page__shell">
+    <header class="ao3-account-page__mast">
+      <a class="ao3-account-page__brand" href="<%= h @home_url %>">
+        <%= I18n.t("ao3_fanfic.account_page.brand") %>
+      </a>
+      <h1><%= I18n.t("ao3_fanfic.account_page.title") %></h1>
+      <p><%= I18n.t("ao3_fanfic.account_page.body") %></p>
+    </header>
+
+    <section class="ao3-account-page__state" aria-labelledby="ao3-account-state-title">
+      <div class="ao3-account-page__state-copy">
+        <h2 id="ao3-account-state-title"><%= I18n.t(@state_title_key) %></h2>
+        <p><%= I18n.t(@state_body_key, username: @username) %></p>
+      </div>
+
+      <div class="ao3-account-page__actions">
+        <a class="btn btn-primary ao3-account-page__button" href="<%= h @primary_url %>">
+          <%= I18n.t(@primary_label_key) %>
+        </a>
+        <a class="btn btn-default ao3-account-page__button" href="<%= h @secondary_url %>">
+          <%= I18n.t(@secondary_label_key) %>
+        </a>
+      </div>
+    </section>
+
+    <section
+      class="ao3-account-page__details"
+      aria-label="<%= I18n.t("ao3_fanfic.account_page.details_label") %>"
+    >
+      <div class="ao3-account-page__section">
+        <h2><%= I18n.t("ao3_fanfic.account_page.identity_title") %></h2>
+        <ul>
+          <% I18n.t("ao3_fanfic.account_page.identity_points").each do |point| %>
+            <li><%= point %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="ao3-account-page__section">
+        <h2><%= I18n.t("ao3_fanfic.account_page.access_title") %></h2>
+        <ul>
+          <% I18n.t("ao3_fanfic.account_page.access_points").each do |point| %>
+            <li><%= point %></li>
+          <% end %>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>

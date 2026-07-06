@@ -15,6 +15,31 @@ en:
     ao3_fanfic_allow_custom_content_warnings: "Allow users to enter content warnings outside the canonical warning list."
     ao3_fanfic_filter_page_size: "Default page size for the AO3 topic filter endpoint."
   ao3_fanfic:
+    account_page:
+      brand: "AO3Chat"
+      title: "AO3Chat accounts"
+      body: "Use a local reader account for discussion, fic recs, spoiler filters, and room access. Your AO3 username is not required."
+      details_label: "AO3Chat account details"
+      identity_title: "Reader identity"
+      identity_points:
+        - "Choose a handle made for AO3Chat, not your public AO3 or social profile."
+        - "Use email login and recovery without connecting an external social account."
+        - "Keep fandom discussion separate from archive comments and bookmarks."
+      access_title: "Access and safety"
+      access_points:
+        - "Public rooms stay open to readers according to category permissions."
+        - "Private fandom rooms use real supporter group access."
+        - "Admins can audit accounts for safety, moderation, and payment support."
+      state:
+        signed_out_title: "Create a local reader account"
+        signed_out_body: "Start with an AO3Chat handle, then join discussions or unlock private rooms through the supporter tier."
+        signed_in_title: "You are signed in"
+        signed_in_body: "Signed in as %{username}. You can open AO3Chat or review supporter access for private rooms."
+      cta:
+        create: "Create account"
+        log_in: "Log in"
+        open: "Open AO3Chat"
+        supporter: "Supporter tier"
     supporter_page:
       brand: "AO3Chat"
       title: "Private fandom rooms"

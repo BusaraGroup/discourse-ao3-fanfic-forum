@@ -41,6 +41,7 @@ The configure task:
 - hides public powered-by branding
 - disables and visually suppresses built-in owner onboarding and tutorial-style welcome messages
 - adds AO3Chat-branded account panels to login and signup
+- adds `/ao3-fanfic/account` as the AO3Chat local-account entry point
 - relabels public navigation around AO3Chat rooms and discussions
 
 ## Category Structure

@@ -46,6 +46,10 @@ export default class Ao3FanficHome extends Component {
     return getURL("/ao3-fanfic/supporter");
   }
 
+  get accountUrl() {
+    return getURL("/ao3-fanfic/account");
+  }
+
   get newTopicUrl() {
     return getURL("/new-topic");
   }
@@ -154,6 +158,9 @@ export default class Ao3FanficHome extends Component {
               @action={{routeAction "showCreateAccount"}}
               @label="ao3_fanfic.home.create_account"
             />
+            <a href={{this.accountUrl}} class="ao3-home__account-link">
+              {{i18n "ao3_fanfic.home.account_link"}}
+            </a>
           {{/if}}
         </div>
 

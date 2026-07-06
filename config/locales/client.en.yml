@@ -30,7 +30,7 @@ en:
       congrats_onboarding_complete: "AO3Chat setup is complete."
       select_theme:
         title: "Tune the reader look"
-        description: "Use the AO3Chat visual system instead of stock forum defaults"
+        description: "Use the AO3Chat visual system instead of stock platform defaults"
         action: "Theme settings"
       invite_collaborators:
         title: "Invite trusted readers"
@@ -119,6 +119,8 @@ en:
     ao3_fanfic:
       auth:
         panel_label: "AO3Chat account access"
+        login_mode_label: "Reader login"
+        signup_mode_label: "New reader"
         login_title: "Your reader identity stays separate."
         login_body: "Log in with an AO3Chat account made for fandom discussion, not a social profile or public AO3 name."
         signup_title: "Create a reader account."
@@ -126,6 +128,9 @@ en:
         login_note: "Use your AO3Chat account here. Post in private rooms when you need restricted readership."
         signup_note: "Choose an AO3Chat name that is separate from your AO3, social, or public fandom identity."
         supporter_link: "Supporter tier for private rooms"
+        identity_label: "Account layer"
+        identity_title: "One AO3Chat handle"
+        identity_body: "Local account, email login, private-room access."
         facts:
           reader_identity: "Separate AO3Chat handle"
           anonymous_posts: "Private rooms where enabled"
@@ -145,6 +150,9 @@ en:
         spoilers_value: "Spoiler zone"
         warnings: "Warnings"
         warnings_value: "Content warnings"
+        featured_fandoms_title: "Featured fandom homes"
+        featured_fandoms_body: "Start in the rooms most readers already recognize, then use tags for ships, warnings, fic titles, and spoilers."
+        featured_fandoms_label: "Featured fandom rooms"
         supporter_title: "Private fandom rooms"
         supporter_badge: "Supporter"
         supporter_body: "Members-only spaces for smaller fandom circles, ship rooms, readalongs, and higher-privacy threads."

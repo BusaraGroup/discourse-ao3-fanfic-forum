@@ -8,6 +8,32 @@ import { i18n } from "discourse-i18n";
 import Ao3FanficBrowser from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-fanfic-browser";
 import Ao3PrivateRoomRequest from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-private-room-request";
 
+const FANDOM_LABEL_OVERRIDES = {
+  "ao3-tools": "AO3 tools",
+  bts: "BTS",
+  "k-pop": "K-POP",
+};
+
+function parseListSetting(value) {
+  return (value || "")
+    .toString()
+    .split(/[|\n,]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function titleForSlug(slug) {
+  if (FANDOM_LABEL_OVERRIDES[slug]) {
+    return FANDOM_LABEL_OVERRIDES[slug];
+  }
+
+  return slug
+    .split("-")
+    .filter(Boolean)
+    .map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
+    .join(" ");
+}
+
 export default class Ao3FanficHome extends Component {
   static shouldRender(args, { siteSettings }) {
     return siteSettings.ao3_fanfic_enabled;
@@ -70,10 +96,28 @@ export default class Ao3FanficHome extends Component {
     return this.siteSettings.ao3_fanfic_supporter_price_label;
   }
 
-  categoryUrl(slug) {
-    const category = Category.list()?.find((item) => {
+  get featuredFandoms() {
+    return parseListSetting(this.siteSettings.ao3_fanfic_featured_fandom_slugs).map(
+      (slug) => {
+        const category = this.categoryForSlug(slug);
+
+        return {
+          slug,
+          name: category?.name || titleForSlug(slug),
+          url: this.categoryUrl(slug),
+        };
+      }
+    );
+  }
+
+  categoryForSlug(slug) {
+    return Category.list()?.find((item) => {
       return item.slug === slug || Category.slugFor(item) === slug;
     });
+  }
+
+  categoryUrl(slug) {
+    const category = this.categoryForSlug(slug);
 
     if (category?.url) {
       return getURL(category.url);
@@ -131,6 +175,29 @@ export default class Ao3FanficHome extends Component {
             <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.warnings_value"}}</span>
           </a>
         </div>
+
+        {{#if this.featuredFandoms.length}}
+          <section class="ao3-home__featured" aria-labelledby="ao3-featured-fandoms-title">
+            <div>
+              <h2 id="ao3-featured-fandoms-title">
+                {{i18n "ao3_fanfic.home.featured_fandoms_title"}}
+              </h2>
+              <p>{{i18n "ao3_fanfic.home.featured_fandoms_body"}}</p>
+            </div>
+
+            <nav
+              class="ao3-home__featured-list"
+              aria-label={{i18n "ao3_fanfic.home.featured_fandoms_label"}}
+            >
+              {{#each this.featuredFandoms as |fandom|}}
+                <a href={{fandom.url}} class="ao3-featured-fandom">
+                  <span class="ao3-featured-fandom__name">{{fandom.name}}</span>
+                  <span class="ao3-featured-fandom__marker"></span>
+                </a>
+              {{/each}}
+            </nav>
+          </section>
+        {{/if}}
 
         <nav class="ao3-home__quick-links" aria-label={{i18n "ao3_fanfic.home.quick_links_label"}}>
           <a href={{this.welcomeDeskUrl}}>{{i18n "ao3_fanfic.home.welcome_desk"}}</a>

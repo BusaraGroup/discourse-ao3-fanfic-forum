@@ -22,6 +22,11 @@ ao3_fanfic:
   ao3_fanfic_private_rooms_category_slug:
     default: "private-fandom-rooms"
     client: true
+  ao3_fanfic_featured_fandom_slugs:
+    default: "harry-potter|marvel|k-pop|bts"
+    type: list
+    list_type: compact
+    client: true
   ao3_fanfic_supporter_price_label:
     default: "$5 / month"
     client: true

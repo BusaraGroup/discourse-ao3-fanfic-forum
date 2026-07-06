@@ -26,6 +26,14 @@ export default class Ao3AuthPanel extends Component {
     );
   }
 
+  get modeLabel() {
+    return i18n(
+      this.isSignup
+        ? "ao3_fanfic.auth.signup_mode_label"
+        : "ao3_fanfic.auth.login_mode_label"
+    );
+  }
+
   get subscribeUrl() {
     return getURL(this.siteSettings.ao3_fanfic_subscribe_url || "/s");
   }
@@ -37,12 +45,19 @@ export default class Ao3AuthPanel extends Component {
     >
       <div class="ao3-auth-panel__brand">
         <span class="ao3-auth-panel__mark">AO3Chat</span>
+        <span class="ao3-auth-panel__mode">{{this.modeLabel}}</span>
         <span class="ao3-auth-panel__rule"></span>
       </div>
 
       <div class="ao3-auth-panel__copy">
         <h2>{{this.title}}</h2>
         <p>{{this.body}}</p>
+      </div>
+
+      <div class="ao3-auth-panel__identity">
+        <span>{{i18n "ao3_fanfic.auth.identity_label"}}</span>
+        <strong>{{i18n "ao3_fanfic.auth.identity_title"}}</strong>
+        <em>{{i18n "ao3_fanfic.auth.identity_body"}}</em>
       </div>
 
       <ul class="ao3-auth-panel__facts">

@@ -35,6 +35,7 @@ The configure task:
 - enables local AO3Chat accounts
 - disables third-party/social sign-in methods
 - creates the AO3Chat category structure
+- promotes configurable featured fandom homes on the AO3Chat home page
 - creates the `ao3chat_supporters` group
 - creates the supporter-only private fandom rooms category
 - hides public powered-by branding
@@ -55,6 +56,10 @@ The configure task creates:
 - `Spoiler Zone`
 - `Content Warnings`
 - `Fandom Spaces`
+- `Harry Potter`
+- `Marvel`
+- `K-POP`
+- `BTS`
 - `Reader Lounge`
 - `Site Help`
 - `Private Fandom Rooms`
@@ -63,6 +68,8 @@ The configure task creates:
 - `Moderation`
 
 `Private Fandom Rooms` is restricted to staff and the configured supporter group. `Announcements` and `Guidelines` are public read-only rooms managed by staff. `Moderation` is staff-only.
+
+The featured fandom strip on the AO3Chat home page is controlled by `ao3_fanfic_featured_fandom_slugs`. The default launch set is `harry-potter|marvel|k-pop|bts`; admins can replace it with any category slugs that should act as high-traffic fandom homes.
 
 After Stripe keys are configured, create or verify the paid supporter product:
 

@@ -274,11 +274,51 @@ namespace :ao3_fanfic_forum do
         },
       },
       {
+        name: "Harry Potter",
+        slug: "harry-potter",
+        description: "A home for Harry Potter recs, ship talk, fic searches, rereads, and spoiler-marked discussion.",
+        color: "7C315D",
+        position: 8,
+        permissions: {
+          everyone: :full,
+        },
+      },
+      {
+        name: "Marvel",
+        slug: "marvel",
+        description: "A home for Marvel recs, MCU and comics threads, ship talk, fic searches, and spoiler-safe discussion.",
+        color: "B33951",
+        position: 9,
+        permissions: {
+          everyone: :full,
+        },
+      },
+      {
+        name: "K-POP",
+        slug: "k-pop",
+        description: "A home for K-POP recs, fandom talk, ship tags, readalongs, and fic-finding threads.",
+        color: "246A73",
+        position: 10,
+        permissions: {
+          everyone: :full,
+        },
+      },
+      {
+        name: "BTS",
+        slug: "bts",
+        description: "A home for BTS recs, ship discussion, fic searches, chapter threads, and spoiler-safe reader talk.",
+        color: "6B4E71",
+        position: 11,
+        permissions: {
+          everyone: :full,
+        },
+      },
+      {
         name: "Reader Lounge",
         slug: "reader-lounge",
         description: "Off-topic reader chat, reading moods, events, and community conversation.",
         color: "4E6A8D",
-        position: 8,
+        position: 12,
         permissions: {
           everyone: :full,
         },
@@ -288,7 +328,7 @@ namespace :ao3_fanfic_forum do
         slug: "site-help",
         description: "Questions about accounts, private rooms, tags, and forum tools.",
         color: "5E6C75",
-        position: 9,
+        position: 13,
         permissions: {
           everyone: :full,
         },
@@ -298,7 +338,7 @@ namespace :ao3_fanfic_forum do
         slug: SiteSetting.ao3_fanfic_private_rooms_category_slug,
         description: "Supporter-only fandom circles, private ship rooms, readalongs, and higher-privacy discussion threads.",
         color: "9F2536",
-        position: 10,
+        position: 14,
         permissions: {
           supporter_group.name => :full,
           staff: :full,
@@ -309,7 +349,7 @@ namespace :ao3_fanfic_forum do
         slug: "announcements",
         description: "Official AO3Chat updates, maintenance notices, and policy changes.",
         color: "3B5D8F",
-        position: 11,
+        position: 15,
         permissions: {
           everyone: :readonly,
           staff: :full,
@@ -321,7 +361,7 @@ namespace :ao3_fanfic_forum do
         legacy_slugs: ["site-rules"],
         description: "Community rules, privacy notes, moderation policy, and unofficial AO3Chat status.",
         color: "4A5568",
-        position: 12,
+        position: 16,
         permissions: {
           everyone: :readonly,
           staff: :full,
@@ -332,7 +372,7 @@ namespace :ao3_fanfic_forum do
         slug: "moderation",
         description: "Staff-only reports, policy review, and moderation coordination.",
         color: "2E3440",
-        position: 13,
+        position: 17,
         permissions: {
           staff: :full,
         },
@@ -353,6 +393,7 @@ namespace :ao3_fanfic_forum do
         created_categories.first.last
 
     SiteSetting.ao3_fanfic_allowed_space_groups = supporter_group.id.to_s
+    SiteSetting.ao3_fanfic_featured_fandom_slugs = "harry-potter|marvel|k-pop|bts"
     SiteSetting.default_navigation_menu_categories = sidebar_category_ids.join("|")
     SiteSetting.default_composer_category = default_composer_category.id
     Ao3FanficForum::Setup.configure_subscription_settings!(supporter_group)

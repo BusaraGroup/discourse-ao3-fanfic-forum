@@ -1139,6 +1139,17 @@ html.discourse-no-touch .ao3-account-page__brand:hover {
   font-size: var(--font-down-1);
 }
 
+.ao3-browser__fic--link {
+  text-decoration: underline;
+  text-decoration-color: var(--ao3-line-strong);
+  text-underline-offset: 0.15em;
+}
+
+.ao3-browser__fic--link:hover {
+  color: #87c5c9;
+  text-decoration-color: #87c5c9;
+}
+
 .ao3-browser__chapter {
   color: #87c5c9;
   font-weight: 800;

@@ -123,6 +123,10 @@ export default class Ao3FanficBrowser extends Component {
       });
     }
 
+    if (metadata?.fic_url) {
+      return i18n("ao3_fanfic.browser.fic_link");
+    }
+
     return "";
   }
 
@@ -376,7 +380,16 @@ export default class Ao3FanficBrowser extends Component {
                   <a class="ao3-browser__title" href={{topic.url}}>{{topic.title}}</a>
 
                   {{#if topic.ficLabel}}
-                    <span class="ao3-browser__fic">{{topic.ficLabel}}</span>
+                    {{#if topic.metadata.fic_url}}
+                      <a
+                        class="ao3-browser__fic ao3-browser__fic--link"
+                        href={{topic.metadata.fic_url}}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow ugc"
+                      >{{topic.ficLabel}}</a>
+                    {{else}}
+                      <span class="ao3-browser__fic">{{topic.ficLabel}}</span>
+                    {{/if}}
                   {{/if}}
 
                   {{#if topic.chapterLabel}}

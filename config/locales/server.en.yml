@@ -2,8 +2,8 @@ en:
   site_settings:
     ao3_fanfic_enabled: "Enable AO3 fanfic forum workflows."
     ao3_fanfic_require_fandom_tags: "Require at least one fandom tag on AO3 fanfic topics."
-    ao3_fanfic_default_anonymous: "Default new AO3 topics to anonymous posting intent. Users still need site anonymous mode enabled for their account."
-    ao3_fanfic_allowed_space_groups: "Groups that can be selected as private or semi-private fandom spaces."
+    ao3_fanfic_default_anonymous: "Legacy metadata flag only. AO3Chat does not use this setting to hide author identity."
+    ao3_fanfic_allowed_space_groups: "Legacy metadata group allowlist. Private room access is enforced through category permissions and groups."
     ao3_fanfic_paid_rooms_enabled: "Show AO3Chat supporter tier and private fandom room prompts."
     ao3_fanfic_supporter_group_name: "Group that unlocks AO3Chat private fandom rooms. Subscription plans should grant this group."
     ao3_fanfic_private_rooms_category_slug: "Category slug used for AO3Chat private fandom rooms."

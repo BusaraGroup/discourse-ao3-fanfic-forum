@@ -266,7 +266,7 @@ namespace :ao3_fanfic_forum do
       {
         name: "Fandom Spaces",
         slug: "fandom-spaces",
-        description: "Broad fandom talk, ship discussion, trope threads, and semi-private space requests.",
+        description: "Broad fandom talk, ship discussion, trope threads, and private room requests.",
         color: "2F6F4E",
         position: 7,
         permissions: {
@@ -286,7 +286,7 @@ namespace :ao3_fanfic_forum do
       {
         name: "Site Help",
         slug: "site-help",
-        description: "Questions about accounts, privacy settings, anonymous posting, tags, and forum tools.",
+        description: "Questions about accounts, private rooms, tags, and forum tools.",
         color: "5E6C75",
         position: 9,
         permissions: {

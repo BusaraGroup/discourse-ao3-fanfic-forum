@@ -3,7 +3,6 @@ import { tracked } from "@glimmer/tracking";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { action } from "@ember/object";
-import { service } from "@ember/service";
 import { eq } from "discourse/truth-helpers";
 import { i18n } from "discourse-i18n";
 
@@ -18,9 +17,6 @@ const FIELDS = {
   ficTitle: "ao3_fic_title",
   ficAuthor: "ao3_fic_author",
   chapterRef: "ao3_chapter_ref",
-  visibility: "ao3_visibility",
-  spaceGroupId: "ao3_space_group_id",
-  postAnonymously: "ao3_post_anonymously",
 };
 
 function splitList(value) {
@@ -61,18 +57,6 @@ function listText(value) {
   return parseStoredList(value).join(", ");
 }
 
-function booleanValue(value, fallback) {
-  if (typeof value === "boolean") {
-    return value;
-  }
-
-  if (typeof value === "string") {
-    return value === "true";
-  }
-
-  return fallback;
-}
-
 function dateValue(value) {
   if (!value) {
     return "";
@@ -92,7 +76,7 @@ function existingMetadata(model) {
   );
 }
 
-function stateFromMetadata(metadata, defaultAnonymous) {
+function stateFromMetadata(metadata) {
   return {
     discussionType: metadata.discussion_type || metadata.ao3_discussion_type || "general",
     fandomTagsText: listText(metadata.fandom_tags || metadata.ao3_fandom_tags),
@@ -106,16 +90,29 @@ function stateFromMetadata(metadata, defaultAnonymous) {
     ficTitle: metadata.fic_title || metadata.ao3_fic_title || "",
     ficAuthor: metadata.fic_author || metadata.ao3_fic_author || "",
     chapterRef: metadata.chapter_ref || metadata.ao3_chapter_ref || "",
-    visibility: metadata.visibility || metadata.ao3_visibility || "public",
-    spaceGroupId: metadata.space_group_id || metadata.ao3_space_group_id || "",
-    postAnonymously: booleanValue(
-      metadata.post_anonymously ?? metadata.ao3_post_anonymously,
-      defaultAnonymous
-    ),
   };
 }
 
+function hasMeaningfulMetadata(state) {
+  return Boolean(
+    state.discussionType !== "general" ||
+      splitList(state.fandomTagsText).length > 0 ||
+      splitList(state.shipTagsText).length > 0 ||
+    splitList(state.contentWarningsText).length > 0 ||
+    state.spoilerLabel.trim() ||
+    state.spoilerUntil ||
+    state.ficUrl.trim() ||
+    state.ficTitle.trim() ||
+    state.ficAuthor.trim() ||
+    state.chapterRef.trim()
+  );
+}
+
 function topicCustomFields(state) {
+  if (!hasMeaningfulMetadata(state)) {
+    return {};
+  }
+
   return {
     [FIELDS.discussionType]: state.discussionType,
     [FIELDS.fandomTags]: JSON.stringify(splitList(state.fandomTagsText)),
@@ -127,9 +124,6 @@ function topicCustomFields(state) {
     [FIELDS.ficTitle]: state.ficTitle,
     [FIELDS.ficAuthor]: state.ficAuthor,
     [FIELDS.chapterRef]: state.chapterRef,
-    [FIELDS.visibility]: state.visibility,
-    [FIELDS.spaceGroupId]: `${state.spaceGroupId || ""}`,
-    [FIELDS.postAnonymously]: state.postAnonymously ? "true" : "false",
   };
 }
 
@@ -142,32 +136,16 @@ export default class Ao3FanficFields extends Component {
     );
   }
 
-  @service siteSettings;
   @tracked state;
 
   constructor() {
     super(...arguments);
-    this.state = stateFromMetadata(
-      existingMetadata(this.model),
-      this.siteSettings.ao3_fanfic_default_anonymous
-    );
-    if (this.state.visibility === "space" && !this.state.spaceGroupId) {
-      this.state = { ...this.state, spaceGroupId: this.defaultSpaceGroupId };
-    }
+    this.state = stateFromMetadata(existingMetadata(this.model));
     this.syncModel();
   }
 
   get model() {
     return this.args.outletArgs.model;
-  }
-
-  get defaultSpaceGroupId() {
-    return (
-      this.siteSettings.ao3_fanfic_allowed_space_groups
-        ?.toString()
-        .split("|")
-        .filter(Boolean)[0] || ""
-    );
   }
 
   syncModel() {
@@ -188,30 +166,16 @@ export default class Ao3FanficFields extends Component {
   }
 
   @action
-  updateVisibility(event) {
-    const visibility = event.target.value;
-    const changes = { visibility };
-
-    if (visibility === "space" && !this.state.spaceGroupId) {
-      changes.spaceGroupId = this.defaultSpaceGroupId;
-    }
-
-    this.updateState(changes);
-  }
-
-  @action
   updateText(field, event) {
     this.updateState({ [field]: event.target.value });
-  }
-
-  @action
-  updateAnonymous(event) {
-    this.updateState({ postAnonymously: event.target.checked });
   }
 
   <template>
     <fieldset class="ao3-composer-fields">
       <legend>{{i18n "ao3_fanfic.composer.legend"}}</legend>
+      <p class="ao3-composer-fields__note">
+        {{i18n "ao3_fanfic.composer.privacy_note"}}
+      </p>
 
       <div class="ao3-composer-fields__grid">
         <label>
@@ -317,43 +281,7 @@ export default class Ao3FanficFields extends Component {
             {{on "input" (fn this.updateText "chapterRef")}}
           />
         </label>
-
-        <label>
-          <span>{{i18n "ao3_fanfic.composer.visibility"}}</span>
-          <select {{on "change" this.updateVisibility}}>
-            <option value="public" selected={{eq this.state.visibility "public"}}>
-              {{i18n "ao3_fanfic.visibilities.public"}}
-            </option>
-            <option value="members" selected={{eq this.state.visibility "members"}}>
-              {{i18n "ao3_fanfic.visibilities.members"}}
-            </option>
-            <option value="space" selected={{eq this.state.visibility "space"}}>
-              {{i18n "ao3_fanfic.visibilities.space"}}
-            </option>
-          </select>
-        </label>
-
-        {{#if (eq this.state.visibility "space")}}
-          <label>
-            <span>{{i18n "ao3_fanfic.composer.space_group_id"}}</span>
-            <input
-              type="number"
-              min="1"
-              value={{this.state.spaceGroupId}}
-              {{on "input" (fn this.updateText "spaceGroupId")}}
-            />
-          </label>
-        {{/if}}
       </div>
-
-      <label class="ao3-composer-fields__checkbox">
-        <input
-          type="checkbox"
-          checked={{this.state.postAnonymously}}
-          {{on "change" this.updateAnonymous}}
-        />
-        <span>{{i18n "ao3_fanfic.composer.anonymous"}}</span>
-      </label>
     </fieldset>
   </template>
 }

@@ -6,8 +6,8 @@ ao3_fanfic:
     default: true
     client: true
   ao3_fanfic_default_anonymous:
-    default: true
-    client: true
+    default: false
+    hidden: true
   ao3_fanfic_allowed_space_groups:
     default: ""
     type: group_list

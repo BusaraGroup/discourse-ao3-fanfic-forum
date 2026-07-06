@@ -123,12 +123,12 @@ en:
         login_body: "Log in with an AO3Chat account made for fandom discussion, not a social profile or public AO3 name."
         signup_title: "Create a reader account."
         signup_body: "Choose a handle that works for private recs, spoiler threads, fic searches, and fandom-room access."
-        login_note: "Use your AO3Chat account here. Public anonymous posting can still hide your account from other readers."
+        login_note: "Use your AO3Chat account here. Post in private rooms when you need restricted readership."
         signup_note: "Choose an AO3Chat name that is separate from your AO3, social, or public fandom identity."
         supporter_link: "Supporter tier for private rooms"
         facts:
           reader_identity: "Separate AO3Chat handle"
-          anonymous_posts: "Anonymous posting where enabled"
+          anonymous_posts: "Private rooms where enabled"
           private_rooms: "Supporter access to private fandom rooms"
       home:
         title: "AO3Chat"
@@ -218,6 +218,7 @@ en:
           other: "%{count} views"
       composer:
         legend: "Fanfic metadata"
+        privacy_note: "Room privacy is controlled by the category you post in. These fields only label and filter discussions."
         discussion_type: "Thread type"
         fandom_tags: "Fandoms"
         ship_tags: "Ships"
@@ -228,19 +229,12 @@ en:
         fic_title: "Fic title"
         fic_author: "Author"
         chapter_ref: "Chapter"
-        visibility: "Visibility"
-        space_group_id: "Private room group"
-        anonymous: "Post anonymously"
         list_placeholder: "Separate with commas"
       discussion_types:
         general: "Discussion"
         fic_recommendation: "Fic rec"
         chapter_discussion: "Chapter"
         looking_for_fic: "Looking for fic"
-      visibilities:
-        public: "Public"
-        members: "Members"
-        space: "Fandom space"
       chips:
         spoiler: "Spoiler"
         warnings: "Warnings"

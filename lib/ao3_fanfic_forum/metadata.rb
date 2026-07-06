@@ -2,6 +2,36 @@
 
 module Ao3FanficForum
   module Metadata
+    PUBLIC_METADATA_KEYS =
+      %i[
+        discussion_type
+        fandom_tags
+        ship_tags
+        content_warnings
+        spoiler_label
+        spoiler_until
+        fic_url
+        fic_title
+        fic_author
+        chapter_ref
+      ].freeze
+
+    PRESENCE_FIELD_NAMES =
+      [
+        Fields::DISCUSSION_TYPE,
+        Fields::FANDOM_TAGS,
+        Fields::SHIP_TAGS,
+        Fields::CONTENT_WARNINGS,
+        Fields::SPOILER_LABEL,
+        Fields::SPOILER_UNTIL,
+        Fields::FIC_URL,
+        Fields::FIC_TITLE,
+        Fields::FIC_AUTHOR,
+        Fields::CHAPTER_REF,
+      ].freeze
+
+    DEFAULT_FIELD_VALUES = { Fields::DISCUSSION_TYPE => "general" }.freeze
+
     module_function
 
     def for_topic(topic)
@@ -11,7 +41,9 @@ module Ao3FanficForum
       return nil unless raw_present?(fields)
 
       data = coerce(fields)
-      data.merge(
+      public_data = data.slice(*PUBLIC_METADATA_KEYS)
+
+      public_data.merge(
         present: true,
         spoiler_active: spoiler_active?(data[:spoiler_until]),
         fandom_keys: data[:fandom_tags].map { |tag| Normalizer.key(tag) },
@@ -22,6 +54,13 @@ module Ao3FanficForum
 
     def apply!(topic, fields)
       fields = sanitize_fields(fields)
+      if !raw_present?(fields)
+        Fields.field_names.each { |field| topic.custom_fields.delete(field) }
+        topic.save!
+        sync_from_topic!(topic)
+        return topic
+      end
+
       data = coerce(fields)
       validate_data!(data, topic)
 
@@ -126,9 +165,19 @@ module Ao3FanficForum
     end
 
     def raw_present?(fields)
-      fields.any? do |_field, value|
-        value.present? && value != "[]" && value != "false"
-      end
+      fields = sanitize_fields(fields)
+
+      PRESENCE_FIELD_NAMES.any? { |field| meaningful_field_value?(field, fields[field]) }
+    end
+
+    def meaningful_field_value?(field, value)
+      return false if value.blank?
+
+      normalized_value = value.is_a?(Array) ? value.to_json : value.to_s
+      return false if normalized_value == "[]"
+      return false if DEFAULT_FIELD_VALUES[field] == normalized_value
+
+      true
     end
 
     def validate_data!(data, _topic = nil)

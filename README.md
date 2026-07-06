@@ -98,7 +98,6 @@ Supported query params:
 - `ship`: comma-separated ship tags
 - `warning`: comma-separated required warnings
 - `exclude_warning`: comma-separated warnings to hide
-- `visibility`: `public`, `members`, `space`
 - `spoiler_safe`: `true` hides topics with active spoiler windows
 - `page`, `per_page`
 
@@ -110,4 +109,6 @@ The AO3Chat home page includes a reader-facing browser backed by this endpoint, 
 
 ## Privacy Model
 
-Readers can use anonymous posting for public-facing discussions. Administrators can still audit the real account behind anonymous activity. Private fandom spaces are enforced through category permissions and the configured supporter group; the plugin stores the chosen group as metadata for filtering and labeling.
+Privacy is enforced through normal category and group permissions. Public AO3Chat metadata is for labeling, filtering, and search; it must not be used to hide author identity or restrict who can read a topic.
+
+Private fandom spaces are enforced through the `Private Fandom Rooms` category and the configured supporter group. Anonymous posting should only be enabled through the forum platform's real anonymous-posting feature, where administrators can still audit the real account behind the activity.

@@ -941,6 +941,13 @@ body {
   padding: 0 0.25rem;
 }
 
+.ao3-composer-fields__note {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-1);
+  line-height: 1.35;
+  margin: 0 0 0.75rem;
+}
+
 .ao3-composer-fields__grid {
   display: grid;
   gap: 0.65rem;
@@ -969,17 +976,6 @@ body {
   color: var(--ao3-text);
   min-width: 0;
   width: 100%;
-}
-
-.ao3-composer-fields__checkbox {
-  align-items: center;
-  flex-direction: row !important;
-  gap: 0.4rem;
-  margin-top: 0.75rem;
-}
-
-.ao3-composer-fields__checkbox input {
-  width: auto;
 }
 
 .ao3-topic-chips {

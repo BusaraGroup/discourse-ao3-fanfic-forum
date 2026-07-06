@@ -41,7 +41,6 @@ RSpec.describe "AO3 fanfic topics" do
 
     expect(metadata.discussion_type).to eq("fic_recommendation")
     expect(metadata.fic_title).to eq("A Good Fic")
-    expect(metadata.post_anonymously).to eq(true)
     expect(
       Ao3FanficForum::TopicTerm.exists?(
         topic_id: topic.id,
@@ -49,6 +48,72 @@ RSpec.describe "AO3 fanfic topics" do
         normalized: "the-untamed",
       ),
     ).to eq(true)
+  end
+
+  it "ignores default-only and privacy-only custom fields" do
+    expect {
+      post "/posts.json",
+           params: {
+             raw: "A normal site topic that does not need fanfic metadata.",
+             title: "A normal reader lounge topic",
+             category: category.id,
+             topic_custom_fields: {
+               "ao3_discussion_type" => "general",
+               "ao3_visibility" => "public",
+               "ao3_post_anonymously" => "true",
+             },
+           }
+    }.to change(Topic, :count).by(1)
+
+    expect(response.status).to eq(200)
+    expect(Ao3FanficForum::TopicMetadata.exists?(topic_id: Topic.last.id)).to eq(false)
+  end
+
+  it "omits privacy intent metadata from public topic payloads" do
+    topic = Fabricate(:topic, category: category, title: "Private intent metadata")
+    topic.custom_fields =
+      ao3_fields(
+        "ao3_visibility" => "members",
+        "ao3_space_group_id" => "42",
+        "ao3_post_anonymously" => "true",
+      )
+    topic.save!
+    Ao3FanficForum::Metadata.sync_from_topic!(topic)
+
+    get "/ao3-fanfic/topics.json", params: { fandom: "The Untamed" }
+
+    expect(response.status).to eq(200)
+
+    metadata =
+      response.parsed_body["topics"].find { |result| result["id"] == topic.id }["ao3_fanfic"]
+
+    expect(metadata).to include(
+      "present" => true,
+      "discussion_type" => "fic_recommendation",
+      "fandom_tags" => ["The Untamed"],
+    )
+    expect(metadata.keys).not_to include("post_anonymously", "visibility", "space_group_id")
+  end
+
+  it "clears metadata when the edit payload has no AO3 fields" do
+    topic = Fabricate(:topic, category: category, user: user, title: "Metadata to clear")
+    topic.custom_fields = ao3_fields
+    topic.save!
+    Ao3FanficForum::Metadata.sync_from_topic!(topic)
+
+    expect(Ao3FanficForum::TopicMetadata.exists?(topic_id: topic.id)).to eq(true)
+
+    put "/ao3-fanfic/topics/#{topic.id}/metadata.json",
+        params: {
+          topic_custom_fields: {},
+        }.to_json,
+        headers: {
+          "CONTENT_TYPE" => "application/json",
+        }
+
+    expect(response.status).to eq(200)
+    expect(response.parsed_body["ao3_fanfic"]).to eq(nil)
+    expect(Ao3FanficForum::TopicMetadata.exists?(topic_id: topic.id)).to eq(false)
   end
 
   it "filters visible topics by fandom, ship, warning, and discussion type" do

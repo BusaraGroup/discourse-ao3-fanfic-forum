@@ -52,11 +52,6 @@ module Ao3FanficForum
         scope = scope.where("ao3_meta.discussion_type = ?", discussion_type)
       end
 
-      visibility = Metadata.normalize_visibility(params[:visibility])
-      if params[:visibility].present? && Fields::VISIBILITIES.include?(visibility)
-        scope = scope.where("ao3_meta.visibility = ?", visibility)
-      end
-
       if ActiveModel::Type::Boolean.new.cast(params[:spoiler_safe])
         scope =
           scope.where(

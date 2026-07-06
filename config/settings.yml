@@ -29,7 +29,7 @@ ao3_fanfic:
     default: "/ao3-fanfic/supporter"
     client: true
   ao3_fanfic_supporter_checkout_url:
-    default: "/s"
+    default: ""
   ao3_fanfic_subscription_product_id:
     default: ""
     hidden: true

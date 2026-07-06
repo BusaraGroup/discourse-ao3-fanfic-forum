@@ -98,6 +98,8 @@ Supported query params:
 
 All results still use normal topic visibility checks. The plugin does not bypass category or group permissions.
 
+The AO3Chat home page includes a reader-facing browser backed by this endpoint, so fandom, ship, warning, spoiler-safe, and thread-type filtering work without leaving the main discussion view.
+
 ## Privacy Model
 
 Readers can use anonymous posting for public-facing discussions. Administrators can still audit the real account behind anonymous activity. Private fandom spaces are enforced through category permissions and the configured supporter group; the plugin stores the chosen group as metadata for filtering and labeling.

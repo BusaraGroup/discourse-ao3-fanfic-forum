@@ -301,6 +301,178 @@ body {
   width: 100%;
 }
 
+.ao3-browser {
+  border-top: 1px solid var(--ao3-line);
+  display: grid;
+  gap: 1rem;
+  grid-column: 1 / -1;
+  padding-top: 1rem;
+}
+
+.ao3-browser__heading {
+  align-items: end;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.ao3-browser__heading h2 {
+  color: var(--ao3-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.65rem;
+  letter-spacing: 0;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.ao3-browser__heading p {
+  color: var(--ao3-muted);
+  line-height: 1.45;
+  margin: 0.3rem 0 0;
+  max-width: 46rem;
+}
+
+.ao3-browser__form {
+  align-items: end;
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns:
+    1.05fr repeat(4, minmax(8.5rem, 1fr)) minmax(9rem, auto)
+    auto;
+}
+
+.ao3-browser__field {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.ao3-browser__field span,
+.ao3-browser__toggle span {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-1);
+  font-weight: 800;
+}
+
+.ao3-browser__field input,
+.ao3-browser__field select {
+  background: #120f0f;
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  box-sizing: border-box;
+  color: var(--ao3-text);
+  min-height: 2.35rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.ao3-browser__toggle {
+  align-items: center;
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  display: flex;
+  gap: 0.4rem;
+  min-height: 2.35rem;
+  padding: 0 0.55rem;
+}
+
+.ao3-browser__toggle input {
+  margin: 0;
+}
+
+.ao3-browser__actions {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.ao3-browser__actions .btn {
+  border-radius: var(--ao3-radius);
+  min-height: 2.35rem;
+}
+
+.ao3-browser__results {
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  overflow: hidden;
+}
+
+.ao3-browser__status,
+.ao3-browser__count {
+  color: var(--ao3-muted);
+  margin: 0;
+  padding: 0.75rem;
+}
+
+.ao3-browser__status--error {
+  color: #ffdce2;
+}
+
+.ao3-browser__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ao3-browser__row {
+  align-items: start;
+  background: #151211;
+  border-top: 1px solid var(--ao3-line);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 0.85rem;
+}
+
+.ao3-browser__row:first-child {
+  border-top: 0;
+}
+
+.ao3-browser__row:hover {
+  background: var(--ao3-surface-soft);
+}
+
+.ao3-browser__topic {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.ao3-browser__title {
+  color: var(--ao3-text);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.ao3-browser__title:hover {
+  color: #fff8f4;
+}
+
+.ao3-browser__fic,
+.ao3-browser__chapter {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-1);
+}
+
+.ao3-browser__chapter {
+  color: #87c5c9;
+  font-weight: 800;
+}
+
+.ao3-browser__stats {
+  color: var(--ao3-muted);
+  display: grid;
+  font-size: var(--font-down-1);
+  gap: 0.2rem;
+  justify-items: end;
+  min-width: 5.5rem;
+}
+
+.ao3-topic-chips--browser {
+  margin-top: 0.1rem;
+}
+
 .navigation-container {
   background: var(--ao3-surface);
   border: 1px solid var(--ao3-line);
@@ -407,7 +579,9 @@ body {
 .login-page .login-form input:focus,
 .signup-page #login-form input:focus,
 .ao3-composer-fields input:focus,
-.ao3-composer-fields select:focus {
+.ao3-composer-fields select:focus,
+.ao3-browser__field input:focus,
+.ao3-browser__field select:focus {
   border-color: #87c5c9;
   box-shadow: 0 0 0 2px rgba(36, 106, 115, 0.28);
 }
@@ -523,6 +697,10 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .ao3-browser__form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .ao3-home__supporter {
     border-left: 0;
     border-top: 1px solid var(--ao3-line);
@@ -547,9 +725,28 @@ body {
   .ao3-home__filters {
     grid-template-columns: 1fr 1fr;
   }
+
+  .ao3-browser__form,
+  .ao3-browser__row {
+    grid-template-columns: 1fr;
+  }
+
+  .ao3-browser__stats {
+    display: flex;
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 520px) {
+  .ao3-browser__actions {
+    flex-direction: column;
+  }
+
+  .ao3-browser__actions .btn {
+    justify-content: center;
+    width: 100%;
+  }
+
   .ao3-home__filters {
     grid-template-columns: 1fr;
   }

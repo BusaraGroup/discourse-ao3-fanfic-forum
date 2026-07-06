@@ -5,6 +5,7 @@ import getURL from "discourse/lib/get-url";
 import Category from "discourse/models/category";
 import DButton from "discourse/ui-kit/d-button";
 import { i18n } from "discourse-i18n";
+import Ao3FanficBrowser from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-fanfic-browser";
 
 export default class Ao3FanficHome extends Component {
   static shouldRender(args, { siteSettings }) {
@@ -165,6 +166,8 @@ export default class Ao3FanficHome extends Component {
           </div>
         </aside>
       {{/if}}
+
+      <Ao3FanficBrowser />
     </section>
   </template>
 }

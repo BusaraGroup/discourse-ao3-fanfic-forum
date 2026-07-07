@@ -29,6 +29,22 @@
         >
           <%= I18n.t(@secondary_label_key) %>
         </a>
+        <% if @logout_url.present? %>
+          <form
+            class="ao3-account-page__logout"
+            action="<%= h @logout_url %>"
+            method="post"
+          >
+            <input
+              type="hidden"
+              name="authenticity_token"
+              value="<%= h form_authenticity_token %>"
+            >
+            <button class="btn btn-default ao3-account-page__button" type="submit">
+              <%= I18n.t("ao3_fanfic.account_page.cta.log_out") %>
+            </button>
+          </form>
+        <% end %>
       </div>
     </section>
 

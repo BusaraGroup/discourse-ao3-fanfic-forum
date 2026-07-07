@@ -11,6 +11,7 @@ module Ao3FanficForum
       @login_url = discourse_path("/ao3-fanfic/login")
       @signup_url = discourse_path("/ao3-fanfic/signup")
       @supporter_url = discourse_path(SupporterAccess.subscribe_url)
+      @logout_url = discourse_path("/ao3-fanfic/logout") if @signed_in
 
       assign_cta
     end

@@ -1174,6 +1174,10 @@ html.discourse-no-touch .ao3-account-page__brand:hover {
   min-height: 2.4rem;
 }
 
+.ao3-account-page__logout {
+  margin: 0;
+}
+
 .ao3-account-page__details {
   border-block-start: 1px solid var(--ao3-line);
   display: grid;

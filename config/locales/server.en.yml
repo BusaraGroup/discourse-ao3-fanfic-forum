@@ -84,6 +84,7 @@ en:
       cta:
         create: "Create account"
         log_in: "Log in"
+        log_out: "Log out"
         open: "Open AO3Chat"
         supporter: "Supporter tier"
     supporter_page:

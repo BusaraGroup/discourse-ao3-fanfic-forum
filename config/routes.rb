@@ -4,6 +4,7 @@ Ao3FanficForum::Engine.routes.draw do
   get "account" => "account#show"
   post "crypto-payments" => "crypto_payments#create"
   get "login" => "login#show"
+  post "logout" => "logout#create"
   post "room-requests" => "room_requests#create"
   get "signup" => "signup#show"
   get "supporter" => "supporter#show"

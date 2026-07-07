@@ -2,6 +2,9 @@
 
 module Ao3FanficForum
   class BaseController < ::ApplicationController
+    layout "no_ember"
+    skip_before_action :preload_json, :check_xhr
+
     private
 
     def discourse_path(path)

@@ -4,6 +4,8 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 
 const AUTH_FORM_SELECTOR = "[data-ao3-auth-form]";
 const SERVER_RENDERED_LINK_SELECTOR = "a[href]";
+const CREATE_ACCOUNT_BUTTON_SELECTOR = ".sign-up-button";
+const LOGIN_BUTTON_SELECTOR = ".login-button";
 const SERVER_RENDERED_PATHS = new Set([
   "/ao3-fanfic/account",
   "/ao3-fanfic/login",
@@ -48,6 +50,20 @@ function forceServerNavigation(event) {
 
   const target = event.target;
   if (!(target instanceof Element)) {
+    return;
+  }
+
+  if (target.closest(LOGIN_BUTTON_SELECTOR)) {
+    event.preventDefault();
+    event.stopPropagation();
+    redirectToServerPath("/ao3-fanfic/login");
+    return;
+  }
+
+  if (target.closest(CREATE_ACCOUNT_BUTTON_SELECTOR)) {
+    event.preventDefault();
+    event.stopPropagation();
+    redirectToServerPath("/ao3-fanfic/signup");
     return;
   }
 
@@ -346,19 +362,19 @@ export default {
           return isServerRenderedPath(context?.url) ? true : value;
         }
       );
-      api.modifyClass("route:application", {
-        pluginId: "discourse-ao3-fanfic-forum",
+      api.modifyClass(
+        "route:application",
+        (Superclass) =>
+          class extends Superclass {
+            showLogin() {
+              redirectToServerPath("/ao3-fanfic/login");
+            }
 
-        actions: {
-          showLogin() {
-            redirectToServerPath("/ao3-fanfic/login");
-          },
-
-          showCreateAccount() {
-            redirectToServerPath("/ao3-fanfic/signup");
-          },
-        },
-      });
+            showCreateAccount() {
+              redirectToServerPath("/ao3-fanfic/signup");
+            }
+          }
+      );
       api.modifyClass(
         "route:login",
         (Superclass) =>

@@ -13,4 +13,11 @@ Ao3FanficForum::Engine.routes.draw do
   put "topics/:topic_id/metadata" => "metadata#update"
 end
 
-Discourse::Application.routes.draw { mount Ao3FanficForum::Engine, at: "ao3-fanfic" }
+ao3_fanfic_login_path = "#{Discourse.base_path}/ao3-fanfic/login"
+ao3_fanfic_signup_path = "#{Discourse.base_path}/ao3-fanfic/signup"
+
+Discourse::Application.routes.prepend do
+  get "login" => redirect(ao3_fanfic_login_path)
+  get "signup" => redirect(ao3_fanfic_signup_path)
+  mount Ao3FanficForum::Engine, at: "ao3-fanfic"
+end

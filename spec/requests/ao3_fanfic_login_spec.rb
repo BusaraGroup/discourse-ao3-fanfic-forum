@@ -5,6 +5,12 @@ RSpec.describe Ao3FanficForum::LoginController do
 
   before { SiteSetting.ao3_fanfic_enabled = true }
 
+  it "redirects the stock login route to AO3Chat login" do
+    get "/login"
+
+    expect(response).to redirect_to("/ao3-fanfic/login")
+  end
+
   describe "#show" do
     it "renders AO3Chat login for signed-out readers", :aggregate_failures do
       get "/ao3-fanfic/login"

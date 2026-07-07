@@ -5,6 +5,12 @@ RSpec.describe Ao3FanficForum::SignupController do
 
   before { SiteSetting.ao3_fanfic_enabled = true }
 
+  it "redirects the stock signup route to AO3Chat signup" do
+    get "/signup"
+
+    expect(response).to redirect_to("/ao3-fanfic/signup")
+  end
+
   describe "#show" do
     it "renders AO3Chat signup for signed-out readers", :aggregate_failures do
       get "/ao3-fanfic/signup"

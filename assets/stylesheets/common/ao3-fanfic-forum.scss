@@ -409,7 +409,7 @@ html.discourse-no-touch .ao3-home__account-link:hover {
   overflow: hidden;
 
   @include viewport.from(lg) {
-    grid-template-columns: minmax(18rem, 0.82fr) minmax(22rem, 1fr) minmax(16rem, 0.55fr);
+    grid-template-columns: minmax(17rem, 0.75fr) minmax(24rem, 1fr) minmax(15rem, 0.58fr);
   }
 }
 
@@ -417,14 +417,14 @@ html.discourse-no-touch .ao3-home__account-link:hover {
 .ao3-auth-page__panel,
 .ao3-auth-page__notes {
   min-width: 0;
-  padding: clamp(1.25rem, 4vw, 3rem);
+  padding: clamp(1.25rem, 3vw, 2.25rem);
 }
 
 .ao3-auth-page__mast {
   align-content: space-between;
   background: var(--ao3-surface-raised);
   display: grid;
-  gap: clamp(2rem, 8vw, 5rem);
+  gap: clamp(1.5rem, 4vw, 3rem);
 }
 
 .ao3-auth-page__brand {
@@ -440,11 +440,16 @@ html.discourse-no-touch .ao3-home__account-link:hover {
 .ao3-auth-page__mast h1 {
   color: var(--ao3-text);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.6rem, 8vw, 5.4rem);
+  font-size: 3rem;
   letter-spacing: 0;
-  line-height: 0.94;
+  line-height: 1;
   margin: 0;
   max-width: 9ch;
+  overflow-wrap: break-word;
+
+  @include viewport.from(lg) {
+    font-size: 3.75rem;
+  }
 }
 
 .ao3-auth-page__mast p,
@@ -452,12 +457,13 @@ html.discourse-no-touch .ao3-home__account-link:hover {
 .ao3-auth-page__notes li {
   color: var(--ao3-muted);
   line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .ao3-auth-page__mast p {
   font-size: var(--font-up-1);
   margin: 1rem 0 0;
-  max-width: 33rem;
+  max-width: 100%;
 }
 
 .ao3-auth-page__panel {
@@ -488,6 +494,7 @@ html.discourse-no-touch .ao3-home__account-link:hover {
 .ao3-auth-page__form {
   display: grid;
   gap: 0.8rem;
+  min-width: 0;
 }
 
 .ao3-auth-page__field {
@@ -608,6 +615,17 @@ html.discourse-no-touch .ao3-home__account-link:hover {
   height: 0.5rem;
   margin-block-start: 0.45rem;
   width: 0.5rem;
+}
+
+@media (max-width: 64rem) {
+  .ao3-auth-page__shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ao3-auth-page__mast h1 {
+    font-size: 2.7rem;
+    max-width: 11ch;
+  }
 }
 
 .ao3-supporter-page {

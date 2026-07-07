@@ -11,6 +11,13 @@ RSpec.describe Ao3FanficForum::PasswordResetController do
     expect(response).to redirect_to("/ao3-fanfic/password-reset")
   end
 
+  it "requests password recovery through the AO3Chat password reset action" do
+    post "/ao3-fanfic/password-reset.json", params: { login: user.username }
+
+    expect(response.status).to eq(200)
+    expect(response.parsed_body["success"]).to eq("OK")
+  end
+
   describe "#show" do
     it "renders AO3Chat password recovery for signed-out readers", :aggregate_failures do
       get "/ao3-fanfic/password-reset"
@@ -18,7 +25,7 @@ RSpec.describe Ao3FanficForum::PasswordResetController do
       expect(response.status).to eq(200)
       expect(response.body).to include(I18n.t("ao3_fanfic.auth_page.password_reset.title"))
       expect(response.body).to include('data-ao3-auth-form="password-reset"')
-      expect(response.body).to include('action="/session/forgot_password"')
+      expect(response.body).to include('action="/ao3-fanfic/password-reset"')
       expect(response.body).to include('href="/ao3-fanfic/login" data-auto-route="true"')
       expect(response.body).to include('href="/ao3-fanfic/signup" data-auto-route="true"')
     end

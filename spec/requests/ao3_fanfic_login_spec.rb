@@ -17,6 +17,13 @@ RSpec.describe Ao3FanficForum::LoginController do
     expect(response.status).to eq(200)
   end
 
+  it "logs readers in through the AO3Chat login action" do
+    post "/ao3-fanfic/login.json", params: { login: user.username, password: "myawesomepassword" }
+
+    expect(response.status).to eq(200)
+    expect(response.parsed_body["success"]).to eq("OK")
+  end
+
   describe "#show" do
     it "renders AO3Chat login for signed-out readers", :aggregate_failures do
       get "/ao3-fanfic/login"
@@ -24,8 +31,7 @@ RSpec.describe Ao3FanficForum::LoginController do
       expect(response.status).to eq(200)
       expect(response.body).to include(I18n.t("ao3_fanfic.auth_page.login.title"))
       expect(response.body).to include('data-ao3-auth-form="login"')
-      expect(response.body).to include('action="/session"')
-      expect(response.body).to include('data-static-login-url="/login"')
+      expect(response.body).to include('action="/ao3-fanfic/login"')
       expect(response.body).to include("/ao3-fanfic/advanced-login")
       expect(response.body).to include('href="/ao3-fanfic/signup" data-auto-route="true"')
       expect(response.body).to include('href="/ao3-fanfic/password-reset" data-auto-route="true"')

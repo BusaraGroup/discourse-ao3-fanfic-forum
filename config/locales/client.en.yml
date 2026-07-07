@@ -41,6 +41,8 @@ en:
         description: "Start with recs, chapter threads, fic searches, or guidelines"
         action: "Discussion ideas"
     sidebar:
+      all_categories: "All rooms"
+      all_tags: "All reader tags"
       community:
         links:
           topics:
@@ -77,6 +79,35 @@ en:
           label: AO3Chat
       back_to_forum: "Back to AO3Chat"
       filter_links: "Filter rooms..."
+      categories_form_modal:
+        title: "Edit rooms navigation"
+        subtitle:
+          text: "and we'll automatically show AO3Chat's most active rooms"
+        filter_placeholder: "Filter rooms"
+        no_categories: "No rooms match that term."
+        show_more: "Show more rooms"
+      tags_form_modal:
+        title: "Edit reader tags navigation"
+        subtitle:
+          text: "and we'll automatically show AO3Chat's top reader tags"
+        filter_placeholder: "Filter reader tags"
+        no_tags: "No reader tags match the current filters."
+      sections:
+        categories:
+          none: "You have not added any rooms."
+          click_to_get_started: "Choose rooms to follow."
+          header_link_text: "Rooms"
+          header_action_title: "Edit your sidebar rooms"
+          header_action_new: "New room"
+          header_action_edit_sidebar: "Edit sidebar rooms"
+          header_action_edit_header_dropdown: "Edit nav rooms"
+          configure_defaults: "Use default rooms"
+        tags:
+          none: "You have not added any reader tags."
+          click_to_get_started: "Choose tags to follow."
+          header_link_text: "Reader tags"
+          header_action_title: "Edit your sidebar reader tags"
+          configure_defaults: "Use default reader tags"
     filters:
       with_topics: "%{filter} discussions"
       with_category: "%{filter} %{category} discussions"

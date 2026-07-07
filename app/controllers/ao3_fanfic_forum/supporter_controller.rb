@@ -11,7 +11,7 @@ module Ao3FanficForum
       @has_private_room_access = status[:has_private_room_access]
       @price_label = SiteSetting.ao3_fanfic_supporter_price_label
       @home_url = discourse_path("/")
-      @login_url = discourse_path("/login")
+      @login_url = discourse_path("/ao3-fanfic/login")
       @signup_url = discourse_path("/ao3-fanfic/signup")
       @payment_methods_url = discourse_path("/ao3-fanfic/supporter#payment-methods")
       @payment_settings_url =

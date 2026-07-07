@@ -38,6 +38,10 @@ export default class Ao3AuthPanel extends Component {
     return getURL("/ao3-fanfic/supporter");
   }
 
+  get loginUrl() {
+    return getURL("/ao3-fanfic/login");
+  }
+
   get signupUrl() {
     return getURL("/ao3-fanfic/signup");
   }
@@ -48,6 +52,11 @@ export default class Ao3AuthPanel extends Component {
         ? "ao3_fanfic.auth.login_action"
         : "ao3_fanfic.auth.signup_action"
     );
+  }
+
+  @action
+  openLoginPage() {
+    window.location.href = this.loginUrl;
   }
 
   @action
@@ -103,7 +112,7 @@ export default class Ao3AuthPanel extends Component {
       <div class="ao3-auth-panel__actions">
         <DButton
           class="btn-primary ao3-auth-panel__account"
-          @action={{if this.isSignup @accountAction this.openSignupPage}}
+          @action={{if this.isSignup this.openLoginPage this.openSignupPage}}
           @translatedLabel={{this.accountActionLabel}}
         />
         <a

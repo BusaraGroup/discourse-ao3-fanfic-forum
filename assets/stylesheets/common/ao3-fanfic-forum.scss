@@ -1,10 +1,10 @@
 @use "lib/viewport";
 
 :root {
-  --ao3-bg: #11100f;
-  --ao3-surface: #171412;
-  --ao3-surface-raised: #1d1916;
-  --ao3-surface-soft: #211c18;
+  --ao3-bg: #101214;
+  --ao3-surface: #15191b;
+  --ao3-surface-raised: #1b2022;
+  --ao3-surface-soft: #202629;
   --ao3-line: rgba(239, 225, 210, 0.16);
   --ao3-line-strong: rgba(239, 225, 210, 0.3);
   --ao3-text: #f2e8dc;
@@ -39,7 +39,7 @@ body {
 }
 
 .d-header {
-  background: #120f0f;
+  background: #0f1214;
   border-bottom: 1px solid var(--ao3-line);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
 }
@@ -84,7 +84,7 @@ body {
 }
 
 .sidebar-wrapper {
-  background: #141211;
+  background: #111518;
   border-right: 1px solid var(--ao3-line);
 }
 
@@ -183,7 +183,7 @@ html.discourse-no-touch .ao3-home__account-link:hover {
 }
 
 .ao3-home-filter {
-  background: #151211;
+  background: #111518;
   border-right: 1px solid var(--ao3-line);
   color: var(--ao3-text);
   display: grid;
@@ -1500,24 +1500,28 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
   box-sizing: border-box;
   color: var(--ao3-text);
-  display: grid;
-  gap: 0;
-  grid-template-columns: minmax(0, 0.92fr) minmax(24rem, 1fr);
-  max-width: min(72rem, calc(100vw - 2rem));
+  display: flex;
+  flex-direction: column;
+  max-width: min(48rem, calc(100vw - 2rem));
   overflow: hidden;
+  width: 100%;
 }
 
 .login-page .login-left-side,
 .signup-page .login-left-side {
+  box-sizing: border-box;
   min-width: 0;
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 1.75rem);
+  width: 100%;
 }
 
 .login-page .login-right-side,
 .signup-page .login-right-side {
-  border-inline-start: 1px solid var(--ao3-line);
+  border-block-start: 1px solid var(--ao3-line);
+  box-sizing: border-box;
   min-width: 0;
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 1.75rem);
+  width: 100%;
 }
 
 .login-page .login-title,
@@ -1531,7 +1535,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
 
 .login-page .login-welcome-header,
 .signup-page .login-welcome-header {
-  grid-template-columns: minmax(0, 1fr) auto;
+  display: block;
   overflow-wrap: normal;
   word-break: normal;
 }
@@ -1551,21 +1555,21 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
 }
 
 .ao3-auth-panel {
-  background: var(--ao3-surface);
+  background: var(--ao3-surface-raised);
   border-bottom: 1px solid var(--ao3-line);
   border-radius: var(--ao3-radius) var(--ao3-radius) 0 0;
   display: grid;
-  gap: 0.85rem;
-  grid-column: 1 / -1;
-  grid-template-columns: minmax(12rem, 0.42fr) minmax(0, 1fr);
-  margin: -1px -1px 1rem;
-  padding: 1rem;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+  margin: -1px -1px 0;
+  padding: clamp(1rem, 3vw, 1.75rem);
 }
 
 .ao3-auth-panel__brand {
-  align-content: start;
-  display: grid;
-  gap: 0.55rem;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
   min-width: 0;
 }
 
@@ -1593,6 +1597,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
   background: var(--ao3-accent-strong);
   display: block;
   height: 3px;
+  margin-inline-start: auto;
   width: 4rem;
 }
 
@@ -1603,7 +1608,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
 .ao3-auth-panel__copy h2 {
   color: var(--ao3-text);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.45rem;
+  font-size: clamp(1.65rem, 5vw, 2.65rem);
   letter-spacing: 0;
   line-height: 1.1;
   margin: 0;
@@ -1615,7 +1620,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
   color: var(--ao3-muted);
   line-height: 1.45;
   margin: 0.45rem 0 0;
-  max-width: 28rem;
+  max-width: 34rem;
   overflow-wrap: normal;
   word-break: normal;
 }
@@ -1626,7 +1631,6 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
   border-radius: var(--ao3-radius);
   display: grid;
   gap: 0.2rem;
-  grid-column: 1;
   padding: 0.65rem;
 }
 
@@ -1653,8 +1657,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
   align-content: start;
   display: grid;
   gap: 0.4rem;
-  grid-column: 2;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
   list-style: none;
   margin: 0;
   padding: 0;
@@ -1684,7 +1687,6 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  grid-column: 2;
   justify-self: start;
 }
 
@@ -1712,7 +1714,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
 .signup-page .input-group input,
 .login-page .login-form input,
 .signup-page #login-form input {
-  background: #120f0f;
+  background: #0f1214;
   border: 1px solid var(--ao3-line-strong);
   border-radius: var(--ao3-radius);
   color: var(--ao3-text);
@@ -1771,7 +1773,7 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
 
 .ao3-composer-fields input,
 .ao3-composer-fields select {
-  background: #120f0f;
+  background: #0f1214;
   border: 1px solid var(--ao3-line);
   border-radius: var(--ao3-radius);
   box-sizing: border-box;
@@ -1835,25 +1837,12 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
     grid-template-columns: 1fr;
   }
 
-  .login-page .login-body,
-  .signup-page .signup-body {
-    grid-template-columns: 1fr;
-    max-width: min(40rem, calc(100vw - 1rem));
-  }
-
   .login-page .login-left-side,
   .signup-page .login-left-side,
   .login-page .login-right-side,
   .signup-page .login-right-side {
-    flex-basis: auto;
     min-width: 0;
     padding: 1rem;
-  }
-
-  .login-page .login-right-side,
-  .signup-page .login-right-side {
-    border-block-start: 1px solid var(--ao3-line);
-    border-inline-start: 0;
   }
 
   .ao3-auth-panel {

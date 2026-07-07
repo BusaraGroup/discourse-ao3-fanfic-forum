@@ -8,7 +8,7 @@ module Ao3FanficForum
       @signed_in = current_user.present?
       @username = current_user&.username
       @home_url = discourse_path("/")
-      @login_url = discourse_path("/login")
+      @login_url = discourse_path("/ao3-fanfic/login")
       @signup_url = discourse_path("/ao3-fanfic/signup")
       @supporter_url = discourse_path(SupporterAccess.subscribe_url)
 

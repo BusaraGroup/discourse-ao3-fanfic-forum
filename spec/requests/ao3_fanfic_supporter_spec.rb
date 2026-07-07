@@ -27,6 +27,7 @@ RSpec.describe Ao3FanficForum::SupporterController do
 
       expect(response.status).to eq(200)
       expect(response.body).to include("/ao3-fanfic/signup")
+      expect(response.body).to include("/ao3-fanfic/login")
       expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.payments.crypto_login_note"))
     end
 

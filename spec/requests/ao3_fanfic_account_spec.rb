@@ -13,6 +13,7 @@ RSpec.describe Ao3FanficForum::AccountController do
       expect(response.body).to include(I18n.t("ao3_fanfic.account_page.title"))
       expect(response.body).to include(I18n.t("ao3_fanfic.account_page.cta.create"))
       expect(response.body).to include("/ao3-fanfic/signup")
+      expect(response.body).to include("/ao3-fanfic/login")
     end
 
     it "renders account status for signed-in readers" do

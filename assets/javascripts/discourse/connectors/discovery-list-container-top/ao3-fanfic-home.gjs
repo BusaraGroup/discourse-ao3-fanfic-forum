@@ -2,7 +2,6 @@ import Component from "@glimmer/component";
 import { on } from "@ember/modifier";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
-import routeAction from "discourse/helpers/route-action";
 import getURL from "discourse/lib/get-url";
 import Category from "discourse/models/category";
 import DButton from "discourse/ui-kit/d-button";
@@ -50,6 +49,10 @@ export default class Ao3FanficHome extends Component {
 
   get accountUrl() {
     return getURL("/ao3-fanfic/account");
+  }
+
+  get loginUrl() {
+    return getURL("/ao3-fanfic/login");
   }
 
   get signupUrl() {
@@ -141,6 +144,11 @@ export default class Ao3FanficHome extends Component {
   }
 
   @action
+  openLoginPage() {
+    window.location.href = this.loginUrl;
+  }
+
+  @action
   openSignupPage() {
     window.location.href = this.signupUrl;
   }
@@ -178,7 +186,7 @@ export default class Ao3FanficHome extends Component {
           {{else}}
             <DButton
               class="btn-primary ao3-home__button"
-              @action={{routeAction "showLogin"}}
+              @action={{this.openLoginPage}}
               @label="ao3_fanfic.home.login"
             />
             <DButton

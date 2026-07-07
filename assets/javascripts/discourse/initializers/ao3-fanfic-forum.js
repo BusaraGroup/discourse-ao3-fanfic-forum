@@ -3,12 +3,14 @@ import getURL, { withoutPrefix } from "discourse/lib/get-url";
 import { withPluginApi } from "discourse/lib/plugin-api";
 
 const AUTH_FORM_SELECTOR = "[data-ao3-auth-form]";
+const AUTO_ROUTE_LINK_SELECTOR = 'a[data-auto-route="true"]';
 const SERVER_RENDERED_PATHS = new Set([
   "/ao3-fanfic/account",
   "/ao3-fanfic/login",
   "/ao3-fanfic/signup",
   "/ao3-fanfic/supporter",
 ]);
+let serverNavigationBound = false;
 
 function isServerRenderedPath(url) {
   if (!url) {
@@ -26,6 +28,42 @@ function isServerRenderedPath(url) {
 
 function redirectToServerPath(path) {
   window.location.assign(getURL(path));
+}
+
+function forceServerNavigation(event) {
+  if (
+    event.defaultPrevented ||
+    event.button !== 0 ||
+    event.metaKey ||
+    event.altKey ||
+    event.ctrlKey ||
+    event.shiftKey
+  ) {
+    return;
+  }
+
+  const target = event.target;
+  if (!(target instanceof Element)) {
+    return;
+  }
+
+  const link = target.closest(AUTO_ROUTE_LINK_SELECTOR);
+  if (!link || !isServerRenderedPath(link.href)) {
+    return;
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
+  window.location.assign(link.href);
+}
+
+function bindServerNavigation() {
+  if (serverNavigationBound) {
+    return;
+  }
+
+  serverNavigationBound = true;
+  document.addEventListener("click", forceServerNavigation, true);
 }
 
 function discoursePath(url) {
@@ -294,6 +332,24 @@ export default {
           },
         },
       });
+      api.modifyClass(
+        "route:login",
+        (Superclass) =>
+          class extends Superclass {
+            beforeModel() {
+              redirectToServerPath("/ao3-fanfic/login");
+            }
+          }
+      );
+      api.modifyClass(
+        "route:signup",
+        (Superclass) =>
+          class extends Superclass {
+            beforeModel() {
+              redirectToServerPath("/ao3-fanfic/signup");
+            }
+          }
+      );
       api.serializeOnCreate(
         "topic_custom_fields",
         "ao3Fanfic.topicCustomFields"
@@ -329,9 +385,11 @@ export default {
       );
 
       initializeAuthForms();
+      bindServerNavigation();
       api.onPageChange(initializeAuthForms);
     });
 
     initializeAuthFormsWhenReady();
+    bindServerNavigation();
   },
 };

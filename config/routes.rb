@@ -5,6 +5,7 @@ Ao3FanficForum::Engine.routes.draw do
   post "crypto-payments" => "crypto_payments#create"
   get "login" => "login#show"
   post "logout" => "logout#create"
+  get "password-reset" => "password_reset#show"
   post "room-requests" => "room_requests#create"
   get "signup" => "signup#show"
   get "supporter" => "supporter#show"
@@ -15,11 +16,13 @@ Ao3FanficForum::Engine.routes.draw do
 end
 
 ao3_fanfic_login_path = "#{Discourse.base_path}/ao3-fanfic/login"
+ao3_fanfic_password_reset_path = "#{Discourse.base_path}/ao3-fanfic/password-reset"
 ao3_fanfic_signup_path = "#{Discourse.base_path}/ao3-fanfic/signup"
 
 Discourse::Application.routes.prepend do
   get "ao3-fanfic/advanced-login" => "static#show", id: "login"
   get "login" => redirect(ao3_fanfic_login_path)
+  get "password-reset" => redirect(ao3_fanfic_password_reset_path)
   get "signup" => redirect(ao3_fanfic_signup_path)
   mount Ao3FanficForum::Engine, at: "ao3-fanfic"
 end

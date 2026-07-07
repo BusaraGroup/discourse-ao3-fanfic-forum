@@ -28,6 +28,7 @@ RSpec.describe Ao3FanficForum::LoginController do
       expect(response.body).to include('data-static-login-url="/login"')
       expect(response.body).to include("/ao3-fanfic/advanced-login")
       expect(response.body).to include('href="/ao3-fanfic/signup" data-auto-route="true"')
+      expect(response.body).to include('href="/ao3-fanfic/password-reset" data-auto-route="true"')
     end
 
     it "redirects signed-in readers to their account page" do

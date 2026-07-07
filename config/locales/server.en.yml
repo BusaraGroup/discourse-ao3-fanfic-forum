@@ -61,6 +61,17 @@ en:
         submit: "Create account"
         busy: "Creating account..."
         log_in: "Log in"
+      password_reset:
+        title: "Reset your AO3Chat password"
+        body: "Recover access to your local AO3Chat account without connecting an AO3, social, or public fandom identity."
+        form_title: "Password recovery"
+        form_body: "Enter your AO3Chat handle or email. If the account exists, AO3Chat will send a reset link."
+        login_label: "Email or AO3Chat handle"
+        submit: "Send reset link"
+        busy: "Sending reset link..."
+        success: "If that AO3Chat account exists, a reset link has been sent."
+        log_in: "Back to login"
+        create_account: "Create account"
     account_page:
       brand: "AO3Chat"
       title: "AO3Chat accounts"

@@ -7,6 +7,7 @@ const AUTO_ROUTE_LINK_SELECTOR = 'a[data-auto-route="true"]';
 const SERVER_RENDERED_PATHS = new Set([
   "/ao3-fanfic/account",
   "/ao3-fanfic/login",
+  "/ao3-fanfic/password-reset",
   "/ao3-fanfic/signup",
   "/ao3-fanfic/supporter",
 ]);
@@ -272,6 +273,27 @@ async function handleSignup(form) {
   }
 }
 
+async function handlePasswordReset(form) {
+  clearMessage(form);
+  setBusy(form, true);
+
+  try {
+    await ajax(discoursePath(form.action), {
+      type: "POST",
+      data: {
+        login: formValue(form, "login"),
+      },
+    });
+
+    setMessage(form, form.dataset.successMessage, "success");
+    form.reset();
+  } catch (error) {
+    setMessage(form, errorMessage(error, form.dataset.errorMessage));
+  } finally {
+    setBusy(form, false);
+  }
+}
+
 function bindAuthForm(form) {
   if (form.dataset.ao3AuthBound) {
     return;
@@ -281,7 +303,9 @@ function bindAuthForm(form) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    if (form.dataset.ao3AuthForm === "signup") {
+    if (form.dataset.ao3AuthForm === "password-reset") {
+      handlePasswordReset(form);
+    } else if (form.dataset.ao3AuthForm === "signup") {
       handleSignup(form);
     } else {
       handleLogin(form);

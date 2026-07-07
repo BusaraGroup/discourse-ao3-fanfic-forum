@@ -12,7 +12,7 @@ module Ao3FanficForum
       @account_url = discourse_path("/ao3-fanfic/account")
       @signup_url = discourse_path("/ao3-fanfic/signup")
       @supporter_url = discourse_path(SupporterAccess.subscribe_url)
-      @password_reset_url = discourse_path("/password-reset")
+      @password_reset_url = discourse_path("/ao3-fanfic/password-reset")
       @advanced_login_url = discourse_path("/ao3-fanfic/advanced-login")
       @static_login_url = discourse_path("/login")
       @session_url = discourse_path("/session")

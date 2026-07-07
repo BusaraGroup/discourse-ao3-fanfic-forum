@@ -1,0 +1,61 @@
+<main class="ao3-auth-page ao3-auth-page--password-reset">
+  <div class="ao3-auth-page__shell">
+    <header class="ao3-auth-page__mast">
+      <a class="ao3-auth-page__brand" href="<%= h @home_url %>" data-auto-route="true">
+        <%= I18n.t("ao3_fanfic.auth_page.brand") %>
+      </a>
+      <h1><%= I18n.t("ao3_fanfic.auth_page.password_reset.title") %></h1>
+      <p><%= I18n.t("ao3_fanfic.auth_page.password_reset.body") %></p>
+    </header>
+
+    <section class="ao3-auth-page__panel" aria-labelledby="ao3-password-reset-form-title">
+      <div class="ao3-auth-page__copy">
+        <h2 id="ao3-password-reset-form-title">
+          <%= I18n.t("ao3_fanfic.auth_page.password_reset.form_title") %>
+        </h2>
+        <p><%= I18n.t("ao3_fanfic.auth_page.password_reset.form_body") %></p>
+      </div>
+
+      <form
+        action="<%= h @forgot_password_url %>"
+        method="post"
+        class="ao3-auth-page__form"
+        data-ao3-auth-form="password-reset"
+        data-busy-label="<%= h I18n.t("ao3_fanfic.auth_page.password_reset.busy") %>"
+        data-error-message="<%= h I18n.t("ao3_fanfic.auth_page.errors.generic") %>"
+        data-success-message="<%= h I18n.t("ao3_fanfic.auth_page.password_reset.success") %>"
+      >
+        <div class="ao3-auth-page__message" data-ao3-auth-message aria-live="polite" hidden></div>
+
+        <label class="ao3-auth-page__field">
+          <span><%= I18n.t("ao3_fanfic.auth_page.password_reset.login_label") %></span>
+          <input
+            type="text"
+            name="login"
+            required
+            autocomplete="username"
+            maxlength="254"
+          >
+        </label>
+
+        <button class="btn btn-primary ao3-auth-page__submit" type="submit">
+          <%= I18n.t("ao3_fanfic.auth_page.password_reset.submit") %>
+        </button>
+      </form>
+
+      <nav class="ao3-auth-page__links" aria-label="<%= I18n.t("ao3_fanfic.auth_page.links_label") %>">
+        <a href="<%= h @login_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.password_reset.log_in") %></a>
+        <a href="<%= h @signup_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.password_reset.create_account") %></a>
+      </nav>
+    </section>
+
+    <aside class="ao3-auth-page__notes" aria-label="<%= I18n.t("ao3_fanfic.auth_page.notes_label") %>">
+      <h2><%= I18n.t("ao3_fanfic.auth_page.privacy_title") %></h2>
+      <ul>
+        <% I18n.t("ao3_fanfic.auth_page.privacy_points").each do |point| %>
+          <li><%= point %></li>
+        <% end %>
+      </ul>
+    </aside>
+  </div>
+</main>

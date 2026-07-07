@@ -3,7 +3,7 @@ import getURL, { withoutPrefix } from "discourse/lib/get-url";
 import { withPluginApi } from "discourse/lib/plugin-api";
 
 const AUTH_FORM_SELECTOR = "[data-ao3-auth-form]";
-const AUTO_ROUTE_LINK_SELECTOR = 'a[data-auto-route="true"]';
+const SERVER_RENDERED_LINK_SELECTOR = "a[href]";
 const SERVER_RENDERED_PATHS = new Set([
   "/ao3-fanfic/account",
   "/ao3-fanfic/login",
@@ -21,7 +21,10 @@ function isServerRenderedPath(url) {
   try {
     const parsed = new URL(url, window.location.origin);
 
-    return SERVER_RENDERED_PATHS.has(withoutPrefix(parsed.pathname));
+    return (
+      parsed.origin === window.location.origin &&
+      SERVER_RENDERED_PATHS.has(withoutPrefix(parsed.pathname))
+    );
   } catch {
     return false;
   }
@@ -48,7 +51,7 @@ function forceServerNavigation(event) {
     return;
   }
 
-  const link = target.closest(AUTO_ROUTE_LINK_SELECTOR);
+  const link = target.closest(SERVER_RENDERED_LINK_SELECTOR);
   if (!link || !isServerRenderedPath(link.href)) {
     return;
   }

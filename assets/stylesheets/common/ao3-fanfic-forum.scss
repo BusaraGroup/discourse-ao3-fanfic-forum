@@ -1682,6 +1682,8 @@ html.discourse-no-touch .topic-list .topic-list-item:hover {
 .latest-topic-list-item .main-link a.title {
   color: var(--ao3-text);
   font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .topic-list .topic-list-item.visited .main-link a.title,
@@ -1691,6 +1693,22 @@ html.discourse-no-touch .topic-list .topic-list-item:hover {
 
 .topic-list .topic-excerpt {
   color: var(--ao3-muted);
+}
+
+.topic-list .main-link {
+  min-width: 0;
+}
+
+.topic-list .link-top-line {
+  display: block;
+  min-width: 0;
+}
+
+.topic-list .link-bottom-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  margin-top: 0.45rem;
 }
 
 .topic-list .topic-list-data.num {
@@ -2096,15 +2114,55 @@ html.discourse-no-touch .category-list tbody .category-list-item.category:hover 
 }
 
 .ao3-topic-chips--topic {
+  margin: 0;
+}
+
+.ao3-thread-details--topic {
   margin: 0.35rem auto 0.75rem;
   max-width: var(--d-max-width);
   padding: 0 10px;
 }
 
 .ao3-topic-chips--list {
-  display: inline-flex;
-  margin-left: 0.35rem;
-  vertical-align: middle;
+  margin-top: 0.4rem;
+}
+
+.ao3-thread-details {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.ao3-thread-details--list {
+  flex-basis: 100%;
+}
+
+.ao3-thread-details__context {
+  align-items: center;
+  color: var(--ao3-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--font-down-1);
+  gap: 0.35rem 0.5rem;
+  line-height: 1.35;
+  min-width: 0;
+}
+
+.ao3-thread-details__context span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ao3-thread-details__context strong {
+  border-inline-start: 2px solid var(--ao3-teal-light);
+  color: var(--ao3-teal-light);
+  font-size: var(--font-down-1);
+  padding-inline-start: 0.5rem;
+}
+
+.ao3-thread-details--topic .ao3-thread-details__context {
+  font-size: var(--font-up-1);
+  margin-bottom: 0.25rem;
 }
 
 .ao3-topic-chip {

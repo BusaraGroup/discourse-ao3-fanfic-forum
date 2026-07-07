@@ -1,7 +1,7 @@
-import Ao3FanficTopicChips from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-fanfic-topic-chips";
+import Ao3FanficThreadDetails from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-fanfic-thread-details";
 
 const Ao3FanficTopicMetadata = <template>
-  <Ao3FanficTopicChips @topic={{@outletArgs.model}} @context="topic" />
+  <Ao3FanficThreadDetails @topic={{@outletArgs.model}} @context="topic" />
 </template>;
 
 export default Ao3FanficTopicMetadata;

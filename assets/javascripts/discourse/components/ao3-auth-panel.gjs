@@ -87,12 +87,14 @@ export default class Ao3AuthPanel extends Component {
         <a
           href={{this.accountActionUrl}}
           class="btn btn-primary ao3-auth-panel__account"
+          data-auto-route="true"
         >
           {{this.accountActionLabel}}
         </a>
         <a
           href={{this.subscribeUrl}}
           class="ao3-auth-panel__supporter"
+          data-auto-route="true"
         >
           {{i18n "ao3_fanfic.auth.supporter_link"}}
         </a>

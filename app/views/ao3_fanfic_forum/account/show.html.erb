@@ -1,7 +1,7 @@
 <main class="ao3-account-page">
   <div class="ao3-account-page__shell">
     <header class="ao3-account-page__mast">
-      <a class="ao3-account-page__brand" href="<%= h @home_url %>">
+      <a class="ao3-account-page__brand" href="<%= h @home_url %>" data-auto-route="true">
         <%= I18n.t("ao3_fanfic.account_page.brand") %>
       </a>
       <h1><%= I18n.t("ao3_fanfic.account_page.title") %></h1>
@@ -15,10 +15,18 @@
       </div>
 
       <div class="ao3-account-page__actions">
-        <a class="btn btn-primary ao3-account-page__button" href="<%= h @primary_url %>">
+        <a
+          class="btn btn-primary ao3-account-page__button"
+          href="<%= h @primary_url %>"
+          data-auto-route="true"
+        >
           <%= I18n.t(@primary_label_key) %>
         </a>
-        <a class="btn btn-default ao3-account-page__button" href="<%= h @secondary_url %>">
+        <a
+          class="btn btn-default ao3-account-page__button"
+          href="<%= h @secondary_url %>"
+          data-auto-route="true"
+        >
           <%= I18n.t(@secondary_label_key) %>
         </a>
       </div>

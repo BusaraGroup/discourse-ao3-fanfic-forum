@@ -236,6 +236,7 @@ export default class Ao3PrivateRoomRequest extends Component {
               <a
                 class="btn btn-default ao3-room-request__subscribe"
                 href={{this.subscribeUrl}}
+                data-auto-route="true"
               >
                 {{i18n "ao3_fanfic.room_request.supporter_cta"}}
               </a>
@@ -260,6 +261,7 @@ export default class Ao3PrivateRoomRequest extends Component {
             <a
               class="btn btn-primary ao3-room-request__subscribe"
               href={{this.subscribeUrl}}
+              data-auto-route="true"
             >
               {{i18n "ao3_fanfic.room_request.supporter_cta"}}
             </a>
@@ -268,7 +270,11 @@ export default class Ao3PrivateRoomRequest extends Component {
       {{else}}
         <div class="ao3-room-request__login">
           <p>{{i18n "ao3_fanfic.room_request.login_note"}}</p>
-          <a href={{this.signupUrl}} class="btn btn-primary ao3-room-request__join">
+          <a
+            href={{this.signupUrl}}
+            class="btn btn-primary ao3-room-request__join"
+            data-auto-route="true"
+          >
             {{i18n "ao3_fanfic.room_request.join"}}
           </a>
         </div>

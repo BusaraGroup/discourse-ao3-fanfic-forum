@@ -1,7 +1,28 @@
 import { ajax } from "discourse/lib/ajax";
+import { withoutPrefix } from "discourse/lib/get-url";
 import { withPluginApi } from "discourse/lib/plugin-api";
 
 const AUTH_FORM_SELECTOR = "[data-ao3-auth-form]";
+const SERVER_RENDERED_PATHS = new Set([
+  "/ao3-fanfic/account",
+  "/ao3-fanfic/login",
+  "/ao3-fanfic/signup",
+  "/ao3-fanfic/supporter",
+]);
+
+function isServerRenderedPath(url) {
+  if (!url) {
+    return false;
+  }
+
+  try {
+    const parsed = new URL(url, window.location.origin);
+
+    return SERVER_RENDERED_PATHS.has(withoutPrefix(parsed.pathname));
+  } catch {
+    return false;
+  }
+}
 
 function discoursePath(url) {
   const parsed = new URL(url, window.location.origin);
@@ -250,6 +271,12 @@ export default {
 
     withPluginApi((api) => {
       api.addTrackedTopicProperties("ao3_fanfic");
+      api.registerValueTransformer(
+        "full-page-refresh-on-navigation",
+        ({ value, context }) => {
+          return isServerRenderedPath(context?.url) ? true : value;
+        }
+      );
       api.serializeOnCreate(
         "topic_custom_fields",
         "ao3Fanfic.topicCustomFields"

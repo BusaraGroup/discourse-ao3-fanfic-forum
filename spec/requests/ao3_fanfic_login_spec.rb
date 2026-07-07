@@ -13,7 +13,7 @@ RSpec.describe Ao3FanficForum::LoginController do
       expect(response.body).to include(I18n.t("ao3_fanfic.auth_page.login.title"))
       expect(response.body).to include('data-ao3-auth-form="login"')
       expect(response.body).to include('action="/session"')
-      expect(response.body).to include("/ao3-fanfic/signup")
+      expect(response.body).to include('href="/ao3-fanfic/signup" data-auto-route="true"')
     end
 
     it "redirects signed-in readers to their account page" do

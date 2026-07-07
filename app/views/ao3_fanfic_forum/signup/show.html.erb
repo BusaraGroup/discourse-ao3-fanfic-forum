@@ -1,7 +1,7 @@
 <main class="ao3-auth-page ao3-auth-page--signup">
   <div class="ao3-auth-page__shell">
     <header class="ao3-auth-page__mast">
-      <a class="ao3-auth-page__brand" href="<%= h @home_url %>">
+      <a class="ao3-auth-page__brand" href="<%= h @home_url %>" data-auto-route="true">
         <%= I18n.t("ao3_fanfic.auth_page.brand") %>
       </a>
       <h1><%= I18n.t("ao3_fanfic.auth_page.signup.title") %></h1>
@@ -74,8 +74,8 @@
       </form>
 
       <nav class="ao3-auth-page__links" aria-label="<%= I18n.t("ao3_fanfic.auth_page.links_label") %>">
-        <a href="<%= h @login_url %>"><%= I18n.t("ao3_fanfic.auth_page.signup.log_in") %></a>
-        <a href="<%= h @supporter_url %>"><%= I18n.t("ao3_fanfic.auth_page.supporter_link") %></a>
+        <a href="<%= h @login_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.signup.log_in") %></a>
+        <a href="<%= h @supporter_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.supporter_link") %></a>
       </nav>
     </section>
 

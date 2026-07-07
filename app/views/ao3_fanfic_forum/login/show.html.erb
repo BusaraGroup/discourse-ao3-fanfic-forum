@@ -1,7 +1,7 @@
 <main class="ao3-auth-page ao3-auth-page--login">
   <div class="ao3-auth-page__shell">
     <header class="ao3-auth-page__mast">
-      <a class="ao3-auth-page__brand" href="<%= h @home_url %>">
+      <a class="ao3-auth-page__brand" href="<%= h @home_url %>" data-auto-route="true">
         <%= I18n.t("ao3_fanfic.auth_page.brand") %>
       </a>
       <h1><%= I18n.t("ao3_fanfic.auth_page.login.title") %></h1>
@@ -75,9 +75,9 @@
       </form>
 
       <nav class="ao3-auth-page__links" aria-label="<%= I18n.t("ao3_fanfic.auth_page.links_label") %>">
-        <a href="<%= h @signup_url %>"><%= I18n.t("ao3_fanfic.auth_page.login.create_account") %></a>
-        <a href="<%= h @password_reset_url %>"><%= I18n.t("ao3_fanfic.auth_page.login.reset_password") %></a>
-        <a href="<%= h @supporter_url %>"><%= I18n.t("ao3_fanfic.auth_page.supporter_link") %></a>
+        <a href="<%= h @signup_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.login.create_account") %></a>
+        <a href="<%= h @password_reset_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.login.reset_password") %></a>
+        <a href="<%= h @supporter_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.supporter_link") %></a>
       </nav>
     </section>
 

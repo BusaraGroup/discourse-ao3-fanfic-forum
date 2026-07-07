@@ -12,8 +12,9 @@ RSpec.describe Ao3FanficForum::AccountController do
       expect(response.status).to eq(200)
       expect(response.body).to include(I18n.t("ao3_fanfic.account_page.title"))
       expect(response.body).to include(I18n.t("ao3_fanfic.account_page.cta.create"))
-      expect(response.body).to include("/ao3-fanfic/signup")
-      expect(response.body).to include("/ao3-fanfic/login")
+      expect(response.body).to include('href="/ao3-fanfic/signup"')
+      expect(response.body).to include('href="/ao3-fanfic/login"')
+      expect(response.body).to include('data-auto-route="true"')
     end
 
     it "renders account status for signed-in readers" do
@@ -24,7 +25,8 @@ RSpec.describe Ao3FanficForum::AccountController do
       expect(response.status).to eq(200)
       expect(response.body).to include(user.username)
       expect(response.body).to include(I18n.t("ao3_fanfic.account_page.cta.open"))
-      expect(response.body).to include("/ao3-fanfic/supporter")
+      expect(response.body).to include('href="/ao3-fanfic/supporter"')
+      expect(response.body).to include('data-auto-route="true"')
     end
   end
 end

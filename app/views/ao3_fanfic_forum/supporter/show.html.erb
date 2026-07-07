@@ -2,7 +2,7 @@
   <div class="ao3-supporter-page__shell">
     <header class="ao3-supporter-page__mast">
       <div class="ao3-supporter-page__copy">
-        <a class="ao3-supporter-page__brand" href="<%= h @home_url %>">
+        <a class="ao3-supporter-page__brand" href="<%= h @home_url %>" data-auto-route="true">
           <%= I18n.t("ao3_fanfic.supporter_page.brand") %>
         </a>
         <h1><%= I18n.t("ao3_fanfic.supporter_page.title") %></h1>
@@ -25,10 +25,18 @@
       </div>
 
       <div class="ao3-supporter-page__actions">
-        <a class="btn btn-primary ao3-supporter-page__button" href="<%= h @primary_url %>">
+        <a
+          class="btn btn-primary ao3-supporter-page__button"
+          href="<%= h @primary_url %>"
+          data-auto-route="true"
+        >
           <%= I18n.t(@primary_label_key) %>
         </a>
-        <a class="btn btn-default ao3-supporter-page__button" href="<%= h @secondary_url %>">
+        <a
+          class="btn btn-default ao3-supporter-page__button"
+          href="<%= h @secondary_url %>"
+          data-auto-route="true"
+        >
           <%= I18n.t(@secondary_label_key) %>
         </a>
       </div>
@@ -149,7 +157,11 @@
             <%= I18n.t("ao3_fanfic.supporter_page.payments.none_configured") %>
           </p>
           <% if @can_configure_payments %>
-            <a class="btn btn-primary ao3-supporter-page__button" href="<%= h @payment_settings_url %>">
+            <a
+              class="btn btn-primary ao3-supporter-page__button"
+              href="<%= h @payment_settings_url %>"
+              data-auto-route="true"
+            >
               <%= I18n.t("ao3_fanfic.supporter_page.payments.none_configured_cta") %>
             </a>
           <% end %>

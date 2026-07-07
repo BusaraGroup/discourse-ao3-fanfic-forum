@@ -154,13 +154,25 @@ export default class Ao3FanficHome extends Component {
               {{i18n "ao3_fanfic.home.new_topic"}}
             </a>
           {{else}}
-            <a href={{this.loginUrl}} class="btn btn-primary ao3-home__button">
+            <a
+              href={{this.loginUrl}}
+              class="btn btn-primary ao3-home__button"
+              data-auto-route="true"
+            >
               {{i18n "ao3_fanfic.home.login"}}
             </a>
-            <a href={{this.signupUrl}} class="btn btn-default ao3-home__button">
+            <a
+              href={{this.signupUrl}}
+              class="btn btn-default ao3-home__button"
+              data-auto-route="true"
+            >
               {{i18n "ao3_fanfic.home.create_account"}}
             </a>
-            <a href={{this.accountUrl}} class="ao3-home__account-link">
+            <a
+              href={{this.accountUrl}}
+              class="ao3-home__account-link"
+              data-auto-route="true"
+            >
               {{i18n "ao3_fanfic.home.account_link"}}
             </a>
           {{/if}}
@@ -240,6 +252,7 @@ export default class Ao3FanficHome extends Component {
             <a
               href={{this.subscribeUrl}}
               class="btn btn-primary ao3-supporter-card__button"
+              data-auto-route="true"
             >
               {{i18n "ao3_fanfic.home.supporter_cta"}}
             </a>

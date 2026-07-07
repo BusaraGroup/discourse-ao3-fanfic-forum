@@ -6,7 +6,6 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { ajax } from "discourse/lib/ajax";
 import getURL from "discourse/lib/get-url";
-import DButton from "discourse/ui-kit/d-button";
 import { i18n } from "discourse-i18n";
 
 const EMPTY_REQUEST = {
@@ -106,28 +105,6 @@ export default class Ao3PrivateRoomRequest extends Component {
     }
 
     return message;
-  }
-
-  @action
-  openSignupPage() {
-    window.location.href = this.signupUrl;
-  }
-
-  @action
-  openSupporterPage(event) {
-    if (
-      event.defaultPrevented ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
-      return;
-    }
-
-    event.preventDefault();
-    window.location.href = this.subscribeUrl;
   }
 
   @action
@@ -259,7 +236,6 @@ export default class Ao3PrivateRoomRequest extends Component {
               <a
                 class="btn btn-default ao3-room-request__subscribe"
                 href={{this.subscribeUrl}}
-                {{on "click" this.openSupporterPage}}
               >
                 {{i18n "ao3_fanfic.room_request.supporter_cta"}}
               </a>
@@ -284,7 +260,6 @@ export default class Ao3PrivateRoomRequest extends Component {
             <a
               class="btn btn-primary ao3-room-request__subscribe"
               href={{this.subscribeUrl}}
-              {{on "click" this.openSupporterPage}}
             >
               {{i18n "ao3_fanfic.room_request.supporter_cta"}}
             </a>
@@ -293,11 +268,9 @@ export default class Ao3PrivateRoomRequest extends Component {
       {{else}}
         <div class="ao3-room-request__login">
           <p>{{i18n "ao3_fanfic.room_request.login_note"}}</p>
-          <DButton
-            class="btn-primary ao3-room-request__join"
-            @action={{this.openSignupPage}}
-            @label="ao3_fanfic.room_request.join"
-          />
+          <a href={{this.signupUrl}} class="btn btn-primary ao3-room-request__join">
+            {{i18n "ao3_fanfic.room_request.join"}}
+          </a>
         </div>
       {{/if}}
     </section>

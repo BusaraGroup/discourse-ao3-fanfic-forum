@@ -6,7 +6,7 @@ module Ao3FanficForum
     skip_before_action :redirect_to_login_if_required
 
     def show
-      redirect_to discourse_path("/signup")
+      redirect_to discourse_path(current_user ? "/ao3-fanfic/account" : "/signup")
     end
   end
 end

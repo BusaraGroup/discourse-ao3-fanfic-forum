@@ -1,10 +1,7 @@
 import Component from "@glimmer/component";
-import { on } from "@ember/modifier";
-import { action } from "@ember/object";
 import { service } from "@ember/service";
 import getURL from "discourse/lib/get-url";
 import Category from "discourse/models/category";
-import DButton from "discourse/ui-kit/d-button";
 import { i18n } from "discourse-i18n";
 import Ao3FanficBrowser from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-fanfic-browser";
 import Ao3PrivateRoomRequest from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-private-room-request";
@@ -143,33 +140,6 @@ export default class Ao3FanficHome extends Component {
     return getURL(`/c/${slug}`);
   }
 
-  @action
-  openLoginPage() {
-    window.location.href = this.loginUrl;
-  }
-
-  @action
-  openSignupPage() {
-    window.location.href = this.signupUrl;
-  }
-
-  @action
-  openSupporterPage(event) {
-    if (
-      event.defaultPrevented ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
-      return;
-    }
-
-    event.preventDefault();
-    window.location.href = this.subscribeUrl;
-  }
-
   <template>
     <section class="ao3-home" ...attributes>
       <div class="ao3-home__main">
@@ -184,16 +154,12 @@ export default class Ao3FanficHome extends Component {
               {{i18n "ao3_fanfic.home.new_topic"}}
             </a>
           {{else}}
-            <DButton
-              class="btn-primary ao3-home__button"
-              @action={{this.openLoginPage}}
-              @label="ao3_fanfic.home.login"
-            />
-            <DButton
-              class="btn-default ao3-home__button"
-              @action={{this.openSignupPage}}
-              @label="ao3_fanfic.home.create_account"
-            />
+            <a href={{this.loginUrl}} class="btn btn-primary ao3-home__button">
+              {{i18n "ao3_fanfic.home.login"}}
+            </a>
+            <a href={{this.signupUrl}} class="btn btn-default ao3-home__button">
+              {{i18n "ao3_fanfic.home.create_account"}}
+            </a>
             <a href={{this.accountUrl}} class="ao3-home__account-link">
               {{i18n "ao3_fanfic.home.account_link"}}
             </a>
@@ -274,7 +240,6 @@ export default class Ao3FanficHome extends Component {
             <a
               href={{this.subscribeUrl}}
               class="btn btn-primary ao3-supporter-card__button"
-              {{on "click" this.openSupporterPage}}
             >
               {{i18n "ao3_fanfic.home.supporter_cta"}}
             </a>

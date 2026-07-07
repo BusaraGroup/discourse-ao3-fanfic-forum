@@ -1,0 +1,93 @@
+<main class="ao3-auth-page ao3-auth-page--login">
+  <div class="ao3-auth-page__shell">
+    <header class="ao3-auth-page__mast">
+      <a class="ao3-auth-page__brand" href="<%= h @home_url %>">
+        <%= I18n.t("ao3_fanfic.auth_page.brand") %>
+      </a>
+      <h1><%= I18n.t("ao3_fanfic.auth_page.login.title") %></h1>
+      <p><%= I18n.t("ao3_fanfic.auth_page.login.body") %></p>
+    </header>
+
+    <section class="ao3-auth-page__panel" aria-labelledby="ao3-login-form-title">
+      <div class="ao3-auth-page__copy">
+        <h2 id="ao3-login-form-title"><%= I18n.t("ao3_fanfic.auth_page.login.form_title") %></h2>
+        <p><%= I18n.t("ao3_fanfic.auth_page.login.form_body") %></p>
+      </div>
+
+      <form
+        action="<%= h @session_url %>"
+        method="post"
+        class="ao3-auth-page__form"
+        data-ao3-auth-form="login"
+        data-success-url="<%= h @account_url %>"
+        data-static-login-url="<%= h @platform_login_url %>"
+        data-busy-label="<%= h I18n.t("ao3_fanfic.auth_page.login.busy") %>"
+        data-error-message="<%= h I18n.t("ao3_fanfic.auth_page.errors.generic") %>"
+        data-two-factor-message="<%= h I18n.t("ao3_fanfic.auth_page.login.two_factor_message") %>"
+        data-security-key-message="<%= h I18n.t("ao3_fanfic.auth_page.login.security_key_message", login_url: @platform_login_url) %>"
+      >
+        <div class="ao3-auth-page__message" data-ao3-auth-message aria-live="polite" hidden></div>
+
+        <label class="ao3-auth-page__field">
+          <span><%= I18n.t("ao3_fanfic.auth_page.login.login_label") %></span>
+          <input
+            type="text"
+            name="login"
+            required
+            autocomplete="username"
+            maxlength="254"
+          >
+        </label>
+
+        <label class="ao3-auth-page__field">
+          <span><%= I18n.t("ao3_fanfic.auth_page.login.password_label") %></span>
+          <input
+            type="password"
+            name="password"
+            required
+            autocomplete="current-password"
+          >
+        </label>
+
+        <fieldset class="ao3-auth-page__second-factor" data-ao3-auth-second-factor hidden>
+          <legend><%= I18n.t("ao3_fanfic.auth_page.login.second_factor_title") %></legend>
+          <label class="ao3-auth-page__field">
+            <span><%= I18n.t("ao3_fanfic.auth_page.login.second_factor_method") %></span>
+            <select name="second_factor_method">
+              <option value="1"><%= I18n.t("ao3_fanfic.auth_page.login.authenticator_code") %></option>
+              <option value="2"><%= I18n.t("ao3_fanfic.auth_page.login.backup_code") %></option>
+            </select>
+          </label>
+          <label class="ao3-auth-page__field">
+            <span><%= I18n.t("ao3_fanfic.auth_page.login.second_factor_token") %></span>
+            <input
+              type="text"
+              name="second_factor_token"
+              autocomplete="one-time-code"
+              inputmode="numeric"
+            >
+          </label>
+        </fieldset>
+
+        <button class="btn btn-primary ao3-auth-page__submit" type="submit">
+          <%= I18n.t("ao3_fanfic.auth_page.login.submit") %>
+        </button>
+      </form>
+
+      <nav class="ao3-auth-page__links" aria-label="<%= I18n.t("ao3_fanfic.auth_page.links_label") %>">
+        <a href="<%= h @signup_url %>"><%= I18n.t("ao3_fanfic.auth_page.login.create_account") %></a>
+        <a href="<%= h @password_reset_url %>"><%= I18n.t("ao3_fanfic.auth_page.login.reset_password") %></a>
+        <a href="<%= h @supporter_url %>"><%= I18n.t("ao3_fanfic.auth_page.supporter_link") %></a>
+      </nav>
+    </section>
+
+    <aside class="ao3-auth-page__notes" aria-label="<%= I18n.t("ao3_fanfic.auth_page.notes_label") %>">
+      <h2><%= I18n.t("ao3_fanfic.auth_page.privacy_title") %></h2>
+      <ul>
+        <% I18n.t("ao3_fanfic.auth_page.privacy_points").each do |point| %>
+          <li><%= point %></li>
+        <% end %>
+      </ul>
+    </aside>
+  </div>
+</main>

@@ -19,6 +19,7 @@ module Ao3FanficForum
       @stripe_checkout_url = discourse_path(SupporterAccess.checkout_url)
       @crypto_payment_methods = SupporterAccess.crypto_payment_methods
       @crypto_receipt_url = discourse_path("/ao3-fanfic/crypto-payments")
+      @can_configure_payments = current_user&.staff? || false
       @payment_methods_configured =
         @stripe_checkout_url.present? || @crypto_payment_methods.present?
       if status[:private_rooms_url]

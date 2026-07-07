@@ -42,6 +42,9 @@ RSpec.describe Ao3FanficForum::SupporterController do
       expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.state.configure_title"))
       expect(response.body).to include("/admin/site_settings/category/plugins?filter=ao3_fanfic")
       expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.cta.configure_payments"))
+      expect(response.body).to include(
+        I18n.t("ao3_fanfic.supporter_page.payments.none_configured_cta"),
+      )
     end
   end
 end

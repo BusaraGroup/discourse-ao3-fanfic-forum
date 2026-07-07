@@ -41,8 +41,8 @@ The configure task:
 - creates the supporter-only private fandom rooms category
 - hides public powered-by branding
 - disables and visually suppresses built-in owner onboarding and tutorial-style welcome messages
-- adds AO3Chat-branded account panels to login and signup
-- adds `/ao3-fanfic/account` as the AO3Chat local-account entry point
+- adds AO3Chat-owned `/ao3-fanfic/login` and `/ao3-fanfic/signup` pages backed by local account auth
+- adds `/ao3-fanfic/account` as the AO3Chat account entry point
 - relabels public navigation around AO3Chat rooms and discussions
 
 ## Category Structure
@@ -83,7 +83,7 @@ Crypto supporter payments are also supported as a staff-verified path. Set any o
 
 Readers will see the configured addresses on `/ao3-fanfic/supporter`, submit a transaction id, and staff will receive a private verification message. After verifying the transaction, add the reader to the configured supporter group.
 
-If you are using Discourse Subscriptions, create or verify the paid supporter product:
+If you are using the platform subscriptions plugin, create or verify the paid supporter product:
 
 ```bash
 bin/rake ao3_fanfic_forum:setup_paid_tier

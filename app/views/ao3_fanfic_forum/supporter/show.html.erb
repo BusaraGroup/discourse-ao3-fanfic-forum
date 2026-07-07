@@ -148,6 +148,11 @@
           <p class="ao3-supporter-page__payment-note">
             <%= I18n.t("ao3_fanfic.supporter_page.payments.none_configured") %>
           </p>
+          <% if @can_configure_payments %>
+            <a class="btn btn-primary ao3-supporter-page__button" href="<%= h @payment_settings_url %>">
+              <%= I18n.t("ao3_fanfic.supporter_page.payments.none_configured_cta") %>
+            </a>
+          <% end %>
         </article>
       <% end %>
     </section>

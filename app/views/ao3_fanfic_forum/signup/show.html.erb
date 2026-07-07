@@ -1,0 +1,91 @@
+<main class="ao3-auth-page ao3-auth-page--signup">
+  <div class="ao3-auth-page__shell">
+    <header class="ao3-auth-page__mast">
+      <a class="ao3-auth-page__brand" href="<%= h @home_url %>">
+        <%= I18n.t("ao3_fanfic.auth_page.brand") %>
+      </a>
+      <h1><%= I18n.t("ao3_fanfic.auth_page.signup.title") %></h1>
+      <p><%= I18n.t("ao3_fanfic.auth_page.signup.body") %></p>
+    </header>
+
+    <section class="ao3-auth-page__panel" aria-labelledby="ao3-signup-form-title">
+      <div class="ao3-auth-page__copy">
+        <h2 id="ao3-signup-form-title"><%= I18n.t("ao3_fanfic.auth_page.signup.form_title") %></h2>
+        <p><%= I18n.t("ao3_fanfic.auth_page.signup.form_body") %></p>
+      </div>
+
+      <form
+        action="<%= h @users_url %>"
+        method="post"
+        class="ao3-auth-page__form"
+        data-ao3-auth-form="signup"
+        data-success-url="<%= h @account_url %>"
+        data-static-login-url="<%= h @static_login_url %>"
+        data-busy-label="<%= h I18n.t("ao3_fanfic.auth_page.signup.busy") %>"
+        data-error-message="<%= h I18n.t("ao3_fanfic.auth_page.errors.generic") %>"
+      >
+        <div class="ao3-auth-page__message" data-ao3-auth-message aria-live="polite" hidden></div>
+
+        <label class="ao3-auth-page__field">
+          <span><%= I18n.t("ao3_fanfic.auth_page.signup.email_label") %></span>
+          <input
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            maxlength="508"
+          >
+        </label>
+
+        <label class="ao3-auth-page__field">
+          <span><%= I18n.t("ao3_fanfic.auth_page.signup.username_label") %></span>
+          <input
+            type="text"
+            name="username"
+            required
+            autocomplete="username"
+            maxlength="60"
+          >
+        </label>
+
+        <label class="ao3-auth-page__field">
+          <span><%= I18n.t("ao3_fanfic.auth_page.signup.name_label") %></span>
+          <input
+            type="text"
+            name="name"
+            autocomplete="name"
+            maxlength="120"
+          >
+        </label>
+
+        <label class="ao3-auth-page__field">
+          <span><%= I18n.t("ao3_fanfic.auth_page.signup.password_label") %></span>
+          <input
+            type="password"
+            name="password"
+            required
+            autocomplete="new-password"
+          >
+        </label>
+
+        <button class="btn btn-primary ao3-auth-page__submit" type="submit">
+          <%= I18n.t("ao3_fanfic.auth_page.signup.submit") %>
+        </button>
+      </form>
+
+      <nav class="ao3-auth-page__links" aria-label="<%= I18n.t("ao3_fanfic.auth_page.links_label") %>">
+        <a href="<%= h @login_url %>"><%= I18n.t("ao3_fanfic.auth_page.signup.log_in") %></a>
+        <a href="<%= h @supporter_url %>"><%= I18n.t("ao3_fanfic.auth_page.supporter_link") %></a>
+      </nav>
+    </section>
+
+    <aside class="ao3-auth-page__notes" aria-label="<%= I18n.t("ao3_fanfic.auth_page.notes_label") %>">
+      <h2><%= I18n.t("ao3_fanfic.auth_page.privacy_title") %></h2>
+      <ul>
+        <% I18n.t("ao3_fanfic.auth_page.privacy_points").each do |point| %>
+          <li><%= point %></li>
+        <% end %>
+      </ul>
+    </aside>
+  </div>
+</main>

@@ -48,7 +48,7 @@ en:
         create_account: "Create account"
         reset_password: "Reset password"
         two_factor_message: "Enter your second-factor code to finish logging in."
-        security_key_message: "This account needs a security key. Use %{login_url} to finish that sign-in method."
+        security_key_message: "This account needs advanced sign-in. Open %{login_url} to finish with a security key or passkey."
       signup:
         title: "Create an AO3Chat account"
         body: "Choose a reader handle for fandom discussion. Keep it separate from your AO3, social, or public fandom identity."

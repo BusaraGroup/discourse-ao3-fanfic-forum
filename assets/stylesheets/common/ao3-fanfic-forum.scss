@@ -784,6 +784,94 @@ html.discourse-no-touch .ao3-home__account-link:hover {
   margin: 0;
 }
 
+.ao3-supporter-page__setup {
+  background: var(--ao3-surface-raised);
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.ao3-supporter-page__setup-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ao3-supporter-page__setup-copy h3 {
+  color: var(--ao3-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: var(--font-up-1);
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.ao3-supporter-page__setup-copy p {
+  color: var(--ao3-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.ao3-supporter-page__setup-list {
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ao3-supporter-page__setup-check {
+  align-items: start;
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0.75rem;
+
+  @include viewport.from(sm) {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.ao3-supporter-page__setup-check div {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.ao3-supporter-page__setup-check strong {
+  color: var(--ao3-text);
+  font-size: var(--font-down-1);
+}
+
+.ao3-supporter-page__setup-check span {
+  color: var(--ao3-muted);
+  font-size: var(--font-down-1);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.ao3-supporter-page__setup-check em {
+  border: 1px solid var(--ao3-line);
+  border-radius: var(--ao3-radius);
+  color: var(--ao3-muted);
+  font-size: var(--font-down-2);
+  font-style: normal;
+  font-weight: 800;
+  justify-self: start;
+  padding: 0.2rem 0.45rem;
+}
+
+.ao3-supporter-page__setup-check.is-ready em {
+  color: var(--success);
+}
+
+.ao3-supporter-page__setup-check.is-missing em {
+  color: var(--danger);
+}
+
 .ao3-supporter-page__payment-list {
   display: grid;
   gap: 0.85rem;

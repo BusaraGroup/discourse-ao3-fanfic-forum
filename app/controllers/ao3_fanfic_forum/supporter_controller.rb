@@ -22,6 +22,7 @@ module Ao3FanficForum
       @can_configure_payments = current_user&.staff? || false
       @payment_methods_configured =
         @stripe_checkout_url.present? || @crypto_payment_methods.present?
+      @payment_setup_checks = payment_setup_checks if @can_configure_payments
       if status[:private_rooms_url]
         @private_rooms_url = discourse_path(status[:private_rooms_url])
       end
@@ -30,6 +31,42 @@ module Ao3FanficForum
     end
 
     private
+
+    def payment_setup_checks
+      supporter_group = SupporterAccess.supporter_group
+      private_rooms_category = SupporterAccess.private_rooms_category
+      checkout_url = SupporterAccess.checkout_url
+      crypto_count = @crypto_payment_methods.length
+
+      [
+        {
+          ready: checkout_url.present?,
+          label_key: "ao3_fanfic.supporter_page.setup.stripe_label",
+          ready_key: "ao3_fanfic.supporter_page.setup.stripe_ready",
+          missing_key: "ao3_fanfic.supporter_page.setup.stripe_missing",
+        },
+        {
+          ready: crypto_count.positive?,
+          label_key: "ao3_fanfic.supporter_page.setup.crypto_label",
+          ready_key: "ao3_fanfic.supporter_page.setup.crypto_ready",
+          missing_key: "ao3_fanfic.supporter_page.setup.crypto_missing",
+          count: crypto_count,
+        },
+        {
+          ready: supporter_group.present?,
+          label_key: "ao3_fanfic.supporter_page.setup.group_label",
+          ready_key: "ao3_fanfic.supporter_page.setup.group_ready",
+          missing_key: "ao3_fanfic.supporter_page.setup.group_missing",
+          name: SupporterAccess.group_name,
+        },
+        {
+          ready: private_rooms_category.present?,
+          label_key: "ao3_fanfic.supporter_page.setup.rooms_label",
+          ready_key: "ao3_fanfic.supporter_page.setup.rooms_ready",
+          missing_key: "ao3_fanfic.supporter_page.setup.rooms_missing",
+        },
+      ]
+    end
 
     def assign_cta
       if @has_private_room_access && @private_rooms_url.present?

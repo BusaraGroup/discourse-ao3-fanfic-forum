@@ -1,5 +1,5 @@
 import { ajax } from "discourse/lib/ajax";
-import { withoutPrefix } from "discourse/lib/get-url";
+import getURL, { withoutPrefix } from "discourse/lib/get-url";
 import { withPluginApi } from "discourse/lib/plugin-api";
 
 const AUTH_FORM_SELECTOR = "[data-ao3-auth-form]";
@@ -22,6 +22,10 @@ function isServerRenderedPath(url) {
   } catch {
     return false;
   }
+}
+
+function redirectToServerPath(path) {
+  window.location.assign(getURL(path));
 }
 
 function discoursePath(url) {
@@ -277,6 +281,19 @@ export default {
           return isServerRenderedPath(context?.url) ? true : value;
         }
       );
+      api.modifyClass("route:application", {
+        pluginId: "discourse-ao3-fanfic-forum",
+
+        actions: {
+          showLogin() {
+            redirectToServerPath("/ao3-fanfic/login");
+          },
+
+          showCreateAccount() {
+            redirectToServerPath("/ao3-fanfic/signup");
+          },
+        },
+      });
       api.serializeOnCreate(
         "topic_custom_fields",
         "ao3Fanfic.topicCustomFields"

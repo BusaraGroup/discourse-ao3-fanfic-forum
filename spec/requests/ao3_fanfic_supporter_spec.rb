@@ -20,6 +20,7 @@ RSpec.describe Ao3FanficForum::SupporterController do
       expect(response.body).to include("https://checkout.example/ao3chat")
       expect(response.body).to include("bc1qao3chatbtc")
       expect(response.body).to include("crypto_payment[transaction_id]")
+      expect(response.body).not_to include(I18n.t("ao3_fanfic.supporter_page.setup.title"))
     end
 
     it "keeps signed-out readers on account creation first", :aggregate_failures do
@@ -46,6 +47,10 @@ RSpec.describe Ao3FanficForum::SupporterController do
       expect(response.body).to include(
         I18n.t("ao3_fanfic.supporter_page.payments.none_configured_cta"),
       )
+      expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.setup.title"))
+      expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.setup.stripe_missing"))
+      expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.setup.crypto_missing"))
+      expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.setup.needs_setup"))
     end
   end
 end

@@ -65,6 +65,33 @@
         </div>
       <% end %>
 
+      <% if @can_configure_payments && @payment_setup_checks.present? %>
+        <aside class="ao3-supporter-page__setup" aria-labelledby="ao3-supporter-setup-title">
+          <div class="ao3-supporter-page__setup-copy">
+            <h3 id="ao3-supporter-setup-title">
+              <%= I18n.t("ao3_fanfic.supporter_page.setup.title") %>
+            </h3>
+            <p><%= I18n.t("ao3_fanfic.supporter_page.setup.body") %></p>
+          </div>
+
+          <ul class="ao3-supporter-page__setup-list">
+            <% @payment_setup_checks.each do |check| %>
+              <li class="ao3-supporter-page__setup-check <%= check[:ready] ? "is-ready" : "is-missing" %>">
+                <div>
+                  <strong><%= I18n.t(check[:label_key]) %></strong>
+                  <span>
+                    <%= I18n.t(check[:ready] ? check[:ready_key] : check[:missing_key], check.except(:ready, :label_key, :ready_key, :missing_key)) %>
+                  </span>
+                </div>
+                <em>
+                  <%= I18n.t(check[:ready] ? "ao3_fanfic.supporter_page.setup.ready" : "ao3_fanfic.supporter_page.setup.needs_setup") %>
+                </em>
+              </li>
+            <% end %>
+          </ul>
+        </aside>
+      <% end %>
+
       <% if @payment_methods_configured %>
         <div class="ao3-supporter-page__payment-list">
           <% if @stripe_checkout_url.present? %>

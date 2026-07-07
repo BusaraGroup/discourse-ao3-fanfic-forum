@@ -21,6 +21,7 @@
         data-ao3-auth-form="signup"
         data-success-url="<%= h @account_url %>"
         data-static-login-url="<%= h @static_login_url %>"
+        data-session-url="<%= h @session_url %>"
         data-busy-label="<%= h I18n.t("ao3_fanfic.auth_page.signup.busy") %>"
         data-error-message="<%= h I18n.t("ao3_fanfic.auth_page.errors.generic") %>"
       >
@@ -89,3 +90,5 @@
     </aside>
   </div>
 </main>
+
+<%= render "ao3_fanfic_forum/auth_script" %>

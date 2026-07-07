@@ -1,0 +1,283 @@
+<script nonce="<%= csp_nonce_placeholder %>">
+  (() => {
+    const authFormSelector = "[data-ao3-auth-form]";
+
+    const csrfToken = () =>
+      document.querySelector("meta[name='csrf-token']")?.getAttribute("content") || "";
+
+    const discoursePath = (url) => {
+      const parsed = new URL(url, window.location.origin);
+
+      return `${parsed.pathname}${parsed.search}`;
+    };
+
+    const timezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const reverse = (value) => value.split("").reverse().join("");
+
+    const formValue = (form, name, options = {}) => {
+      const value = form.querySelector(`[name="${name}"]`)?.value || "";
+
+      return options.trim === false ? value : value.trim();
+    };
+
+    const messageElement = (form) => form.querySelector("[data-ao3-auth-message]");
+
+    const setMessage = (form, message, type = "error") => {
+      const element = messageElement(form);
+
+      if (!element) {
+        return;
+      }
+
+      element.textContent = message || form.dataset.errorMessage;
+      element.hidden = false;
+      element.classList.toggle("is-success", type === "success");
+      element.classList.toggle("is-error", type !== "success");
+    };
+
+    const clearMessage = (form) => {
+      const element = messageElement(form);
+
+      if (!element) {
+        return;
+      }
+
+      element.textContent = "";
+      element.hidden = true;
+      element.classList.remove("is-success", "is-error");
+    };
+
+    const setBusy = (form, busy) => {
+      const button = form.querySelector("button[type='submit']");
+
+      if (!button) {
+        return;
+      }
+
+      if (!button.dataset.readyLabel) {
+        button.dataset.readyLabel = button.textContent.trim();
+      }
+
+      button.disabled = busy;
+      button.textContent = busy ? form.dataset.busyLabel : button.dataset.readyLabel;
+    };
+
+    const payloadMessage = (payload, fallback) => {
+      if (payload?.message) {
+        return payload.message;
+      }
+
+      if (payload?.error) {
+        return payload.error;
+      }
+
+      if (payload?.errors) {
+        return Object.values(payload.errors).flat().join(" ");
+      }
+
+      return fallback;
+    };
+
+    const requestJson = async (url, options = {}) => {
+      const headers = {
+        Accept: "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+      };
+      const token = csrfToken();
+
+      if (token) {
+        headers["X-CSRF-Token"] = token;
+      }
+
+      const requestOptions = {
+        credentials: "same-origin",
+        headers,
+        method: options.method || "GET",
+      };
+
+      if (options.data) {
+        headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8";
+        requestOptions.body = new URLSearchParams(options.data);
+      }
+
+      const response = await fetch(url, requestOptions);
+      const body = await response.text();
+      let payload = {};
+
+      if (body) {
+        try {
+          payload = JSON.parse(body);
+        } catch {
+          payload = { error: body };
+        }
+      }
+
+      if (!response.ok) {
+        throw payload;
+      }
+
+      return payload;
+    };
+
+    const revealSecondFactor = (form) => {
+      const wrapper = form.querySelector("[data-ao3-auth-second-factor]");
+      const input = form.querySelector("[name='second_factor_token']");
+
+      if (wrapper) {
+        wrapper.hidden = false;
+      }
+
+      input?.focus();
+    };
+
+    const logInAndRedirect = async (form, login, password) => {
+      const result = await requestJson(discoursePath(form.dataset.sessionUrl || "/session"), {
+        method: "POST",
+        data: {
+          login,
+          password,
+          timezone: timezone(),
+        },
+      });
+
+      if (result?.error) {
+        throw result;
+      }
+
+      window.location.assign(form.dataset.successUrl || "/");
+    };
+
+    const handleLogin = async (form) => {
+      clearMessage(form);
+      setBusy(form, true);
+
+      const data = {
+        login: formValue(form, "login"),
+        password: formValue(form, "password", { trim: false }),
+        timezone: timezone(),
+      };
+      const secondFactorToken = formValue(form, "second_factor_token");
+
+      if (secondFactorToken) {
+        data.second_factor_token = secondFactorToken;
+        data.second_factor_method = formValue(form, "second_factor_method") || "1";
+      }
+
+      try {
+        const result = await requestJson(discoursePath(form.action), {
+          method: "POST",
+          data,
+        });
+
+        if (result?.error) {
+          if (result.totp_enabled || result.backup_enabled || result.backup_codes_enabled) {
+            revealSecondFactor(form);
+            setMessage(form, form.dataset.twoFactorMessage);
+          } else if (result.security_key_enabled) {
+            setMessage(form, form.dataset.securityKeyMessage);
+          } else {
+            setMessage(form, result.error);
+          }
+
+          setBusy(form, false);
+          return;
+        }
+
+        window.location.assign(form.dataset.successUrl || "/");
+      } catch (error) {
+        setMessage(form, payloadMessage(error, form.dataset.errorMessage));
+        setBusy(form, false);
+      }
+    };
+
+    const handleSignup = async (form) => {
+      clearMessage(form);
+      setBusy(form, true);
+
+      try {
+        const honeypot = await requestJson("/session/hp.json");
+        const data = {
+          email: formValue(form, "email"),
+          username: formValue(form, "username"),
+          name: formValue(form, "name"),
+          password: formValue(form, "password", { trim: false }),
+          password_confirmation: honeypot.value,
+          challenge: reverse(honeypot.challenge),
+          timezone: timezone(),
+        };
+        const result = await requestJson(discoursePath(form.action), {
+          method: "POST",
+          data,
+        });
+
+        if (result?.success) {
+          if (result.active) {
+            await logInAndRedirect(form, data.username, data.password);
+          } else {
+            setMessage(form, result.message, "success");
+            form.reset();
+            setBusy(form, false);
+          }
+
+          return;
+        }
+
+        setMessage(form, result?.message || form.dataset.errorMessage);
+        setBusy(form, false);
+      } catch (error) {
+        setMessage(form, payloadMessage(error, form.dataset.errorMessage));
+        setBusy(form, false);
+      }
+    };
+
+    const handlePasswordReset = async (form) => {
+      clearMessage(form);
+      setBusy(form, true);
+
+      try {
+        await requestJson(discoursePath(form.action), {
+          method: "POST",
+          data: {
+            login: formValue(form, "login"),
+          },
+        });
+
+        setMessage(form, form.dataset.successMessage, "success");
+        form.reset();
+      } catch (error) {
+        setMessage(form, payloadMessage(error, form.dataset.errorMessage));
+      } finally {
+        setBusy(form, false);
+      }
+    };
+
+    const bindAuthForm = (form) => {
+      if (form.dataset.ao3AuthBound) {
+        return;
+      }
+
+      form.dataset.ao3AuthBound = "true";
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (form.dataset.ao3AuthForm === "password-reset") {
+          handlePasswordReset(form);
+        } else if (form.dataset.ao3AuthForm === "signup") {
+          handleSignup(form);
+        } else {
+          handleLogin(form);
+        }
+      });
+    };
+
+    const initializeAuthForms = () => {
+      document.querySelectorAll(authFormSelector).forEach(bindAuthForm);
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initializeAuthForms, { once: true });
+    } else {
+      initializeAuthForms();
+    }
+  })();
+</script>

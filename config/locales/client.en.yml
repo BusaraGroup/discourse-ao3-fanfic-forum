@@ -262,6 +262,10 @@ en:
       composer:
         legend: "Fanfic metadata"
         privacy_note: "Room privacy is controlled by the category you post in. These fields only label and filter discussions."
+        groups:
+          thread: "Thread"
+          safety: "Spoilers and warnings"
+          fic: "Fic details"
         discussion_type: "Thread type"
         fandom_tags: "Fandoms"
         ship_tags: "Ships"

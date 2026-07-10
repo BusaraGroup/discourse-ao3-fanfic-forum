@@ -6,6 +6,7 @@ import { action } from "@ember/object";
 import { ajax } from "discourse/lib/ajax";
 import getURL from "discourse/lib/get-url";
 import { eq } from "discourse/truth-helpers";
+import dIcon from "discourse/ui-kit/helpers/d-icon";
 import { i18n } from "discourse-i18n";
 import Ao3FanficTopicChips from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-fanfic-topic-chips";
 
@@ -223,7 +224,11 @@ export default class Ao3FanficBrowser extends Component {
   }
 
   <template>
-    <section class="ao3-browser" aria-labelledby="ao3-browser-title" ...attributes>
+    <section
+      class="ao3-browser"
+      aria-labelledby="ao3-browser-title"
+      ...attributes
+    >
       <div class="ao3-browser__heading">
         <div>
           <h2 id="ao3-browser-title">{{i18n "ao3_fanfic.browser.title"}}</h2>
@@ -299,7 +304,10 @@ export default class Ao3FanficBrowser extends Component {
             <option value="" selected={{eq this.filters.discussionType ""}}>
               {{i18n "ao3_fanfic.browser.any_type"}}
             </option>
-            <option value="general" selected={{eq this.filters.discussionType "general"}}>
+            <option
+              value="general"
+              selected={{eq this.filters.discussionType "general"}}
+            >
               {{i18n "ao3_fanfic.discussion_types.general"}}
             </option>
             <option
@@ -325,17 +333,26 @@ export default class Ao3FanficBrowser extends Component {
 
         <label class="ao3-browser__field">
           <span>{{i18n "ao3_fanfic.browser.fandom"}}</span>
-          <input value={{this.filters.fandom}} {{on "input" (fn this.updateText "fandom")}} />
+          <input
+            value={{this.filters.fandom}}
+            {{on "input" (fn this.updateText "fandom")}}
+          />
         </label>
 
         <label class="ao3-browser__field">
           <span>{{i18n "ao3_fanfic.browser.ship"}}</span>
-          <input value={{this.filters.ship}} {{on "input" (fn this.updateText "ship")}} />
+          <input
+            value={{this.filters.ship}}
+            {{on "input" (fn this.updateText "ship")}}
+          />
         </label>
 
         <label class="ao3-browser__field">
           <span>{{i18n "ao3_fanfic.browser.warning"}}</span>
-          <input value={{this.filters.warning}} {{on "input" (fn this.updateText "warning")}} />
+          <input
+            value={{this.filters.warning}}
+            {{on "input" (fn this.updateText "warning")}}
+          />
         </label>
 
         <label class="ao3-browser__field">
@@ -356,18 +373,34 @@ export default class Ao3FanficBrowser extends Component {
         </label>
 
         <div class="ao3-browser__actions">
-          <button type="submit" class="btn btn-primary">{{i18n "ao3_fanfic.browser.apply"}}</button>
-          <button type="button" class="btn btn-default" {{on "click" this.clearFilters}}>
+          <button type="submit" class="btn btn-primary">
+            {{dIcon "magnifying-glass"}}
+            {{i18n "ao3_fanfic.browser.apply"}}
+          </button>
+          <button
+            type="button"
+            class="btn btn-default"
+            {{on "click" this.clearFilters}}
+          >
+            {{dIcon "xmark"}}
             {{i18n "ao3_fanfic.browser.clear"}}
           </button>
         </div>
       </form>
 
-      <div class="ao3-browser__results" aria-live="polite" aria-busy={{this.loading}}>
+      <div
+        class="ao3-browser__results"
+        aria-live="polite"
+        aria-busy={{this.loading}}
+      >
         {{#if this.loading}}
-          <p class="ao3-browser__status">{{i18n "ao3_fanfic.browser.loading"}}</p>
+          <p class="ao3-browser__status">{{i18n
+              "ao3_fanfic.browser.loading"
+            }}</p>
         {{else if this.error}}
-          <p class="ao3-browser__status ao3-browser__status--error">{{this.error}}</p>
+          <p
+            class="ao3-browser__status ao3-browser__status--error"
+          >{{this.error}}</p>
         {{else if this.hasTopics}}
           <p class="ao3-browser__count">
             {{i18n "ao3_fanfic.browser.results_label" count=this.topics.length}}
@@ -377,7 +410,10 @@ export default class Ao3FanficBrowser extends Component {
             {{#each this.topics as |topic|}}
               <li class="ao3-browser__row">
                 <div class="ao3-browser__topic">
-                  <a class="ao3-browser__title" href={{topic.url}}>{{topic.title}}</a>
+                  <a
+                    class="ao3-browser__title"
+                    href={{topic.url}}
+                  >{{topic.title}}</a>
 
                   {{#if topic.ficLabel}}
                     {{#if topic.metadata.fic_url}}
@@ -393,15 +429,26 @@ export default class Ao3FanficBrowser extends Component {
                   {{/if}}
 
                   {{#if topic.chapterLabel}}
-                    <span class="ao3-browser__chapter">{{topic.chapterLabel}}</span>
+                    <span
+                      class="ao3-browser__chapter"
+                    >{{topic.chapterLabel}}</span>
                   {{/if}}
 
-                  <Ao3FanficTopicChips @metadata={{topic.metadata}} @context="browser" />
+                  <Ao3FanficTopicChips
+                    @metadata={{topic.metadata}}
+                    @context="browser"
+                  />
                 </div>
 
                 <div class="ao3-browser__stats">
-                  <span>{{i18n "ao3_fanfic.browser.replies" count=topic.replies}}</span>
-                  <span>{{i18n "ao3_fanfic.browser.views" count=topic.views}}</span>
+                  <span>{{i18n
+                      "ao3_fanfic.browser.replies"
+                      count=topic.replies
+                    }}</span>
+                  <span>{{i18n
+                      "ao3_fanfic.browser.views"
+                      count=topic.views
+                    }}</span>
                 </div>
               </li>
             {{/each}}

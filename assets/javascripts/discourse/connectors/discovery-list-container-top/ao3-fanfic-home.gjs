@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { service } from "@ember/service";
 import getURL from "discourse/lib/get-url";
 import Category from "discourse/models/category";
+import dIcon from "discourse/ui-kit/helpers/d-icon";
 import { i18n } from "discourse-i18n";
 import Ao3FanficBrowser from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-fanfic-browser";
 import Ao3PrivateRoomRequest from "discourse/plugins/discourse-ao3-fanfic-forum/discourse/components/ao3-private-room-request";
@@ -107,17 +108,17 @@ export default class Ao3FanficHome extends Component {
   }
 
   get featuredFandoms() {
-    return parseListSetting(this.siteSettings.ao3_fanfic_featured_fandom_slugs).map(
-      (slug) => {
-        const category = this.categoryForSlug(slug);
+    return parseListSetting(
+      this.siteSettings.ao3_fanfic_featured_fandom_slugs
+    ).map((slug) => {
+      const category = this.categoryForSlug(slug);
 
-        return {
-          slug,
-          name: category?.name || titleForSlug(slug),
-          url: this.categoryUrl(slug),
-        };
-      }
-    );
+      return {
+        slug,
+        name: category?.name || titleForSlug(slug),
+        url: this.categoryUrl(slug),
+      };
+    });
   }
 
   categoryForSlug(slug) {
@@ -150,7 +151,11 @@ export default class Ao3FanficHome extends Component {
 
         <div class="ao3-home__auth">
           {{#if this.currentUser}}
-            <a href={{this.newTopicUrl}} class="btn btn-primary ao3-home__button">
+            <a
+              href={{this.newTopicUrl}}
+              class="btn btn-primary ao3-home__button"
+            >
+              {{dIcon "plus"}}
               {{i18n "ao3_fanfic.home.new_topic"}}
             </a>
           {{else}}
@@ -159,6 +164,7 @@ export default class Ao3FanficHome extends Component {
               class="btn btn-primary ao3-home__button"
               data-auto-route="true"
             >
+              {{dIcon "arrow-right"}}
               {{i18n "ao3_fanfic.home.login"}}
             </a>
             <a
@@ -166,6 +172,7 @@ export default class Ao3FanficHome extends Component {
               class="btn btn-default ao3-home__button"
               data-auto-route="true"
             >
+              {{dIcon "users"}}
               {{i18n "ao3_fanfic.home.create_account"}}
             </a>
             <a
@@ -178,27 +185,67 @@ export default class Ao3FanficHome extends Component {
           {{/if}}
         </div>
 
-        <div class="ao3-home__filters" aria-label={{i18n "ao3_fanfic.home.filters_label"}}>
+        <div
+          class="ao3-home__filters"
+          aria-label={{i18n "ao3_fanfic.home.filters_label"}}
+        >
           <a href={{this.fandomSpacesUrl}} class="ao3-home-filter">
-            <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.fandoms"}}</span>
-            <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.fandoms_value"}}</span>
+            <span class="ao3-home-filter__icon">{{dIcon "users"}}</span>
+            <span class="ao3-home-filter__copy">
+              <span class="ao3-home-filter__label">{{i18n
+                  "ao3_fanfic.home.fandoms"
+                }}</span>
+              <span class="ao3-home-filter__value">{{i18n
+                  "ao3_fanfic.home.fandoms_value"
+                }}</span>
+            </span>
+            {{dIcon "arrow-right" class="ao3-home-filter__arrow"}}
           </a>
           <a href={{this.tagsUrl}} class="ao3-home-filter">
-            <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.ships"}}</span>
-            <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.ships_value"}}</span>
+            <span class="ao3-home-filter__icon">{{dIcon "heart"}}</span>
+            <span class="ao3-home-filter__copy">
+              <span class="ao3-home-filter__label">{{i18n
+                  "ao3_fanfic.home.ships"
+                }}</span>
+              <span class="ao3-home-filter__value">{{i18n
+                  "ao3_fanfic.home.ships_value"
+                }}</span>
+            </span>
+            {{dIcon "arrow-right" class="ao3-home-filter__arrow"}}
           </a>
           <a href={{this.spoilerZoneUrl}} class="ao3-home-filter">
-            <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.spoilers"}}</span>
-            <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.spoilers_value"}}</span>
+            <span class="ao3-home-filter__icon">{{dIcon "eye-slash"}}</span>
+            <span class="ao3-home-filter__copy">
+              <span class="ao3-home-filter__label">{{i18n
+                  "ao3_fanfic.home.spoilers"
+                }}</span>
+              <span class="ao3-home-filter__value">{{i18n
+                  "ao3_fanfic.home.spoilers_value"
+                }}</span>
+            </span>
+            {{dIcon "arrow-right" class="ao3-home-filter__arrow"}}
           </a>
           <a href={{this.contentWarningsUrl}} class="ao3-home-filter">
-            <span class="ao3-home-filter__label">{{i18n "ao3_fanfic.home.warnings"}}</span>
-            <span class="ao3-home-filter__value">{{i18n "ao3_fanfic.home.warnings_value"}}</span>
+            <span class="ao3-home-filter__icon">{{dIcon
+                "triangle-exclamation"
+              }}</span>
+            <span class="ao3-home-filter__copy">
+              <span class="ao3-home-filter__label">{{i18n
+                  "ao3_fanfic.home.warnings"
+                }}</span>
+              <span class="ao3-home-filter__value">{{i18n
+                  "ao3_fanfic.home.warnings_value"
+                }}</span>
+            </span>
+            {{dIcon "arrow-right" class="ao3-home-filter__arrow"}}
           </a>
         </div>
 
         {{#if this.featuredFandoms.length}}
-          <section class="ao3-home__featured" aria-labelledby="ao3-featured-fandoms-title">
+          <section
+            class="ao3-home__featured"
+            aria-labelledby="ao3-featured-fandoms-title"
+          >
             <div>
               <h2 id="ao3-featured-fandoms-title">
                 {{i18n "ao3_fanfic.home.featured_fandoms_title"}}
@@ -213,21 +260,45 @@ export default class Ao3FanficHome extends Component {
               {{#each this.featuredFandoms as |fandom|}}
                 <a href={{fandom.url}} class="ao3-featured-fandom">
                   <span class="ao3-featured-fandom__name">{{fandom.name}}</span>
-                  <span class="ao3-featured-fandom__marker"></span>
+                  {{dIcon "arrow-right" class="ao3-featured-fandom__arrow"}}
                 </a>
               {{/each}}
             </nav>
           </section>
         {{/if}}
 
-        <nav class="ao3-home__quick-links" aria-label={{i18n "ao3_fanfic.home.quick_links_label"}}>
-          <a href={{this.welcomeDeskUrl}}>{{i18n "ao3_fanfic.home.welcome_desk"}}</a>
-          <a href={{this.ficRecsUrl}}>{{i18n "ao3_fanfic.home.fic_recs"}}</a>
-          <a href={{this.chapterDiscussionsUrl}}>{{i18n "ao3_fanfic.home.chapter_threads"}}</a>
-          <a href={{this.lookingForFicUrl}}>{{i18n "ao3_fanfic.home.looking_for_fic"}}</a>
-          <a href={{this.fandomSpacesUrl}}>{{i18n "ao3_fanfic.home.fandom_spaces"}}</a>
-          <a href={{this.siteHelpUrl}}>{{i18n "ao3_fanfic.home.site_help"}}</a>
-          <a href={{this.privateRoomsUrl}}>{{i18n "ao3_fanfic.home.private_rooms"}}</a>
+        <nav
+          class="ao3-home__quick-links"
+          aria-label={{i18n "ao3_fanfic.home.quick_links_label"}}
+        >
+          <a href={{this.welcomeDeskUrl}}>
+            <span>{{i18n "ao3_fanfic.home.welcome_desk"}}</span>
+            {{dIcon "arrow-right"}}
+          </a>
+          <a href={{this.ficRecsUrl}}>
+            <span>{{i18n "ao3_fanfic.home.fic_recs"}}</span>
+            {{dIcon "arrow-right"}}
+          </a>
+          <a href={{this.chapterDiscussionsUrl}}>
+            <span>{{i18n "ao3_fanfic.home.chapter_threads"}}</span>
+            {{dIcon "arrow-right"}}
+          </a>
+          <a href={{this.lookingForFicUrl}}>
+            <span>{{i18n "ao3_fanfic.home.looking_for_fic"}}</span>
+            {{dIcon "arrow-right"}}
+          </a>
+          <a href={{this.fandomSpacesUrl}}>
+            <span>{{i18n "ao3_fanfic.home.fandom_spaces"}}</span>
+            {{dIcon "arrow-right"}}
+          </a>
+          <a href={{this.siteHelpUrl}}>
+            <span>{{i18n "ao3_fanfic.home.site_help"}}</span>
+            {{dIcon "arrow-right"}}
+          </a>
+          <a href={{this.privateRoomsUrl}}>
+            <span>{{i18n "ao3_fanfic.home.private_rooms"}}</span>
+            {{dIcon "lock"}}
+          </a>
         </nav>
       </div>
 
@@ -236,12 +307,19 @@ export default class Ao3FanficHome extends Component {
           <div class="ao3-supporter-card">
             <div class="ao3-supporter-card__heading">
               <h2>{{i18n "ao3_fanfic.home.supporter_title"}}</h2>
-              <span>{{i18n "ao3_fanfic.home.supporter_badge"}}</span>
+              <span>
+                {{dIcon "lock"}}
+                {{i18n "ao3_fanfic.home.supporter_badge"}}
+              </span>
             </div>
             <p>{{i18n "ao3_fanfic.home.supporter_body"}}</p>
             <ul>
-              <li>{{i18n "ao3_fanfic.home.supporter_features.private_rooms"}}</li>
-              <li>{{i18n "ao3_fanfic.home.supporter_features.archive_access"}}</li>
+              <li>{{i18n
+                  "ao3_fanfic.home.supporter_features.private_rooms"
+                }}</li>
+              <li>{{i18n
+                  "ao3_fanfic.home.supporter_features.archive_access"
+                }}</li>
               <li>{{i18n "ao3_fanfic.home.supporter_features.events"}}</li>
               <li>{{i18n "ao3_fanfic.home.supporter_features.support"}}</li>
             </ul>
@@ -254,6 +332,7 @@ export default class Ao3FanficHome extends Component {
               class="btn btn-primary ao3-supporter-card__button"
               data-auto-route="true"
             >
+              {{dIcon "arrow-right"}}
               {{i18n "ao3_fanfic.home.supporter_cta"}}
             </a>
             <Ao3PrivateRoomRequest />

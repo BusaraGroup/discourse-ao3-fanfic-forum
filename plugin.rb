@@ -10,6 +10,18 @@ enabled_site_setting :ao3_fanfic_enabled
 
 register_asset "stylesheets/common/ao3-fanfic-forum.scss"
 
+%w[
+  arrow-right
+  eye-slash
+  heart
+  lock
+  magnifying-glass
+  plus
+  triangle-exclamation
+  users
+  xmark
+].each { |icon| register_svg_icon icon }
+
 module ::Ao3FanficForum
   PLUGIN_NAME = "discourse-ao3-fanfic-forum"
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe "AO3 fanfic topics" do
-  fab!(:user)
+  fab!(:user) { Fabricate(:user, refresh_auto_groups: true) }
   fab!(:category)
 
   before do

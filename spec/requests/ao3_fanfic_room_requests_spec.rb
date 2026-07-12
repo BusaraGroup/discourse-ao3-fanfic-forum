@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe "AO3 fanfic room requests" do
-  fab!(:user)
+  fab!(:user) { Fabricate(:user, refresh_auto_groups: true) }
   fab!(:supporter_group) { Fabricate(:group, name: "ao3chat_supporters") }
   fab!(:private_category) do
     Fabricate(

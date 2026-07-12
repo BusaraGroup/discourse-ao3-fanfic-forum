@@ -3,7 +3,7 @@
 module Ao3FanficForum
   class MetadataController < ::ApplicationController
     requires_plugin PLUGIN_NAME
-    requires_login
+    before_action :ensure_logged_in
     skip_before_action :redirect_to_login_if_required
 
     def update

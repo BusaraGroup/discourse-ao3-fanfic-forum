@@ -6,6 +6,7 @@ RSpec.describe "AO3 fanfic topics" do
 
   before do
     SiteSetting.ao3_fanfic_enabled = true
+    user.activate
     sign_in(user)
   end
 
@@ -172,6 +173,7 @@ RSpec.describe "AO3 fanfic topics" do
 
   it "rejects a malformed metadata payload with a 400" do
     topic = Fabricate(:topic, category: category, user: user, title: "Malformed payload")
+    Fabricate(:post, topic: topic, user: user)
 
     put "/ao3-fanfic/topics/#{topic.id}/metadata.json", params: { topic_custom_fields: "junk" }
 
@@ -199,6 +201,7 @@ RSpec.describe "AO3 fanfic topics" do
 
   it "clears metadata when the edit payload has no AO3 fields" do
     topic = Fabricate(:topic, category: category, user: user, title: "Metadata to clear")
+    Fabricate(:post, topic: topic, user: user)
     topic.custom_fields = ao3_fields
     topic.save!
     Ao3FanficForum::Metadata.sync_from_topic!(topic)

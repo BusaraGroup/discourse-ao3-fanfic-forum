@@ -3,7 +3,10 @@
 RSpec.describe Ao3FanficForum::LoginController do
   fab!(:user)
 
-  before { SiteSetting.ao3_fanfic_enabled = true }
+  before do
+    SiteSetting.ao3_fanfic_enabled = true
+    user.activate
+  end
 
   it "redirects the stock login route to AO3Chat login" do
     get "/login"

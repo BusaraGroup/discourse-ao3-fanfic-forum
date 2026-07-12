@@ -18,6 +18,7 @@ RSpec.describe "AO3 fanfic room requests" do
     SiteSetting.ao3_fanfic_private_rooms_category_slug = private_category.slug
     SiteSetting.ao3_fanfic_subscribe_url = "/s/ao3chat"
     SiteSetting.ao3_fanfic_supporter_checkout_url = "/s/ao3chat"
+    user.activate
     sign_in(user)
   end
 
@@ -44,7 +45,7 @@ RSpec.describe "AO3 fanfic room requests" do
   end
 
   it "returns private room access status for supporters" do
-    GroupUser.create!(group: supporter_group, user: user)
+    supporter_group.add(user)
 
     get "/ao3-fanfic/supporter-status.json"
 
@@ -79,7 +80,7 @@ RSpec.describe "AO3 fanfic room requests" do
   end
 
   it "creates a private category topic for supporters" do
-    GroupUser.create!(group: supporter_group, user: user)
+    supporter_group.add(user)
 
     expect {
       post "/ao3-fanfic/room-requests.json", params: { room_request: room_request_params }
@@ -97,7 +98,7 @@ RSpec.describe "AO3 fanfic room requests" do
   end
 
   it "requires a fandom for the request" do
-    GroupUser.create!(group: supporter_group, user: user)
+    supporter_group.add(user)
 
     expect {
       post "/ao3-fanfic/room-requests.json",

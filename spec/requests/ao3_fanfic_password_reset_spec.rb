@@ -26,6 +26,7 @@ RSpec.describe Ao3FanficForum::PasswordResetController do
       expect(response.body).to include(I18n.t("ao3_fanfic.auth_page.password_reset.title"))
       expect(response.body).to include('data-ao3-auth-form="password-reset"')
       expect(response.body).to include('action="/ao3-fanfic/password-reset"')
+      expect(response.body).to include('name="authenticity_token"')
       expect(response.body).to include('href="/ao3-fanfic/login" data-auto-route="true"')
       expect(response.body).to include('href="/ao3-fanfic/signup" data-auto-route="true"')
     end

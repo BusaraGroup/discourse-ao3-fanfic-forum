@@ -2,8 +2,10 @@
   (() => {
     const authFormSelector = "[data-ao3-auth-form]";
 
-    const csrfToken = () =>
-      document.querySelector("meta[name='csrf-token']")?.getAttribute("content") || "";
+    const csrfToken = (form) =>
+      form?.querySelector("[name='authenticity_token']")?.value ||
+      document.querySelector("meta[name='csrf-token']")?.getAttribute("content") ||
+      "";
 
     const discoursePath = (url) => {
       const parsed = new URL(url, window.location.origin);
@@ -83,7 +85,7 @@
         Accept: "application/json",
         "X-Requested-With": "XMLHttpRequest",
       };
-      const token = csrfToken();
+      const token = csrfToken(options.form);
 
       if (token) {
         headers["X-CSRF-Token"] = token;
@@ -97,7 +99,13 @@
 
       if (options.data) {
         headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8";
-        requestOptions.body = new URLSearchParams(options.data);
+        const body = new URLSearchParams(options.data);
+
+        if (token && !body.has("authenticity_token")) {
+          body.set("authenticity_token", token);
+        }
+
+        requestOptions.body = body;
       }
 
       const response = await fetch(url, requestOptions);
@@ -130,9 +138,18 @@
       input?.focus();
     };
 
+    const hideSecondFactor = (form) => {
+      const wrapper = form.querySelector("[data-ao3-auth-second-factor]");
+
+      if (wrapper) {
+        wrapper.hidden = true;
+      }
+    };
+
     const logInAndRedirect = async (form, login, password) => {
       const result = await requestJson(discoursePath(form.dataset.sessionUrl || "/session"), {
         method: "POST",
+        form,
         data: {
           login,
           password,
@@ -149,6 +166,7 @@
 
     const handleLogin = async (form) => {
       clearMessage(form);
+      hideSecondFactor(form);
       setBusy(form, true);
 
       const data = {
@@ -166,11 +184,16 @@
       try {
         const result = await requestJson(discoursePath(form.action), {
           method: "POST",
+          form,
           data,
         });
 
         if (result?.error) {
-          if (result.totp_enabled || result.backup_enabled || result.backup_codes_enabled) {
+          if (
+            result.totp_enabled === true ||
+            result.backup_enabled === true ||
+            result.backup_codes_enabled === true
+          ) {
             revealSecondFactor(form);
             setMessage(form, form.dataset.twoFactorMessage);
           } else if (result.security_key_enabled) {
@@ -207,6 +230,7 @@
         };
         const result = await requestJson(discoursePath(form.action), {
           method: "POST",
+          form,
           data,
         });
 
@@ -237,6 +261,7 @@
       try {
         await requestJson(discoursePath(form.action), {
           method: "POST",
+          form,
           data: {
             login: formValue(form, "login"),
           },

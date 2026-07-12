@@ -26,6 +26,11 @@
         data-success-message="<%= h I18n.t("ao3_fanfic.auth_page.password_reset.success") %>"
       >
         <div class="ao3-auth-page__message" data-ao3-auth-message aria-live="polite" hidden></div>
+        <input
+          type="hidden"
+          name="authenticity_token"
+          value="<%= h form_authenticity_token %>"
+        >
 
         <label class="ao3-auth-page__field">
           <span><%= I18n.t("ao3_fanfic.auth_page.password_reset.login_label") %></span>

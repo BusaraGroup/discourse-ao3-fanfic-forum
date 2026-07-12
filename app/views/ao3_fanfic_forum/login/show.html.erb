@@ -26,6 +26,11 @@
         data-security-key-message="<%= h I18n.t("ao3_fanfic.auth_page.login.security_key_message", login_url: @advanced_login_url) %>"
       >
         <div class="ao3-auth-page__message" data-ao3-auth-message aria-live="polite" hidden></div>
+        <input
+          type="hidden"
+          name="authenticity_token"
+          value="<%= h form_authenticity_token %>"
+        >
 
         <label class="ao3-auth-page__field">
           <span><%= I18n.t("ao3_fanfic.auth_page.login.login_label") %></span>

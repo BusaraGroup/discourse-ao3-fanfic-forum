@@ -388,6 +388,24 @@ namespace :ao3_fanfic_forum do
     puts "AO3Chat defaults applied: local auth enabled, #{category_ids.length} categories ready, private rooms gated by #{supporter_group.name}."
   end
 
+  desc "Add current public rooms to every reader's sidebar"
+  task sync_public_rooms: :environment do
+    previous_category_ids = SiteSetting.default_navigation_menu_categories
+    public_category_ids =
+      Category.where(read_restricted: false).order(:position).pluck(:id)
+    new_category_ids = public_category_ids.join("|")
+
+    SiteSetting.default_navigation_menu_categories = new_category_ids
+
+    SidebarSiteSettingsBackfiller.new(
+      "default_navigation_menu_categories",
+      previous_value: previous_category_ids,
+      new_value: new_category_ids,
+    ).backfill!
+
+    puts "AO3Chat sidebars updated with #{public_category_ids.length} public rooms."
+  end
+
   desc "Create or verify the AO3Chat Stripe-backed supporter tier"
   task setup_paid_tier: :environment do
     supporter_group = Ao3FanficForum::Setup.ensure_supporter_group!

@@ -227,8 +227,8 @@ en:
         supporter_cta: "Join supporter tier"
         error: "The room request could not be sent."
       browser:
-        title: "Find reader threads"
-        subtitle: "Filter live AO3Chat discussions by fandom, ship, warning, spoiler status, or thread type."
+        title: "Latest discussions"
+        subtitle: "Browse public AO3Chat threads, or narrow them by fandom, ship, warning, spoiler status, or thread type."
         discussion_type: "Thread type"
         any_type: "Any thread"
         fandom: "Fandom"

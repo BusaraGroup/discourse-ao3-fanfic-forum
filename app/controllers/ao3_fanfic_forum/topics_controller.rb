@@ -16,6 +16,7 @@ module Ao3FanficForum
           .listable_topics
           .visible
           .secured(guardian)
+          .where.not(id: Category.where.not(topic_id: nil).select(:topic_id))
           .joins(
             "LEFT OUTER JOIN ao3_fanfic_topic_metadata ao3_meta ON ao3_meta.topic_id = topics.id",
           )

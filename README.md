@@ -30,6 +30,13 @@ bin/rake db:migrate
 bin/rake ao3_fanfic_forum:configure
 ```
 
+Refresh every existing reader's sidebar with the site's current public rooms without creating or
+renaming categories:
+
+```bash
+bin/rake ao3_fanfic_forum:sync_public_rooms
+```
+
 The configure task:
 
 - enables AO3Chat topic metadata

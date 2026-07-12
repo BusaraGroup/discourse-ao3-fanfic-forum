@@ -241,6 +241,8 @@ export default class Ao3FanficHome extends Component {
           </a>
         </div>
 
+        <Ao3FanficBrowser />
+
         {{#if this.featuredFandoms.length}}
           <section
             class="ao3-home__featured"
@@ -340,7 +342,6 @@ export default class Ao3FanficHome extends Component {
         </aside>
       {{/if}}
 
-      <Ao3FanficBrowser />
     </section>
   </template>
 }

@@ -4,6 +4,7 @@ module Ao3FanficForum
   class TopicsController < ::ApplicationController
     requires_plugin PLUGIN_NAME
     requires_login
+    skip_before_action :redirect_to_login_if_required
 
     MAX_PER_PAGE = 100
     MAX_FILTER_VALUES = 8

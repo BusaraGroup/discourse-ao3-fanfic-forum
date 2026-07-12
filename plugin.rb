@@ -65,8 +65,6 @@ after_initialize do
   require_relative "app/models/ao3_fanfic_forum/topic_term"
   require_relative "lib/ao3_fanfic_forum/metadata"
 
-  Ao3FanficForum::AuthConfiguration.apply!
-
   Ao3FanficForum::Fields::CUSTOM_FIELD_TYPES.each do |field, options|
     register_topic_custom_field_type(field, :string, max_length: options[:max_length])
     register_editable_topic_custom_field(field)

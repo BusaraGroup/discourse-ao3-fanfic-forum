@@ -4,6 +4,7 @@ module Ao3FanficForum
   class RoomRequestsController < ::ApplicationController
     requires_plugin PLUGIN_NAME
     requires_login
+    skip_before_action :redirect_to_login_if_required
 
     def create
       RateLimiter.new(current_user, "ao3-private-room-request", 3, 1.day).performed!

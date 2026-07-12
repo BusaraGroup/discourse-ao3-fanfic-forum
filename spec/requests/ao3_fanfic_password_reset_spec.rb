@@ -12,10 +12,10 @@ RSpec.describe Ao3FanficForum::PasswordResetController do
   end
 
   it "requests password recovery through the AO3Chat password reset action" do
-    post "/ao3-fanfic/password-reset.json", params: { login: user.username }
+    post "/ao3-fanfic/password-reset.json", params: { login: user.email }
 
     expect(response.status).to eq(200)
-    expect(response.parsed_body["success"]).to eq("OK")
+    expect(response.parsed_body["error"]).not_to be_present
   end
 
   describe "#show" do

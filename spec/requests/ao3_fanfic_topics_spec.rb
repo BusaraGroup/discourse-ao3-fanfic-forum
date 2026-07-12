@@ -32,7 +32,7 @@ RSpec.describe "AO3 fanfic topics" do
            topic_custom_fields: ao3_fields,
          }
 
-    expect(response.status).to eq(200)
+    expect(response.status).to eq(200), response.body
 
     topic = Topic.last
     metadata = Ao3FanficForum::TopicMetadata.find_by(topic_id: topic.id)
@@ -156,7 +156,7 @@ RSpec.describe "AO3 fanfic topics" do
   end
 
   it "removes indexed metadata when a topic is destroyed" do
-    topic = Fabricate(:topic, category: category, title: "Doomed fic rec")
+    topic = Fabricate(:topic, category: category, title: "Doomed fanfic recommendation")
     topic.custom_fields = ao3_fields
     topic.save!
     Ao3FanficForum::Metadata.sync_from_topic!(topic)
@@ -179,7 +179,7 @@ RSpec.describe "AO3 fanfic topics" do
   end
 
   it "drops unsafe fic URL schemes and prefixes scheme-less URLs" do
-    unsafe = Fabricate(:topic, category: category, title: "Unsafe fic url")
+    unsafe = Fabricate(:topic, category: category, title: "Unsafe fanfic URL example")
     unsafe.custom_fields = ao3_fields("ao3_fic_url" => "javascript:alert(1)")
     unsafe.save!
     Ao3FanficForum::Metadata.sync_from_topic!(unsafe)
@@ -246,7 +246,7 @@ RSpec.describe "AO3 fanfic topics" do
     get "/ao3-fanfic/topics.json", params: { fandom: Array.new(9) { |index| "Fandom #{index}" } }
 
     expect(response.status).to eq(400)
-    expect(response.parsed_body["errors"]).to include(
+    expect(response.parsed_body["errors"].join(" ")).to include(
       I18n.t("ao3_fanfic.errors.too_many_filter_values", count: 8),
     )
   end

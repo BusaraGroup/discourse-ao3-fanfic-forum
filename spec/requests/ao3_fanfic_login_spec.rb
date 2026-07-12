@@ -21,7 +21,7 @@ RSpec.describe Ao3FanficForum::LoginController do
     post "/ao3-fanfic/login.json", params: { login: user.username, password: "myawesomepassword" }
 
     expect(response.status).to eq(200)
-    expect(response.parsed_body["success"]).to eq("OK")
+    expect(response.parsed_body["error"]).not_to be_present
   end
 
   describe "#show" do

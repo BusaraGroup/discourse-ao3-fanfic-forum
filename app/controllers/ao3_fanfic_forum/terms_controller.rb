@@ -4,6 +4,7 @@ module Ao3FanficForum
   class TermsController < ::ApplicationController
     requires_plugin PLUGIN_NAME
     requires_login
+    skip_before_action :redirect_to_login_if_required
 
     VALID_TERM_TYPES = %w[fandom ship warning].freeze
     MAX_LIMIT = 50

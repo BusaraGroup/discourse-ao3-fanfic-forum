@@ -62,7 +62,7 @@ RSpec.describe "AO3 fanfic room requests" do
 
     expect(response.status).to eq(200)
     expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.title"))
-    expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.cta.join"))
+    expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.cta.choose_payment"))
     expect(response.body).to include("/s/ao3chat")
   end
 
@@ -83,7 +83,8 @@ RSpec.describe "AO3 fanfic room requests" do
 
     expect {
       post "/ao3-fanfic/room-requests.json", params: { room_request: room_request_params }
-    }.to change(Topic, :count).by(1)
+    }.to change(Topic, :count).by(1),
+    response.body
 
     expect(response.status).to eq(201)
 

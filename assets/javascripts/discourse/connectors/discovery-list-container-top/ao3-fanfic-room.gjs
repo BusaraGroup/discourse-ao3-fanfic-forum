@@ -5,7 +5,9 @@ import { i18n } from "discourse-i18n";
 
 export default class Ao3FanficRoom extends Component {
   static shouldRender(args, { siteSettings }) {
-    return siteSettings.ao3_fanfic_enabled && Boolean(args.category) && !args.tag;
+    return (
+      siteSettings.ao3_fanfic_enabled && Boolean(args.category) && !args.tag
+    );
   }
 
   @service router;

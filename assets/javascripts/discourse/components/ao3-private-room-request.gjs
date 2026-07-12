@@ -110,7 +110,8 @@ export default class Ao3PrivateRoomRequest extends Component {
 
   responseMessage(error) {
     const payload = error?.jqXHR?.responseJSON || error?.responseJSON || {};
-    const message = payload.errors?.[0] || i18n("ao3_fanfic.room_request.error");
+    const message =
+      payload.errors?.[0] || i18n("ao3_fanfic.room_request.error");
 
     if (payload.subscribe_url) {
       this.subscribeUrlOverride = payload.subscribe_url;
@@ -164,9 +165,15 @@ export default class Ao3PrivateRoomRequest extends Component {
   }
 
   <template>
-    <section class="ao3-room-request" aria-labelledby="ao3-room-request-title" ...attributes>
+    <section
+      class="ao3-room-request"
+      aria-labelledby="ao3-room-request-title"
+      ...attributes
+    >
       <div class="ao3-room-request__heading">
-        <h3 id="ao3-room-request-title">{{i18n "ao3_fanfic.room_request.title"}}</h3>
+        <h3 id="ao3-room-request-title">{{i18n
+            "ao3_fanfic.room_request.title"
+          }}</h3>
         <p>{{i18n "ao3_fanfic.room_request.body"}}</p>
       </div>
 
@@ -178,7 +185,9 @@ export default class Ao3PrivateRoomRequest extends Component {
         <p class="ao3-room-request__status ao3-room-request__status--success">
           {{i18n "ao3_fanfic.room_request.access_active"}}
           {{#if this.privateRoomsUrl}}
-            <a href={{this.privateRoomsUrl}}>{{i18n "ao3_fanfic.room_request.private_rooms_link"}}</a>
+            <a href={{this.privateRoomsUrl}}>{{i18n
+                "ao3_fanfic.room_request.private_rooms_link"
+              }}</a>
           {{/if}}
         </p>
       {{/if}}
@@ -233,15 +242,21 @@ export default class Ao3PrivateRoomRequest extends Component {
             </label>
 
             {{#if this.error}}
-              <p class="ao3-room-request__status ao3-room-request__status--error">
+              <p
+                class="ao3-room-request__status ao3-room-request__status--error"
+              >
                 {{this.error}}
               </p>
             {{/if}}
 
             {{#if this.successUrl}}
-              <p class="ao3-room-request__status ao3-room-request__status--success">
+              <p
+                class="ao3-room-request__status ao3-room-request__status--success"
+              >
                 {{i18n "ao3_fanfic.room_request.success"}}
-                <a href={{this.successUrl}}>{{i18n "ao3_fanfic.room_request.view_request"}}</a>
+                <a href={{this.successUrl}}>{{i18n
+                    "ao3_fanfic.room_request.view_request"
+                  }}</a>
               </p>
             {{/if}}
 

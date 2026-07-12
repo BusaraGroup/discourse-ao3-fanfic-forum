@@ -29,7 +29,9 @@ export default class Ao3FanficTopicChips extends Component {
   <template>
     {{#if this.visible}}
       <div class="ao3-topic-chips ao3-topic-chips--{{@context}}">
-        <span class="ao3-topic-chip ao3-topic-chip--type">{{this.typeLabel}}</span>
+        <span
+          class="ao3-topic-chip ao3-topic-chip--type"
+        >{{this.typeLabel}}</span>
 
         {{#each this.fandomTags as |tag|}}
           <span class="ao3-topic-chip ao3-topic-chip--fandom">{{tag}}</span>
@@ -41,12 +43,15 @@ export default class Ao3FanficTopicChips extends Component {
 
         {{#if this.metadata.spoiler_label}}
           <span class="ao3-topic-chip ao3-topic-chip--spoiler">
-            {{i18n "ao3_fanfic.chips.spoiler"}}: {{this.metadata.spoiler_label}}
+            {{i18n "ao3_fanfic.chips.spoiler"}}:
+            {{this.metadata.spoiler_label}}
           </span>
         {{/if}}
 
         {{#each this.contentWarnings as |warning|}}
-          <span class="ao3-topic-chip ao3-topic-chip--warning">{{warning}}</span>
+          <span
+            class="ao3-topic-chip ao3-topic-chip--warning"
+          >{{warning}}</span>
         {{/each}}
       </div>
     {{/if}}

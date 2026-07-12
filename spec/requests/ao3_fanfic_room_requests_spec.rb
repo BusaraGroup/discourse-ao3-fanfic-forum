@@ -19,6 +19,7 @@ RSpec.describe "AO3 fanfic room requests" do
     SiteSetting.ao3_fanfic_subscribe_url = "/s/ao3chat"
     SiteSetting.ao3_fanfic_supporter_checkout_url = "/s/ao3chat"
     user.activate
+    user.update!(approved: true)
     sign_in(user)
   end
 

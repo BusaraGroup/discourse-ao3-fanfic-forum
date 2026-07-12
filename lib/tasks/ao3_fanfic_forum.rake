@@ -72,6 +72,7 @@ module Ao3FanficForum
     def configure_beta_security!
       set_site_setting(:force_https, true)
       set_site_setting(:enforce_second_factor, "staff")
+      set_site_setting(:must_approve_users, true)
       set_site_setting(:invite_allowed_groups, "1|2")
       set_site_setting(:invite_expiry_days, 14)
       set_site_setting(:hide_user_profiles_from_public, true)
@@ -110,6 +111,7 @@ module Ao3FanficForum
         "Staff two-factor authentication enforced" => %w[staff all].include?(
           SiteSetting.enforce_second_factor,
         ),
+        "New readers require staff approval" => SiteSetting.must_approve_users,
         "Public user directory disabled" => !SiteSetting.enable_user_directory,
         "Public profiles hidden" => SiteSetting.hide_user_profiles_from_public,
         "Usage telemetry disabled" => !SiteSetting.share_anonymized_statistics,

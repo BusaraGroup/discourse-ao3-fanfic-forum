@@ -7,6 +7,7 @@ RSpec.describe "AO3 fanfic topics" do
   before do
     SiteSetting.ao3_fanfic_enabled = true
     user.activate
+    user.update!(approved: true)
     sign_in(user)
   end
 
@@ -61,6 +62,7 @@ RSpec.describe "AO3 fanfic topics" do
 
   it "requires login for reader topic and term APIs", :aggregate_failures do
     sign_out
+    cookies.delete("_t")
 
     get "/ao3-fanfic/topics.json"
     expect(response.status).to eq(403)

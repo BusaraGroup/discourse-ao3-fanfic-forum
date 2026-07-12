@@ -25,6 +25,7 @@ The configure task enforces two-factor authentication for staff. Set up an authe
 - Run a manual backup, download it, and verify DigitalOcean droplet backups are enabled.
 - Confirm the private fandom room category is invisible to a normal reader and visible to a supporter-group test account.
 - Confirm staff accounts use unique passwords and two-factor authentication.
+- Confirm every new reader requires staff approval after email activation.
 - Review the privacy policy, terms, guidelines, contact address, and incident response contacts.
 
 ## Invite policy

@@ -17,7 +17,7 @@ module Ao3FanficForum
           .visible
           .secured(guardian)
           .joins(
-            "INNER JOIN ao3_fanfic_topic_metadata ao3_meta ON ao3_meta.topic_id = topics.id",
+            "LEFT OUTER JOIN ao3_fanfic_topic_metadata ao3_meta ON ao3_meta.topic_id = topics.id",
           )
 
       topics = apply_metadata_filters(topics)

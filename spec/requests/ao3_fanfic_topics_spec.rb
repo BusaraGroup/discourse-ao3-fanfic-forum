@@ -48,6 +48,14 @@ RSpec.describe "AO3 fanfic topics" do
     ).to eq(true)
   end
 
+  it "lists visible topics without AO3 metadata" do
+    topic = Fabricate(:topic, category: category, title: "Reader lounge check-in")
+
+    get "/ao3-fanfic/topics.json"
+
+    expect(response.parsed_body["topics"].pluck("id")).to include(topic.id)
+  end
+
   it "ignores default-only and privacy-only custom fields" do
     expect {
       post "/posts.json",

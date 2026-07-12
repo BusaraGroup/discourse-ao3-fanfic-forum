@@ -14,6 +14,7 @@ module Ao3FanficForum
       @supporter_url = discourse_path(SupporterAccess.subscribe_url)
       @session_url = discourse_path("/ao3-fanfic/login")
       @users_url = discourse_path("/ao3-fanfic/signup")
+      @signup_available = AuthConfiguration.signup_available?
     end
   end
 end

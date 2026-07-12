@@ -176,14 +176,16 @@ export default class Ao3FanficHome extends Component {
               {{dIcon "arrow-right"}}
               {{i18n "ao3_fanfic.home.login"}}
             </a>
-            <a
-              href={{this.signupUrl}}
-              class="btn btn-default ao3-home__button"
-              data-auto-route="true"
-            >
-              {{dIcon "users"}}
-              {{i18n "ao3_fanfic.home.create_account"}}
-            </a>
+            {{#unless this.siteSettings.ao3_fanfic_invite_only_beta}}
+              <a
+                href={{this.signupUrl}}
+                class="btn btn-default ao3-home__button"
+                data-auto-route="true"
+              >
+                {{dIcon "users"}}
+                {{i18n "ao3_fanfic.home.create_account"}}
+              </a>
+            {{/unless}}
             <a
               href={{this.accountUrl}}
               class="ao3-home__account-link"

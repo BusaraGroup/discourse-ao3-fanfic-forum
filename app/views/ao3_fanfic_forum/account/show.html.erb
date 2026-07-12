@@ -22,13 +22,15 @@
         >
           <%= I18n.t(@primary_label_key) %>
         </a>
-        <a
-          class="btn btn-default ao3-account-page__button"
-          href="<%= h @secondary_url %>"
-          data-auto-route="true"
-        >
-          <%= I18n.t(@secondary_label_key) %>
-        </a>
+        <% if @secondary_url.present? %>
+          <a
+            class="btn btn-default ao3-account-page__button"
+            href="<%= h @secondary_url %>"
+            data-auto-route="true"
+          >
+            <%= I18n.t(@secondary_label_key) %>
+          </a>
+        <% end %>
         <% if @logout_url.present? %>
           <form
             class="ao3-account-page__logout"

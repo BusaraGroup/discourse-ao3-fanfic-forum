@@ -20,6 +20,7 @@ module Ao3FanficForum
       @crypto_payment_methods = SupporterAccess.crypto_payment_methods
       @crypto_receipt_url = discourse_path("/ao3-fanfic/crypto-payments")
       @can_configure_payments = current_user&.staff? || false
+      @signup_available = AuthConfiguration.signup_available?
       @payment_methods_configured =
         @stripe_checkout_url.present? || @crypto_payment_methods.present?
       @payment_setup_checks = payment_setup_checks if @can_configure_payments
@@ -92,13 +93,20 @@ module Ao3FanficForum
         end
         @secondary_url = @home_url
         @secondary_label_key = "ao3_fanfic.supporter_page.cta.browse_public"
-      else
+      elsif @signup_available
         @state_title_key = "ao3_fanfic.supporter_page.state.account_title"
         @state_body_key = "ao3_fanfic.supporter_page.state.account_body"
         @primary_url = @signup_url
         @primary_label_key = "ao3_fanfic.supporter_page.cta.create_account"
         @secondary_url = @login_url
         @secondary_label_key = "ao3_fanfic.supporter_page.cta.log_in"
+      else
+        @state_title_key = "ao3_fanfic.supporter_page.state.invite_only_title"
+        @state_body_key = "ao3_fanfic.supporter_page.state.invite_only_body"
+        @primary_url = @login_url
+        @primary_label_key = "ao3_fanfic.supporter_page.cta.log_in"
+        @secondary_url = @home_url
+        @secondary_label_key = "ao3_fanfic.supporter_page.cta.browse_public"
       end
     end
   end

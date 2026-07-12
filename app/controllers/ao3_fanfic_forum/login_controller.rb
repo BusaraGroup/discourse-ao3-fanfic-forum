@@ -15,6 +15,7 @@ module Ao3FanficForum
       @password_reset_url = discourse_path("/ao3-fanfic/password-reset")
       @advanced_login_url = discourse_path("/ao3-fanfic/advanced-login")
       @session_url = discourse_path("/ao3-fanfic/login")
+      @signup_available = AuthConfiguration.signup_available?
     end
   end
 end

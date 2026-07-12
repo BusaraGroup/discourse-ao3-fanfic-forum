@@ -218,6 +218,7 @@ en:
         title: "Request a private room"
         body: "Supporters can ask staff to open smaller fandom, ship, readalong, or spoiler-heavy rooms."
         login_note: "Create an AO3Chat account before requesting a private room."
+        login: "Log in"
         join: "Create account"
         fandom: "Fandom"
         ship: "Ship or focus"

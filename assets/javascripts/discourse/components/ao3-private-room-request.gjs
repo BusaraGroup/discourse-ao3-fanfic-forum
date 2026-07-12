@@ -18,6 +18,7 @@ const EMPTY_REQUEST = {
 
 export default class Ao3PrivateRoomRequest extends Component {
   @service currentUser;
+  @service siteSettings;
 
   @tracked request = { ...EMPTY_REQUEST };
   @tracked saving = false;
@@ -54,6 +55,18 @@ export default class Ao3PrivateRoomRequest extends Component {
 
   get signupUrl() {
     return getURL("/ao3-fanfic/signup");
+  }
+
+  get signedOutActionUrl() {
+    return this.siteSettings.ao3_fanfic_invite_only_beta
+      ? getURL("/ao3-fanfic/login")
+      : this.signupUrl;
+  }
+
+  get signedOutActionLabel() {
+    return this.siteSettings.ao3_fanfic_invite_only_beta
+      ? i18n("ao3_fanfic.room_request.login")
+      : i18n("ao3_fanfic.room_request.join");
   }
 
   get hasPrivateRoomAccess() {
@@ -271,11 +284,11 @@ export default class Ao3PrivateRoomRequest extends Component {
         <div class="ao3-room-request__login">
           <p>{{i18n "ao3_fanfic.room_request.login_note"}}</p>
           <a
-            href={{this.signupUrl}}
+            href={{this.signedOutActionUrl}}
             class="btn btn-primary ao3-room-request__join"
             data-auto-route="true"
           >
-            {{i18n "ao3_fanfic.room_request.join"}}
+            {{this.signedOutActionLabel}}
           </a>
         </div>
       {{/if}}

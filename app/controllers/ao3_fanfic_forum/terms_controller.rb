@@ -3,12 +3,14 @@
 module Ao3FanficForum
   class TermsController < ::ApplicationController
     requires_plugin PLUGIN_NAME
+    requires_login
 
     VALID_TERM_TYPES = %w[fandom ship warning].freeze
     MAX_LIMIT = 50
-    ANON_CACHE_EXPIRY = 5.minutes
 
     def index
+      RateLimiter.new(current_user, "ao3-term-filter", 30, 1.minute).performed!
+
       limit = params[:limit].presence&.to_i || 12
       limit = limit.clamp(1, MAX_LIMIT)
       requested_types = Normalizer.list(params[:term_type])
@@ -21,19 +23,7 @@ module Ao3FanficForum
     private
 
     def terms_payload(term_types, limit)
-      # All anonymous viewers share the same topic visibility, so a short
-      # shared cache is safe and shields the grouped aggregation from
-      # unauthenticated traffic spikes. Signed-in visibility varies per user,
-      # so those requests always hit the database.
-      if current_user.blank?
-        Discourse
-          .cache
-          .fetch("ao3-fanfic-terms:anon:#{term_types.join(",")}:#{limit}", expires_in: ANON_CACHE_EXPIRY) do
-            collect_terms(term_types, limit)
-          end
-      else
-        collect_terms(term_types, limit)
-      end
+      collect_terms(term_types, limit)
     end
 
     def collect_terms(term_types, limit)

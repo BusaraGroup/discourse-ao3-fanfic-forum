@@ -1,8 +1,11 @@
 import Component from "@glimmer/component";
+import { service } from "@ember/service";
 import getURL from "discourse/lib/get-url";
 import { i18n } from "discourse-i18n";
 
 export default class Ao3AuthPanel extends Component {
+  @service siteSettings;
+
   get isSignup() {
     return this.args.mode === "signup";
   }
@@ -55,6 +58,10 @@ export default class Ao3AuthPanel extends Component {
     return this.isSignup ? this.loginUrl : this.signupUrl;
   }
 
+  get showAccountAction() {
+    return this.isSignup || !this.siteSettings.ao3_fanfic_invite_only_beta;
+  }
+
   <template>
     <section
       class="ao3-auth-panel"
@@ -84,13 +91,15 @@ export default class Ao3AuthPanel extends Component {
       </ul>
 
       <div class="ao3-auth-panel__actions">
-        <a
-          href={{this.accountActionUrl}}
-          class="btn btn-primary ao3-auth-panel__account"
-          data-auto-route="true"
-        >
-          {{this.accountActionLabel}}
-        </a>
+        {{#if this.showAccountAction}}
+          <a
+            href={{this.accountActionUrl}}
+            class="btn btn-primary ao3-auth-panel__account"
+            data-auto-route="true"
+          >
+            {{this.accountActionLabel}}
+          </a>
+        {{/if}}
         <a
           href={{this.subscribeUrl}}
           class="ao3-auth-panel__supporter"

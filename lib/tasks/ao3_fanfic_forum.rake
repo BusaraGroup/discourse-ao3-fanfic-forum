@@ -39,6 +39,95 @@ module Ao3FanficForum
       set_site_setting(:faq_url, "/faq")
     end
 
+    def configure_brand_assets!
+      wordmark = ensure_brand_upload!("ao3chat-wordmark.svg")
+      dark_wordmark = ensure_brand_upload!("ao3chat-wordmark-dark.svg")
+      mark = ensure_brand_upload!("ao3chat-mark.png")
+      social = ensure_brand_upload!("ao3chat-social.png")
+
+      set_site_setting(:logo, wordmark)
+      set_site_setting(:mobile_logo, wordmark)
+      set_site_setting(:logo_dark, dark_wordmark)
+      set_site_setting(:mobile_logo_dark, dark_wordmark)
+      set_site_setting(:logo_small, mark)
+      set_site_setting(:logo_small_dark, mark)
+      set_site_setting(:large_icon, mark)
+      set_site_setting(:manifest_icon, mark)
+      set_site_setting(:favicon, mark)
+      set_site_setting(:apple_touch_icon, mark)
+      set_site_setting(:opengraph_image, social)
+    end
+
+    def ensure_brand_upload!(filename)
+      path = File.expand_path("../../public/images/#{filename}", __dir__)
+
+      File.open(path, "rb") do |file|
+        upload = UploadCreator.new(file, filename).create_for(Discourse::SYSTEM_USER_ID)
+        raise "Could not install AO3Chat brand asset: #{filename}" if upload.blank?
+
+        upload
+      end
+    end
+
+    def configure_beta_security!
+      set_site_setting(:force_https, true)
+      set_site_setting(:enforce_second_factor, "staff")
+      set_site_setting(:invite_allowed_groups, "1|2")
+      set_site_setting(:invite_expiry_days, 14)
+      set_site_setting(:hide_user_profiles_from_public, true)
+      set_site_setting(:default_hide_profile, true)
+      set_site_setting(:enable_user_directory, false)
+      set_site_setting(:enable_group_directory, false)
+      set_site_setting(:hide_user_activity_tab, true)
+      set_site_setting(:enable_names, false)
+      set_site_setting(:use_name_for_username_suggestions, false)
+      set_site_setting(:share_anonymized_statistics, false)
+      set_site_setting(:discourse_narrative_bot_enabled, false)
+      set_site_setting(:disable_discourse_narrative_bot_welcome_post, true)
+      set_site_setting(:use_site_small_logo_as_system_avatar, true)
+      set_site_setting(:log_out_strict, true)
+      set_site_setting(:maximum_session_age, 720)
+      set_site_setting(:allow_index_in_robots_txt, false)
+      set_site_setting(:anonymous_posting_allowed_groups, "1|2|10")
+    end
+
+    def beta_checks
+      supporter_group = ensure_supporter_group!
+      private_category = SupporterAccess.private_rooms_category
+      notification_email = SiteSetting.notification_email.to_s
+
+      {
+        "Invite-only registration" => SiteSetting.invite_only,
+        "Invitation redemption enabled" => SiteSetting.allow_new_registrations,
+        "Login required" => SiteSetting.login_required,
+        "Public signup call-to-action disabled" => !SiteSetting.enable_signup_cta,
+        "Local login enabled" => SiteSetting.enable_local_logins,
+        "External social login disabled" =>
+          AuthConfiguration::SOCIAL_LOGIN_SETTINGS.none? do |setting|
+            SiteSetting.respond_to?(setting) && SiteSetting.public_send(setting)
+          end,
+        "HTTPS enforced" => SiteSetting.force_https,
+        "Staff two-factor authentication enforced" =>
+          %w[staff all].include?(SiteSetting.enforce_second_factor),
+        "Public user directory disabled" => !SiteSetting.enable_user_directory,
+        "Public profiles hidden" => SiteSetting.hide_user_profiles_from_public,
+        "Usage telemetry disabled" => !SiteSetting.share_anonymized_statistics,
+        "Platform footer disabled" => !SiteSetting.enable_powered_by_discourse,
+        "Onboarding bot disabled" =>
+          !SiteSetting.respond_to?(:discourse_narrative_bot_enabled) ||
+            !SiteSetting.discourse_narrative_bot_enabled,
+        "Backups enabled" => SiteSetting.enable_backups,
+        "Notification email configured" =>
+          notification_email.present? && notification_email.exclude?("noreply@unconfigured"),
+        "Supporter group private" =>
+          supporter_group.visibility_level == Group.visibility_levels[:owners] &&
+            supporter_group.members_visibility_level == Group.visibility_levels[:owners],
+        "Private rooms restricted" =>
+          private_category.present? && private_category.read_restricted &&
+            private_category.groups.exists?(id: supporter_group.id),
+      }
+    end
+
     def ensure_supporter_group!
       group_name = SiteSetting.ao3_fanfic_supporter_group_name.presence || "ao3chat_supporters"
       group = Group.find_by(name: group_name) || Group.create!(name: group_name)
@@ -170,7 +259,9 @@ namespace :ao3_fanfic_forum do
   task configure: :environment do
     SiteSetting.ao3_fanfic_enabled = true
     Ao3FanficForum::Setup.configure_brand!
+    Ao3FanficForum::Setup.configure_brand_assets!
     Ao3FanficForum::Setup.configure_auth!
+    Ao3FanficForum::Setup.configure_beta_security!
     SiteSetting.tagging_enabled = true
     SiteSetting.allow_anonymous_mode = true
     SiteSetting.max_post_length = 150_000
@@ -386,6 +477,20 @@ namespace :ao3_fanfic_forum do
     end
 
     puts "AO3Chat defaults applied: local auth enabled, #{category_ids.length} categories ready, private rooms gated by #{supporter_group.name}."
+  end
+
+  desc "Audit AO3Chat invite-only beta security and operations"
+  task beta_audit: :environment do
+    checks = Ao3FanficForum::Setup.beta_checks
+
+    checks.each do |label, passed|
+      puts "#{passed ? "PASS" : "FAIL"}: #{label}"
+    end
+
+    failed = checks.count { |_, passed| !passed }
+    abort "AO3Chat beta audit failed with #{failed} issue(s)." if failed.positive?
+
+    puts "AO3Chat beta audit passed."
   end
 
   desc "Add current public rooms to every reader's sidebar"

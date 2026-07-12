@@ -79,7 +79,9 @@
       </form>
 
       <nav class="ao3-auth-page__links" aria-label="<%= I18n.t("ao3_fanfic.auth_page.links_label") %>">
-        <a href="<%= h @signup_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.login.create_account") %></a>
+        <% if @signup_available %>
+          <a href="<%= h @signup_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.login.create_account") %></a>
+        <% end %>
         <a href="<%= h @password_reset_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.login.reset_password") %></a>
         <a href="<%= h @supporter_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.supporter_link") %></a>
       </nav>

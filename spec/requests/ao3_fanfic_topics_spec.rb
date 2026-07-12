@@ -58,6 +58,16 @@ RSpec.describe "AO3 fanfic topics" do
     expect(topic_ids).not_to include(category.topic_id)
   end
 
+  it "requires login for reader topic and term APIs", :aggregate_failures do
+    sign_out
+
+    get "/ao3-fanfic/topics.json"
+    expect(response.status).to eq(403)
+
+    get "/ao3-fanfic/terms.json"
+    expect(response.status).to eq(403)
+  end
+
   it "ignores default-only and privacy-only custom fields" do
     expect {
       post "/posts.json",
@@ -235,6 +245,18 @@ RSpec.describe "AO3 fanfic topics" do
     topic_ids = response.parsed_body["topics"].map { |topic| topic["id"] }
     expect(topic_ids).to include(matching.id)
     expect(topic_ids).not_to include(other.id)
+  end
+
+  it "rejects oversized filter lists before building the query" do
+    get "/ao3-fanfic/topics.json",
+        params: {
+          fandom: Array.new(9) { |index| "Fandom #{index}" },
+        }
+
+    expect(response.status).to eq(400)
+    expect(response.parsed_body["errors"]).to include(
+      I18n.t("ao3_fanfic.errors.too_many_filter_values", count: 8),
+    )
   end
 
   it "returns visible fandom, ship, and warning terms" do

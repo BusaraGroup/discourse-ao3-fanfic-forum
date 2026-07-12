@@ -37,10 +37,7 @@ RSpec.describe "AO3 fanfic room requests" do
     expect(response.status).to eq(200)
     expect(response.parsed_body).to include(
       "signed_in" => true,
-      "supporter" => false,
-      "staff" => false,
       "has_private_room_access" => false,
-      "supporter_group_name" => supporter_group.name,
       "subscribe_url" => "/ao3-fanfic/supporter",
       "private_rooms_url" => nil,
     )
@@ -54,10 +51,7 @@ RSpec.describe "AO3 fanfic room requests" do
     expect(response.status).to eq(200)
     expect(response.parsed_body).to include(
       "signed_in" => true,
-      "supporter" => true,
-      "staff" => false,
       "has_private_room_access" => true,
-      "supporter_group_name" => supporter_group.name,
       "subscribe_url" => "/ao3-fanfic/supporter",
       "private_rooms_url" => private_category.url,
     )

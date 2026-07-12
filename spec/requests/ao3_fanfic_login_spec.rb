@@ -26,6 +26,8 @@ RSpec.describe Ao3FanficForum::LoginController do
 
   describe "#show" do
     it "renders AO3Chat login for signed-out readers", :aggregate_failures do
+      SiteSetting.invite_only = true
+
       get "/ao3-fanfic/login"
 
       expect(response.status).to eq(200)
@@ -35,7 +37,7 @@ RSpec.describe Ao3FanficForum::LoginController do
       expect(response.body).to include('data-success-url="/"')
       expect(response.body).to include('name="authenticity_token"')
       expect(response.body).to include("/ao3-fanfic/advanced-login")
-      expect(response.body).to include('href="/ao3-fanfic/signup" data-auto-route="true"')
+      expect(response.body).not_to include('href="/ao3-fanfic/signup" data-auto-route="true"')
       expect(response.body).to include('href="/ao3-fanfic/password-reset" data-auto-route="true"')
     end
 

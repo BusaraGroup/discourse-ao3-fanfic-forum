@@ -6,6 +6,8 @@ module Ao3FanficForum
     requires_login
 
     def create
+      RateLimiter.new(current_user, "ao3-private-room-request", 3, 1.day).performed!
+
       category = SupporterAccess.private_rooms_category
 
       if category.blank?

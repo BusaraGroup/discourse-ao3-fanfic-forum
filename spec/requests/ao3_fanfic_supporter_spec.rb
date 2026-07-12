@@ -23,11 +23,13 @@ RSpec.describe Ao3FanficForum::SupporterController do
       expect(response.body).not_to include(I18n.t("ao3_fanfic.supporter_page.setup.title"))
     end
 
-    it "keeps signed-out readers on account creation first", :aggregate_failures do
+    it "directs signed-out beta readers to login", :aggregate_failures do
+      SiteSetting.invite_only = true
+
       get "/ao3-fanfic/supporter"
 
       expect(response.status).to eq(200)
-      expect(response.body).to include("/ao3-fanfic/signup")
+      expect(response.body).not_to include("/ao3-fanfic/signup")
       expect(response.body).to include("/ao3-fanfic/login")
       expect(response.body).to include('data-auto-route="true"')
       expect(response.body).to include(I18n.t("ao3_fanfic.supporter_page.payments.crypto_login_note"))

@@ -1,6 +1,8 @@
 en:
+  powered_by_html: "AO3Chat works best with JavaScript enabled."
   site_settings:
     ao3_fanfic_enabled: "Enable AO3Chat reader workflows."
+    ao3_fanfic_invite_only_beta: "Restrict AO3Chat to invited readers and require login for the beta."
     ao3_fanfic_require_fandom_tags: "Require at least one fandom tag on AO3 fanfic topics."
     ao3_fanfic_paid_rooms_enabled: "Show AO3Chat supporter tier and private fandom room prompts."
     ao3_fanfic_supporter_group_name: "Group that unlocks AO3Chat private fandom rooms. Subscription plans should grant this group."
@@ -61,6 +63,9 @@ en:
         submit: "Create account"
         busy: "Creating account..."
         log_in: "Log in"
+        invite_only_title: "AO3Chat is invite-only"
+        invite_only_body: "New reader accounts are created from a personal invitation sent by AO3Chat staff."
+        invite_only_help: "Open the invitation link from your email to join. Already have an account? Log in below."
       password_reset:
         title: "Reset your AO3Chat password"
         body: "Recover access to your local AO3Chat account without connecting an AO3, social, or public fandom identity."
@@ -90,6 +95,8 @@ en:
       state:
         signed_out_title: "Create a local reader account"
         signed_out_body: "Start with an AO3Chat handle, then join discussions or unlock private rooms through the supporter tier."
+        invite_only_title: "AO3Chat is invite-only"
+        invite_only_body: "Use the personal invitation from AO3Chat staff to create an account, or log in if you have already joined."
         signed_in_title: "You are signed in"
         signed_in_body: "Signed in as %{username}. You can open AO3Chat or review supporter access for private rooms."
       cta:
@@ -120,6 +127,8 @@ en:
       state:
         account_title: "Start with an AO3Chat account"
         account_body: "Create a local reader account first, then return here to join the supporter tier and request private rooms."
+        invite_only_title: "Supporter access starts after joining"
+        invite_only_body: "AO3Chat is invite-only during beta. Join from your personal invitation, then return here to support private fandom rooms."
         ready_title: "Your account is ready"
         ready_body: "Choose a payment method to join the supporter tier. Stripe can grant access automatically when configured; crypto receipts are verified by staff."
         configure_title: "Payment setup is needed"
@@ -176,6 +185,7 @@ en:
       fandom_required: "Add at least one fandom tag."
       invalid_discussion_type: "Choose a valid AO3 discussion type."
       invalid_content_warnings: "These content warnings are not allowed: %{warnings}."
+      too_many_filter_values: "Use no more than %{count} values in each filter."
     crypto_payment:
       methods:
         btc:

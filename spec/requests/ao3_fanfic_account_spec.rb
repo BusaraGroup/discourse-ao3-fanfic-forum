@@ -6,13 +6,17 @@ RSpec.describe Ao3FanficForum::AccountController do
   before { SiteSetting.ao3_fanfic_enabled = true }
 
   describe "#show" do
-    it "renders account actions for signed-out readers" do
+    it "renders invite-only account access for signed-out readers" do
+      SiteSetting.invite_only = true
+
       get "/ao3-fanfic/account"
 
       expect(response.status).to eq(200)
       expect(response.body).to include(I18n.t("ao3_fanfic.account_page.title"))
-      expect(response.body).to include(I18n.t("ao3_fanfic.account_page.cta.create"))
-      expect(response.body).to include('href="/ao3-fanfic/signup"')
+      expect(response.body).to include(
+        I18n.t("ao3_fanfic.account_page.state.invite_only_title"),
+      )
+      expect(response.body).not_to include('href="/ao3-fanfic/signup"')
       expect(response.body).to include('href="/ao3-fanfic/login"')
       expect(response.body).to include('data-auto-route="true"')
     end

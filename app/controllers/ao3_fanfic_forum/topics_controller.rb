@@ -3,10 +3,15 @@
 module Ao3FanficForum
   class TopicsController < ::ApplicationController
     requires_plugin PLUGIN_NAME
+    requires_login
 
     MAX_PER_PAGE = 100
+    MAX_FILTER_VALUES = 8
 
     def index
+      RateLimiter.new(current_user, "ao3-topic-filter", 60, 1.minute).performed!
+      validate_filter_counts!
+
       page = [params[:page].to_i, 1].max
       per_page = params[:per_page].presence&.to_i || SiteSetting.ao3_fanfic_filter_page_size
       per_page = per_page.clamp(1, MAX_PER_PAGE)
@@ -46,6 +51,19 @@ module Ao3FanficForum
     end
 
     private
+
+    def validate_filter_counts!
+      %i[fandom ship warning exclude_warning].each do |filter|
+        next if Normalizer.list(params[filter]).length <= MAX_FILTER_VALUES
+
+        raise Discourse::InvalidParameters.new(
+                I18n.t(
+                  "ao3_fanfic.errors.too_many_filter_values",
+                  count: MAX_FILTER_VALUES,
+                ),
+              )
+      end
+    end
 
     def apply_metadata_filters(scope)
       discussion_type = Metadata.normalize_discussion_type(params[:discussion_type])

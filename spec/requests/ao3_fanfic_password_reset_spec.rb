@@ -20,6 +20,8 @@ RSpec.describe Ao3FanficForum::PasswordResetController do
 
   describe "#show" do
     it "renders AO3Chat password recovery for signed-out readers", :aggregate_failures do
+      SiteSetting.invite_only = true
+
       get "/ao3-fanfic/password-reset"
 
       expect(response.status).to eq(200)
@@ -28,7 +30,7 @@ RSpec.describe Ao3FanficForum::PasswordResetController do
       expect(response.body).to include('action="/ao3-fanfic/password-reset"')
       expect(response.body).to include('name="authenticity_token"')
       expect(response.body).to include('href="/ao3-fanfic/login" data-auto-route="true"')
-      expect(response.body).to include('href="/ao3-fanfic/signup" data-auto-route="true"')
+      expect(response.body).not_to include('href="/ao3-fanfic/signup" data-auto-route="true"')
     end
 
     it "redirects signed-in readers to their account page" do

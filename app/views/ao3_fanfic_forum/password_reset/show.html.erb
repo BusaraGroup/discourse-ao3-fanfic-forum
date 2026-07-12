@@ -50,7 +50,9 @@
 
       <nav class="ao3-auth-page__links" aria-label="<%= I18n.t("ao3_fanfic.auth_page.links_label") %>">
         <a href="<%= h @login_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.password_reset.log_in") %></a>
-        <a href="<%= h @signup_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.password_reset.create_account") %></a>
+        <% if @signup_available %>
+          <a href="<%= h @signup_url %>" data-auto-route="true"><%= I18n.t("ao3_fanfic.auth_page.password_reset.create_account") %></a>
+        <% end %>
       </nav>
     </section>
 

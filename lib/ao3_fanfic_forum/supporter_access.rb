@@ -92,10 +92,7 @@ module Ao3FanficForum
     def status_for(user)
       {
         signed_in: user.present?,
-        supporter: supporter?(user),
-        staff: user&.staff? || false,
         has_private_room_access: private_room_access?(user),
-        supporter_group_name: group_name,
         subscribe_url: subscribe_url,
         private_rooms_url: private_room_url_for(user),
       }

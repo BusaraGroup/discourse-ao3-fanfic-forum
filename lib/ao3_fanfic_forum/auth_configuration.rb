@@ -20,14 +20,14 @@ module Ao3FanficForum
     module_function
 
     def apply!
-      set_site_setting(:login_required, false)
-      set_site_setting(:invite_only, false)
+      set_site_setting(:login_required, invite_only_beta?)
+      set_site_setting(:invite_only, invite_only_beta?)
       set_site_setting(:auth_immediately, false)
       set_site_setting(:enable_discourse_connect, false)
       set_site_setting(:enable_local_logins, true)
       set_site_setting(:enable_local_logins_via_email, true)
       set_site_setting(:allow_new_registrations, true)
-      set_site_setting(:enable_signup_cta, true)
+      set_site_setting(:enable_signup_cta, !invite_only_beta?)
       set_site_setting(:hide_email_address_taken, true)
 
       SOCIAL_LOGIN_SETTINGS.each { |setting| set_site_setting(setting, false) }
@@ -38,6 +38,10 @@ module Ao3FanficForum
     def signup_available?
       !SiteSetting.invite_only && SiteSetting.allow_new_registrations &&
         !SiteSetting.enable_discourse_connect
+    end
+
+    def invite_only_beta?
+      SiteSetting.ao3_fanfic_invite_only_beta
     end
 
     def set_site_setting(name, value)

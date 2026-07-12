@@ -1,0 +1,19 @@
+name: AO3Chat plugin
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ao3chat-plugin-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    uses: discourse/.github/.github/workflows/discourse-plugin.yml@v1

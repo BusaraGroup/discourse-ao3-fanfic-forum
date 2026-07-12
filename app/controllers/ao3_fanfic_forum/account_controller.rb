@@ -12,6 +12,7 @@ module Ao3FanficForum
       @signup_url = discourse_path("/ao3-fanfic/signup")
       @supporter_url = discourse_path(SupporterAccess.subscribe_url)
       @logout_url = discourse_path("/ao3-fanfic/logout") if @signed_in
+      @signup_available = AuthConfiguration.signup_available?
 
       assign_cta
     end
@@ -26,13 +27,20 @@ module Ao3FanficForum
         @primary_label_key = "ao3_fanfic.account_page.cta.open"
         @secondary_url = @supporter_url
         @secondary_label_key = "ao3_fanfic.account_page.cta.supporter"
-      else
+      elsif @signup_available
         @state_title_key = "ao3_fanfic.account_page.state.signed_out_title"
         @state_body_key = "ao3_fanfic.account_page.state.signed_out_body"
         @primary_url = @signup_url
         @primary_label_key = "ao3_fanfic.account_page.cta.create"
         @secondary_url = @login_url
         @secondary_label_key = "ao3_fanfic.account_page.cta.log_in"
+      else
+        @state_title_key = "ao3_fanfic.account_page.state.invite_only_title"
+        @state_body_key = "ao3_fanfic.account_page.state.invite_only_body"
+        @primary_url = @login_url
+        @primary_label_key = "ao3_fanfic.account_page.cta.log_in"
+        @secondary_url = nil
+        @secondary_label_key = nil
       end
     end
   end

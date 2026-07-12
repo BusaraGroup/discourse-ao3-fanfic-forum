@@ -2,6 +2,9 @@ ao3_fanfic:
   ao3_fanfic_enabled:
     default: true
     client: true
+  ao3_fanfic_invite_only_beta:
+    default: true
+    client: true
   ao3_fanfic_require_fandom_tags:
     default: true
     client: true

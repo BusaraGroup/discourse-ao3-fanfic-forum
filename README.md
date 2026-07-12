@@ -40,17 +40,30 @@ bin/rake ao3_fanfic_forum:sync_public_rooms
 The configure task:
 
 - enables AO3Chat topic metadata
-- enables local AO3Chat accounts
+- enables local AO3Chat accounts behind an invite-only beta gate
+- requires login before discussions can be viewed
+- limits invitations to staff and sets a 14-day invite expiry
+- enforces two-factor authentication for staff
+- hides public profiles and user/group directories
 - disables third-party/social sign-in methods
 - creates the AO3Chat category structure
 - promotes configurable featured fandom homes on the AO3Chat home page
 - creates the `ao3chat_supporters` group
 - creates the supporter-only private fandom rooms category
 - hides public powered-by branding
+- installs AO3Chat logos, icons, social previews, and system-avatar branding
 - disables and visually suppresses built-in owner onboarding and tutorial-style welcome messages
 - adds AO3Chat-owned `/ao3-fanfic/login` and `/ao3-fanfic/signup` pages backed by local account auth
 - adds `/ao3-fanfic/account` as the AO3Chat account entry point
 - relabels public navigation around AO3Chat rooms and discussions
+
+Run the release audit after every rebuild or settings change:
+
+```bash
+bin/rake ao3_fanfic_forum:beta_audit
+```
+
+The command exits unsuccessfully if the invite gate, HTTPS, staff 2FA, profile privacy, backups, email identity, supporter group, or private-room permissions are not ready. See [`docs/beta-release-checklist.md`](docs/beta-release-checklist.md) for the full deployment gate.
 
 ## Category Structure
 
@@ -127,7 +140,7 @@ Supported query params:
 - `spoiler_safe`: `true` hides topics with active spoiler windows
 - `page`, `per_page`
 
-All results still use normal topic visibility checks. The plugin does not bypass category or group permissions.
+These endpoints require a signed-in reader. All results still use normal topic visibility checks, and the plugin does not bypass category or group permissions. Each include/exclude filter accepts at most eight values.
 
 The AO3Chat home page includes a reader-facing browser backed by this endpoint, so fandom, ship, warning, spoiler-safe, and thread-type filtering work without leaving the main discussion view.
 
@@ -137,7 +150,7 @@ The AO3Chat home page includes a reader-facing browser backed by this endpoint, 
 
 The full AO3Chat discovery header, fandom shortcuts, filtering browser, and supporter promotion render only at the site root. They must not be mounted on category, tag, or alternate topic-list routes.
 
-Category routes are reader rooms. Each room uses a compact identity header and a category-scoped `search` query immediately before Discourse's native topic list. The native list and composer remain responsible for discussion visibility, pagination, sorting, notifications, and topic creation permissions.
+Category routes are reader rooms. Each room uses a compact identity header and a category-scoped search immediately before the platform's native discussion list. The native list and composer remain responsible for discussion visibility, pagination, sorting, notifications, and topic creation permissions.
 
 ## Privacy Model
 

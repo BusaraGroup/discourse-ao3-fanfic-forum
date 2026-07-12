@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240">
+  <rect width="240" height="240" rx="45" fill="#b62f45"/>
+  <path d="M55 61h130v87c0 26-21 47-47 47H85l-30 23V61Z" fill="#f7efe6"/>
+  <path d="m86 151 34-69h13l34 69h-20l-7-15h-29l-7 15H86Zm33-31h15l-7-18-8 18Z" fill="#17191a"/>
+  <circle cx="171" cy="69" r="10" fill="#1697a6"/>
+  <text x="280" y="154" fill="#17191a" font-family="Georgia, serif" font-size="102" font-weight="700">AO3Chat</text>
+  <circle cx="824" cy="78" r="14" fill="#b62f45"/>
+</svg>

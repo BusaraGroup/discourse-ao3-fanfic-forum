@@ -19,6 +19,17 @@ module Ao3FanficForum
     DISCUSSION_TYPES = %w[general fic_recommendation chapter_discussion looking_for_fic].freeze
     TERM_FIELDS = [FANDOM_TAGS, SHIP_TAGS, CONTENT_WARNINGS].freeze
     LEGACY_FIELD_NAMES = [VISIBILITY, SPACE_GROUP_ID, POST_ANONYMOUSLY].freeze
+    LEGACY_CUSTOM_FIELD_TYPES = {
+      VISIBILITY => {
+        max_length: 20,
+      },
+      SPACE_GROUP_ID => {
+        max_length: 20,
+      },
+      POST_ANONYMOUSLY => {
+        max_length: 5,
+      },
+    }.freeze
     FIELD_NAMES = [
       DISCUSSION_TYPE,
       FANDOM_TAGS,

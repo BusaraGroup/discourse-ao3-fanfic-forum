@@ -72,6 +72,11 @@ after_initialize do
     Search.preloaded_topic_custom_fields << field
   end
 
+  Ao3FanficForum::Fields::LEGACY_CUSTOM_FIELD_TYPES.each do |field, options|
+    register_topic_custom_field_type(field, :string, max_length: options[:max_length])
+    register_editable_topic_custom_field(field)
+  end
+
   validate(:topic, :validate_ao3_fanfic_metadata) { Ao3FanficForum::Metadata.validate_topic!(self) }
 
   on(:topic_created) { |topic, _opts, _user| Ao3FanficForum::Metadata.sync_from_topic!(topic) }

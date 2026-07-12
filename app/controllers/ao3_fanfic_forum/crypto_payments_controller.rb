@@ -17,12 +17,11 @@ module Ao3FanficForum
       end
 
       post = create_staff_message(method, data)
-      flash[post.present? ? :notice : :error] =
-        if post.present?
-          I18n.t("ao3_fanfic.crypto_payment.flash.submitted")
-        else
-          I18n.t("ao3_fanfic.crypto_payment.flash.failed")
-        end
+      flash[post.present? ? :notice : :error] = if post.present?
+        I18n.t("ao3_fanfic.crypto_payment.flash.submitted")
+      else
+        I18n.t("ao3_fanfic.crypto_payment.flash.failed")
+      end
 
       redirect_to supporter_payment_url
     rescue ActionController::ParameterMissing, Discourse::InvalidParameters => e
@@ -33,8 +32,7 @@ module Ao3FanficForum
     private
 
     def payment_data
-      permitted =
-        params.require(:crypto_payment).permit(:currency, :transaction_id, :amount_note)
+      permitted = params.require(:crypto_payment).permit(:currency, :transaction_id, :amount_note)
 
       transaction_id = Normalizer.text(permitted[:transaction_id], max_length: 200)
       if transaction_id.blank?
@@ -55,8 +53,7 @@ module Ao3FanficForum
       return if staff_group.blank?
 
       amount_note =
-        data[:amount_note].presence ||
-          I18n.t("ao3_fanfic.crypto_payment.staff_message.unspecified")
+        data[:amount_note].presence || I18n.t("ao3_fanfic.crypto_payment.staff_message.unspecified")
       method_name = I18n.t(method[:name_key])
 
       creator =

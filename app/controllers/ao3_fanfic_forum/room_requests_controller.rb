@@ -11,29 +11,33 @@ module Ao3FanficForum
       category = SupporterAccess.private_rooms_category
 
       if category.blank?
-        return render_json_error(
-                 I18n.t("ao3_fanfic.room_requests.errors.category_missing"),
-                 status: :bad_request,
-               )
+        return(
+          render_json_error(
+            I18n.t("ao3_fanfic.room_requests.errors.category_missing"),
+            status: :bad_request,
+          )
+        )
       end
 
       if !SupporterAccess.private_room_access?(current_user)
-        return render json: {
-                        errors: [
-                          I18n.t("ao3_fanfic.room_requests.errors.supporter_required"),
-                        ],
-                        subscribe_url: SupporterAccess.subscribe_url,
-                      },
-                      status: :forbidden
+        return(
+          render json: {
+                   errors: [I18n.t("ao3_fanfic.room_requests.errors.supporter_required")],
+                   subscribe_url: SupporterAccess.subscribe_url,
+                 },
+                 status: :forbidden
+        )
       end
 
       data = request_data
 
       if data[:fandom].blank?
-        return render_json_error(
-                 I18n.t("ao3_fanfic.room_requests.errors.fandom_required"),
-                 status: :bad_request,
-               )
+        return(
+          render_json_error(
+            I18n.t("ao3_fanfic.room_requests.errors.fandom_required"),
+            status: :bad_request,
+          )
+        )
       end
 
       guardian.ensure_can_create_topic_on_category!(category.id)
@@ -69,9 +73,13 @@ module Ao3FanficForum
     private
 
     def permitted_request
-      params
-        .require(:room_request)
-        .permit(:fandom, :ship, :purpose, :spoiler_policy, :comfort_notes)
+      params.require(:room_request).permit(
+        :fandom,
+        :ship,
+        :purpose,
+        :spoiler_policy,
+        :comfort_notes,
+      )
     end
 
     def request_data
@@ -79,10 +87,8 @@ module Ao3FanficForum
         fandom: Normalizer.text(permitted_request[:fandom], max_length: 120),
         ship: Normalizer.text(permitted_request[:ship], max_length: 120),
         purpose: Normalizer.text(permitted_request[:purpose], max_length: 800),
-        spoiler_policy:
-          Normalizer.text(permitted_request[:spoiler_policy], max_length: 300),
-        comfort_notes:
-          Normalizer.text(permitted_request[:comfort_notes], max_length: 500),
+        spoiler_policy: Normalizer.text(permitted_request[:spoiler_policy], max_length: 300),
+        comfort_notes: Normalizer.text(permitted_request[:comfort_notes], max_length: 500),
       }
     end
 
@@ -94,10 +100,7 @@ module Ao3FanficForum
           "ao3_fanfic.room_requests.title"
         end
 
-      Normalizer.text(
-        I18n.t(key, fandom: data[:fandom], ship: data[:ship]),
-        max_length: 255,
-      )
+      Normalizer.text(I18n.t(key, fandom: data[:fandom], ship: data[:ship]), max_length: 255)
     end
 
     def request_body(data)
@@ -105,10 +108,7 @@ module Ao3FanficForum
         "## #{I18n.t("ao3_fanfic.room_requests.body.heading")}",
         "",
         I18n.t("ao3_fanfic.room_requests.body.fandom", value: data[:fandom]),
-        I18n.t(
-          "ao3_fanfic.room_requests.body.ship",
-          value: value_or_unspecified(data[:ship]),
-        ),
+        I18n.t("ao3_fanfic.room_requests.body.ship", value: value_or_unspecified(data[:ship])),
         I18n.t(
           "ao3_fanfic.room_requests.body.purpose",
           value: value_or_unspecified(data[:purpose]),

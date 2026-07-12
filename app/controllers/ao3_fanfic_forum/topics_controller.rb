@@ -57,10 +57,7 @@ module Ao3FanficForum
         next if Normalizer.list(params[filter]).length <= MAX_FILTER_VALUES
 
         raise Discourse::InvalidParameters.new(
-                I18n.t(
-                  "ao3_fanfic.errors.too_many_filter_values",
-                  count: MAX_FILTER_VALUES,
-                ),
+                I18n.t("ao3_fanfic.errors.too_many_filter_values", count: MAX_FILTER_VALUES),
               )
       end
     end
@@ -88,23 +85,27 @@ module Ao3FanficForum
         ship: params[:ship],
         warning: params[:warning],
       }.each do |term_type, raw_values|
-        Normalizer.list(raw_values).each_with_index do |value, index|
-          scope = include_term(scope, term_type.to_s, Normalizer.key(value), index)
-        end
+        Normalizer
+          .list(raw_values)
+          .each_with_index do |value, index|
+            scope = include_term(scope, term_type.to_s, Normalizer.key(value), index)
+          end
       end
 
-      Normalizer.list(params[:exclude_warning]).each do |value|
-        scope =
-          scope.where(
-            "NOT EXISTS (
+      Normalizer
+        .list(params[:exclude_warning])
+        .each do |value|
+          scope =
+            scope.where(
+              "NOT EXISTS (
               SELECT 1 FROM ao3_fanfic_topic_terms excluded_terms
               WHERE excluded_terms.topic_id = topics.id
                 AND excluded_terms.term_type = 'warning'
                 AND excluded_terms.normalized = ?
             )",
-            Normalizer.key(value),
-          )
-      end
+              Normalizer.key(value),
+            )
+        end
 
       scope
     end

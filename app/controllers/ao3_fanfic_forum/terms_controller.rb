@@ -40,17 +40,9 @@ module Ao3FanficForum
         .group(:normalized)
         .order(Arel.sql("COUNT(DISTINCT topic_id) DESC, MIN(value) ASC"))
         .limit(limit)
-        .pluck(
-          Arel.sql("MIN(value)"),
-          :normalized,
-          Arel.sql("COUNT(DISTINCT topic_id)"),
-        )
+        .pluck(Arel.sql("MIN(value)"), :normalized, Arel.sql("COUNT(DISTINCT topic_id)"))
         .map do |value, normalized, topic_count|
-          {
-            value: value,
-            normalized: normalized,
-            topic_count: topic_count,
-          }
+          { value: value, normalized: normalized, topic_count: topic_count }
         end
     end
   end

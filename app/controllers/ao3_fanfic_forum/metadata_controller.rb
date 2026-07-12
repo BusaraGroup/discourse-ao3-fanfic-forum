@@ -14,9 +14,7 @@ module Ao3FanficForum
 
       # A scalar (e.g. topic_custom_fields="junk") reaches here as a String;
       # reject it as a bad request instead of letting String#permit raise.
-      if !fields.respond_to?(:permit)
-        raise Discourse::InvalidParameters.new(:topic_custom_fields)
-      end
+      raise Discourse::InvalidParameters.new(:topic_custom_fields) if !fields.respond_to?(:permit)
 
       fields = fields.permit(*Fields.field_names)
       Metadata.apply!(topic, fields)

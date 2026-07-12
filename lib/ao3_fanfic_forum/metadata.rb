@@ -2,33 +2,31 @@
 
 module Ao3FanficForum
   module Metadata
-    PUBLIC_METADATA_KEYS =
-      %i[
-        discussion_type
-        fandom_tags
-        ship_tags
-        content_warnings
-        spoiler_label
-        spoiler_until
-        fic_url
-        fic_title
-        fic_author
-        chapter_ref
-      ].freeze
+    PUBLIC_METADATA_KEYS = %i[
+      discussion_type
+      fandom_tags
+      ship_tags
+      content_warnings
+      spoiler_label
+      spoiler_until
+      fic_url
+      fic_title
+      fic_author
+      chapter_ref
+    ].freeze
 
-    PRESENCE_FIELD_NAMES =
-      [
-        Fields::DISCUSSION_TYPE,
-        Fields::FANDOM_TAGS,
-        Fields::SHIP_TAGS,
-        Fields::CONTENT_WARNINGS,
-        Fields::SPOILER_LABEL,
-        Fields::SPOILER_UNTIL,
-        Fields::FIC_URL,
-        Fields::FIC_TITLE,
-        Fields::FIC_AUTHOR,
-        Fields::CHAPTER_REF,
-      ].freeze
+    PRESENCE_FIELD_NAMES = [
+      Fields::DISCUSSION_TYPE,
+      Fields::FANDOM_TAGS,
+      Fields::SHIP_TAGS,
+      Fields::CONTENT_WARNINGS,
+      Fields::SPOILER_LABEL,
+      Fields::SPOILER_UNTIL,
+      Fields::FIC_URL,
+      Fields::FIC_TITLE,
+      Fields::FIC_AUTHOR,
+      Fields::CHAPTER_REF,
+    ].freeze
 
     DEFAULT_FIELD_VALUES = { Fields::DISCUSSION_TYPE => "general" }.freeze
 
@@ -232,9 +230,10 @@ module Ao3FanficForum
     def validate_allowed_warnings!(warnings)
       return if SiteSetting.ao3_fanfic_allow_custom_content_warnings
 
-      allowed = Normalizer.list(SiteSetting.ao3_fanfic_allowed_content_warnings).map do |warning|
-        Normalizer.key(warning)
-      end
+      allowed =
+        Normalizer
+          .list(SiteSetting.ao3_fanfic_allowed_content_warnings)
+          .map { |warning| Normalizer.key(warning) }
       invalid = warnings.reject { |warning| allowed.include?(Normalizer.key(warning)) }
       return if invalid.blank?
 

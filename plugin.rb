@@ -28,6 +28,21 @@ end
 
 require_relative "lib/ao3_fanfic_forum/engine"
 
+ao3_fanfic_login_path = "#{Discourse.base_path}/ao3-fanfic/login"
+ao3_fanfic_password_reset_path = "#{Discourse.base_path}/ao3-fanfic/password-reset"
+ao3_fanfic_signup_path = "#{Discourse.base_path}/ao3-fanfic/signup"
+
+Discourse::Application.routes.prepend do
+  get "ao3-fanfic/advanced-login" => "static#show", :id => "login"
+  post "ao3-fanfic/login" => "session#create"
+  post "ao3-fanfic/password-reset" => "session#forgot_password"
+  post "ao3-fanfic/signup" => "users#create"
+  get "login" => redirect(ao3_fanfic_login_path)
+  get "password-reset" => redirect(ao3_fanfic_password_reset_path)
+  get "signup" => redirect(ao3_fanfic_signup_path)
+  mount Ao3FanficForum::Engine, at: "ao3-fanfic"
+end
+
 after_initialize do
   require_relative "lib/ao3_fanfic_forum/auth_configuration"
   require_relative "lib/ao3_fanfic_forum/fields"
@@ -50,21 +65,6 @@ after_initialize do
   require_relative "app/models/ao3_fanfic_forum/topic_term"
   require_relative "lib/ao3_fanfic_forum/metadata"
 
-  ao3_fanfic_login_path = "#{Discourse.base_path}/ao3-fanfic/login"
-  ao3_fanfic_password_reset_path = "#{Discourse.base_path}/ao3-fanfic/password-reset"
-  ao3_fanfic_signup_path = "#{Discourse.base_path}/ao3-fanfic/signup"
-
-  Discourse::Application.routes.prepend do
-    get "ao3-fanfic/advanced-login" => "static#show", id: "login"
-    post "ao3-fanfic/login" => "session#create"
-    post "ao3-fanfic/password-reset" => "session#forgot_password"
-    post "ao3-fanfic/signup" => "users#create"
-    get "login" => redirect(ao3_fanfic_login_path)
-    get "password-reset" => redirect(ao3_fanfic_password_reset_path)
-    get "signup" => redirect(ao3_fanfic_signup_path)
-    mount Ao3FanficForum::Engine, at: "ao3-fanfic"
-  end
-
   Ao3FanficForum::AuthConfiguration.apply!
 
   Ao3FanficForum::Fields::CUSTOM_FIELD_TYPES.each do |field, options|
@@ -74,33 +74,21 @@ after_initialize do
     Search.preloaded_topic_custom_fields << field
   end
 
-  validate(:topic, :validate_ao3_fanfic_metadata) do
-    Ao3FanficForum::Metadata.validate_topic!(self)
-  end
+  validate(:topic, :validate_ao3_fanfic_metadata) { Ao3FanficForum::Metadata.validate_topic!(self) }
 
-  on(:topic_created) do |topic, _opts, _user|
-    Ao3FanficForum::Metadata.sync_from_topic!(topic)
-  end
+  on(:topic_created) { |topic, _opts, _user| Ao3FanficForum::Metadata.sync_from_topic!(topic) }
 
   on(:post_edited) do |post, _topic_changed, _revisor|
     Ao3FanficForum::Metadata.sync_from_topic!(post.topic) if post&.is_first_post?
   end
 
-  on(:topic_destroyed) do |topic, _user|
-    Ao3FanficForum::Metadata.clear_for_topic_id!(topic.id)
-  end
+  on(:topic_destroyed) { |topic, _user| Ao3FanficForum::Metadata.clear_for_topic_id!(topic.id) }
 
-  add_to_serializer(:topic_view, :ao3_fanfic) do
-    Ao3FanficForum::Metadata.for_topic(object.topic)
-  end
+  add_to_serializer(:topic_view, :ao3_fanfic) { Ao3FanficForum::Metadata.for_topic(object.topic) }
 
-  add_to_serializer(:topic_list_item, :ao3_fanfic) do
-    Ao3FanficForum::Metadata.for_topic(object)
-  end
+  add_to_serializer(:topic_list_item, :ao3_fanfic) { Ao3FanficForum::Metadata.for_topic(object) }
 
-  add_to_serializer(:basic_topic, :ao3_fanfic) do
-    Ao3FanficForum::Metadata.for_topic(object)
-  end
+  add_to_serializer(:basic_topic, :ao3_fanfic) { Ao3FanficForum::Metadata.for_topic(object) }
 
   add_to_serializer(:search_topic_list_item, :ao3_fanfic) do
     Ao3FanficForum::Metadata.for_topic(object)

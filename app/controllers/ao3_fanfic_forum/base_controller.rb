@@ -2,6 +2,8 @@
 
 module Ao3FanficForum
   class BaseController < ::ApplicationController
+    requires_plugin PLUGIN_NAME
+
     layout "no_ember"
     skip_before_action :preload_json, :check_xhr
 

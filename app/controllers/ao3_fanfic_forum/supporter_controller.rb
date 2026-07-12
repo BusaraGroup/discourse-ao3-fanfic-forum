@@ -24,9 +24,7 @@ module Ao3FanficForum
       @payment_methods_configured =
         @stripe_checkout_url.present? || @crypto_payment_methods.present?
       @payment_setup_checks = payment_setup_checks if @can_configure_payments
-      if status[:private_rooms_url]
-        @private_rooms_url = discourse_path(status[:private_rooms_url])
-      end
+      @private_rooms_url = discourse_path(status[:private_rooms_url]) if status[:private_rooms_url]
 
       assign_cta
     end
@@ -88,8 +86,13 @@ module Ao3FanficForum
           @state_body_key = "ao3_fanfic.supporter_page.state.configure_body"
           @primary_url = current_user&.staff? ? @payment_settings_url : @home_url
           @primary_label_key =
-            current_user&.staff? ? "ao3_fanfic.supporter_page.cta.configure_payments" :
-                                   "ao3_fanfic.supporter_page.cta.browse_public"
+            (
+              if current_user&.staff?
+                "ao3_fanfic.supporter_page.cta.configure_payments"
+              else
+                "ao3_fanfic.supporter_page.cta.browse_public"
+              end
+            )
         end
         @secondary_url = @home_url
         @secondary_label_key = "ao3_fanfic.supporter_page.cta.browse_public"

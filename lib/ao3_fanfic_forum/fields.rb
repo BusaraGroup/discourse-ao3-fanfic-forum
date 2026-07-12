@@ -19,53 +19,51 @@ module Ao3FanficForum
     DISCUSSION_TYPES = %w[general fic_recommendation chapter_discussion looking_for_fic].freeze
     TERM_FIELDS = [FANDOM_TAGS, SHIP_TAGS, CONTENT_WARNINGS].freeze
     LEGACY_FIELD_NAMES = [VISIBILITY, SPACE_GROUP_ID, POST_ANONYMOUSLY].freeze
-    FIELD_NAMES =
-      [
-        DISCUSSION_TYPE,
-        FANDOM_TAGS,
-        SHIP_TAGS,
-        CONTENT_WARNINGS,
-        SPOILER_LABEL,
-        SPOILER_UNTIL,
-        FIC_URL,
-        FIC_TITLE,
-        FIC_AUTHOR,
-        CHAPTER_REF,
-      ].freeze
+    FIELD_NAMES = [
+      DISCUSSION_TYPE,
+      FANDOM_TAGS,
+      SHIP_TAGS,
+      CONTENT_WARNINGS,
+      SPOILER_LABEL,
+      SPOILER_UNTIL,
+      FIC_URL,
+      FIC_TITLE,
+      FIC_AUTHOR,
+      CHAPTER_REF,
+    ].freeze
 
-    CUSTOM_FIELD_TYPES =
-      {
-        DISCUSSION_TYPE => {
-          max_length: 40,
-        },
-        FANDOM_TAGS => {
-          max_length: 4000,
-        },
-        SHIP_TAGS => {
-          max_length: 4000,
-        },
-        CONTENT_WARNINGS => {
-          max_length: 4000,
-        },
-        SPOILER_LABEL => {
-          max_length: 120,
-        },
-        SPOILER_UNTIL => {
-          max_length: 40,
-        },
-        FIC_URL => {
-          max_length: 2048,
-        },
-        FIC_TITLE => {
-          max_length: 240,
-        },
-        FIC_AUTHOR => {
-          max_length: 160,
-        },
-        CHAPTER_REF => {
-          max_length: 80,
-        },
-      }.freeze
+    CUSTOM_FIELD_TYPES = {
+      DISCUSSION_TYPE => {
+        max_length: 40,
+      },
+      FANDOM_TAGS => {
+        max_length: 4000,
+      },
+      SHIP_TAGS => {
+        max_length: 4000,
+      },
+      CONTENT_WARNINGS => {
+        max_length: 4000,
+      },
+      SPOILER_LABEL => {
+        max_length: 120,
+      },
+      SPOILER_UNTIL => {
+        max_length: 40,
+      },
+      FIC_URL => {
+        max_length: 2048,
+      },
+      FIC_TITLE => {
+        max_length: 240,
+      },
+      FIC_AUTHOR => {
+        max_length: 160,
+      },
+      CHAPTER_REF => {
+        max_length: 80,
+      },
+    }.freeze
 
     def self.field_names
       FIELD_NAMES

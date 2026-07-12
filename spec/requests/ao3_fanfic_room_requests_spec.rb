@@ -68,10 +68,7 @@ RSpec.describe "AO3 fanfic room requests" do
 
   it "requires supporter access before creating a private room request" do
     expect {
-      post "/ao3-fanfic/room-requests.json",
-           params: {
-             room_request: room_request_params,
-           }
+      post "/ao3-fanfic/room-requests.json", params: { room_request: room_request_params }
     }.not_to change(Topic, :count)
 
     expect(response.status).to eq(403)
@@ -85,10 +82,7 @@ RSpec.describe "AO3 fanfic room requests" do
     GroupUser.create!(group: supporter_group, user: user)
 
     expect {
-      post "/ao3-fanfic/room-requests.json",
-           params: {
-             room_request: room_request_params,
-           }
+      post "/ao3-fanfic/room-requests.json", params: { room_request: room_request_params }
     }.to change(Topic, :count).by(1)
 
     expect(response.status).to eq(201)

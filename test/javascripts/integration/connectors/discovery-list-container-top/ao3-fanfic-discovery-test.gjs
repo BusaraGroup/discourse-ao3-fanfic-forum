@@ -50,7 +50,9 @@ module("Integration | Connector | AO3 fanfic discovery", function (hooks) {
       <template><Ao3FanficRoom @outletArgs={{this.outletArgs}} /></template>
     );
 
-    assert.dom(".ao3-room h1").hasText("Harry Potter", "the room name is shown");
+    assert
+      .dom(".ao3-room h1")
+      .hasText("Harry Potter", "the room name is shown");
     assert
       .dom(".ao3-room__identity p")
       .hasText(

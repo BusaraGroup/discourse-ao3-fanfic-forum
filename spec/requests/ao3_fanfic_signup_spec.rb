@@ -65,9 +65,7 @@ RSpec.describe Ao3FanficForum::SignupController do
 
       expect(response.status).to eq(200)
       expect(response.body).to include(I18n.t("ao3_fanfic.auth_page.signup.title"))
-      expect(response.body).to include(
-        I18n.t("ao3_fanfic.auth_page.signup.invite_only_title"),
-      )
+      expect(response.body).to include(I18n.t("ao3_fanfic.auth_page.signup.invite_only_title"))
       expect(response.body).not_to include('data-ao3-auth-form="signup"')
       expect(response.body).not_to include('action="/ao3-fanfic/signup"')
       expect(response.body).to include('href="/ao3-fanfic/login" data-auto-route="true"')

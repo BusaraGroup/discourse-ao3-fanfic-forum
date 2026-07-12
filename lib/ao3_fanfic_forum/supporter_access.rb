@@ -4,30 +4,29 @@ module Ao3FanficForum
   module SupporterAccess
     SUPPORTER_PATH = "/ao3-fanfic/supporter"
     CHECKOUT_FALLBACK_PATH = "/s"
-    CRYPTO_METHODS =
-      [
-        {
-          key: "btc",
-          code: "BTC",
-          address_setting: :ao3_fanfic_crypto_btc_address,
-          name_key: "ao3_fanfic.crypto_payment.methods.btc.name",
-          network_key: "ao3_fanfic.crypto_payment.methods.btc.network",
-        },
-        {
-          key: "ltc",
-          code: "LTC",
-          address_setting: :ao3_fanfic_crypto_ltc_address,
-          name_key: "ao3_fanfic.crypto_payment.methods.ltc.name",
-          network_key: "ao3_fanfic.crypto_payment.methods.ltc.network",
-        },
-        {
-          key: "xmr",
-          code: "XMR",
-          address_setting: :ao3_fanfic_crypto_xmr_address,
-          name_key: "ao3_fanfic.crypto_payment.methods.xmr.name",
-          network_key: "ao3_fanfic.crypto_payment.methods.xmr.network",
-        },
-      ].freeze
+    CRYPTO_METHODS = [
+      {
+        key: "btc",
+        code: "BTC",
+        address_setting: :ao3_fanfic_crypto_btc_address,
+        name_key: "ao3_fanfic.crypto_payment.methods.btc.name",
+        network_key: "ao3_fanfic.crypto_payment.methods.btc.network",
+      },
+      {
+        key: "ltc",
+        code: "LTC",
+        address_setting: :ao3_fanfic_crypto_ltc_address,
+        name_key: "ao3_fanfic.crypto_payment.methods.ltc.name",
+        network_key: "ao3_fanfic.crypto_payment.methods.ltc.network",
+      },
+      {
+        key: "xmr",
+        code: "XMR",
+        address_setting: :ao3_fanfic_crypto_xmr_address,
+        name_key: "ao3_fanfic.crypto_payment.methods.xmr.name",
+        network_key: "ao3_fanfic.crypto_payment.methods.xmr.network",
+      },
+    ].freeze
 
     module_function
 
@@ -49,15 +48,16 @@ module Ao3FanficForum
     end
 
     def private_rooms_category
-      slug =
-        SiteSetting.ao3_fanfic_private_rooms_category_slug.presence || "private-fandom-rooms"
+      slug = SiteSetting.ao3_fanfic_private_rooms_category_slug.presence || "private-fandom-rooms"
       Category.find_by(slug: slug)
     end
 
     def subscribe_url
       configured_url = SiteSetting.ao3_fanfic_subscribe_url.presence
 
-      return configured_url if configured_url.present? && !subscription_checkout_url?(configured_url)
+      if configured_url.present? && !subscription_checkout_url?(configured_url)
+        return configured_url
+      end
 
       SUPPORTER_PATH
     end
@@ -70,7 +70,7 @@ module Ao3FanficForum
       return configured_url if configured_url.present?
 
       legacy_url = SiteSetting.ao3_fanfic_subscribe_url.presence
-      return legacy_url if legacy_url.present? && subscription_checkout_url?(legacy_url)
+      legacy_url if legacy_url.present? && subscription_checkout_url?(legacy_url)
     end
 
     def crypto_payment_methods

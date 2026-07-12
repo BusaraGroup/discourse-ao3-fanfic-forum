@@ -173,10 +173,7 @@ RSpec.describe "AO3 fanfic topics" do
   it "rejects a malformed metadata payload with a 400" do
     topic = Fabricate(:topic, category: category, user: user, title: "Malformed payload")
 
-    put "/ao3-fanfic/topics/#{topic.id}/metadata.json",
-        params: {
-          topic_custom_fields: "junk",
-        }
+    put "/ao3-fanfic/topics/#{topic.id}/metadata.json", params: { topic_custom_fields: "junk" }
 
     expect(response.status).to eq(400)
   end
@@ -209,9 +206,7 @@ RSpec.describe "AO3 fanfic topics" do
     expect(Ao3FanficForum::TopicMetadata.exists?(topic_id: topic.id)).to eq(true)
 
     put "/ao3-fanfic/topics/#{topic.id}/metadata.json",
-        params: {
-          topic_custom_fields: {},
-        }.to_json,
+        params: { topic_custom_fields: {} }.to_json,
         headers: {
           "CONTENT_TYPE" => "application/json",
         }
@@ -248,10 +243,7 @@ RSpec.describe "AO3 fanfic topics" do
   end
 
   it "rejects oversized filter lists before building the query" do
-    get "/ao3-fanfic/topics.json",
-        params: {
-          fandom: Array.new(9) { |index| "Fandom #{index}" },
-        }
+    get "/ao3-fanfic/topics.json", params: { fandom: Array.new(9) { |index| "Fandom #{index}" } }
 
     expect(response.status).to eq(400)
     expect(response.parsed_body["errors"]).to include(
@@ -266,10 +258,8 @@ RSpec.describe "AO3 fanfic topics" do
     Ao3FanficForum::Metadata.sync_from_topic!(topic)
 
     private_category = Fabricate(:private_category, group: Fabricate(:group))
-    private_topic =
-      Fabricate(:topic, category: private_category, title: "Private fic rec")
-    private_topic.custom_fields =
-      ao3_fields("ao3_fandom_tags" => ["Leverage"].to_json)
+    private_topic = Fabricate(:topic, category: private_category, title: "Private fic rec")
+    private_topic.custom_fields = ao3_fields("ao3_fandom_tags" => ["Leverage"].to_json)
     private_topic.save!
     Ao3FanficForum::Metadata.sync_from_topic!(private_topic)
 
@@ -291,8 +281,7 @@ RSpec.describe "AO3 fanfic topics" do
       "normalized" => "creator-chose-not-to-use-archive-warnings",
       "topic_count" => 1,
     )
-    fandom_values =
-      response.parsed_body.dig("terms", "fandom").map { |term| term["value"] }
+    fandom_values = response.parsed_body.dig("terms", "fandom").map { |term| term["value"] }
     expect(fandom_values).not_to include("Leverage")
   end
 end

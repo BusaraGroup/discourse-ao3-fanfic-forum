@@ -107,8 +107,9 @@ module Ao3FanficForum
             SiteSetting.respond_to?(setting) && SiteSetting.public_send(setting)
           end,
         "HTTPS enforced" => SiteSetting.force_https,
-        "Staff two-factor authentication enforced" =>
-          %w[staff all].include?(SiteSetting.enforce_second_factor),
+        "Staff two-factor authentication enforced" => %w[staff all].include?(
+          SiteSetting.enforce_second_factor,
+        ),
         "Public user directory disabled" => !SiteSetting.enable_user_directory,
         "Public profiles hidden" => SiteSetting.hide_user_profiles_from_public,
         "Usage telemetry disabled" => !SiteSetting.share_anonymized_statistics,
@@ -298,7 +299,8 @@ namespace :ao3_fanfic_forum do
       {
         name: "Looking for a Fic",
         slug: "looking-for-a-fic",
-        description: "Describe the fic you remember and mark the thread found when readers identify it.",
+        description:
+          "Describe the fic you remember and mark the thread found when readers identify it.",
         color: "246A73",
         position: 3,
         permissions: {
@@ -308,7 +310,8 @@ namespace :ao3_fanfic_forum do
       {
         name: "Chapter Discussions",
         slug: "chapter-discussions",
-        description: "Discuss updates chapter by chapter with spoiler labels and readalong threads.",
+        description:
+          "Discuss updates chapter by chapter with spoiler labels and readalong threads.",
         color: "6B4E71",
         position: 4,
         permissions: {
@@ -318,7 +321,8 @@ namespace :ao3_fanfic_forum do
       {
         name: "Spoiler Zone",
         slug: "spoiler-zone",
-        description: "Current-chapter reactions, ending discussion, reread reveals, and clearly labeled spoiler threads.",
+        description:
+          "Current-chapter reactions, ending discussion, reread reveals, and clearly labeled spoiler threads.",
         color: "7C315D",
         position: 5,
         permissions: {
@@ -328,7 +332,8 @@ namespace :ao3_fanfic_forum do
       {
         name: "Content Warnings",
         slug: "content-warnings",
-        description: "Discuss warning vocabulary, tagging conventions, and reader filtering expectations.",
+        description:
+          "Discuss warning vocabulary, tagging conventions, and reader filtering expectations.",
         color: "8C5A2B",
         position: 6,
         permissions: {
@@ -338,7 +343,8 @@ namespace :ao3_fanfic_forum do
       {
         name: "Fandom Spaces",
         slug: "fandom-spaces",
-        description: "Broad fandom talk, ship discussion, trope threads, and private room requests.",
+        description:
+          "Broad fandom talk, ship discussion, trope threads, and private room requests.",
         color: "2F6F4E",
         position: 7,
         permissions: {
@@ -348,7 +354,8 @@ namespace :ao3_fanfic_forum do
       {
         name: "Harry Potter",
         slug: "harry-potter",
-        description: "A home for Harry Potter recs, ship talk, fic searches, rereads, and spoiler-marked discussion.",
+        description:
+          "A home for Harry Potter recs, ship talk, fic searches, rereads, and spoiler-marked discussion.",
         color: "7C315D",
         position: 8,
         permissions: {
@@ -358,7 +365,8 @@ namespace :ao3_fanfic_forum do
       {
         name: "Marvel",
         slug: "marvel",
-        description: "A home for Marvel recs, MCU and comics threads, ship talk, fic searches, and spoiler-safe discussion.",
+        description:
+          "A home for Marvel recs, MCU and comics threads, ship talk, fic searches, and spoiler-safe discussion.",
         color: "B33951",
         position: 9,
         permissions: {
@@ -368,7 +376,8 @@ namespace :ao3_fanfic_forum do
       {
         name: "K-POP",
         slug: "k-pop",
-        description: "A home for K-POP recs, fandom talk, ship tags, readalongs, and fic-finding threads.",
+        description:
+          "A home for K-POP recs, fandom talk, ship tags, readalongs, and fic-finding threads.",
         color: "246A73",
         position: 10,
         permissions: {
@@ -378,7 +387,8 @@ namespace :ao3_fanfic_forum do
       {
         name: "BTS",
         slug: "bts",
-        description: "A home for BTS recs, ship discussion, fic searches, chapter threads, and spoiler-safe reader talk.",
+        description:
+          "A home for BTS recs, ship discussion, fic searches, chapter threads, and spoiler-safe reader talk.",
         color: "6B4E71",
         position: 11,
         permissions: {
@@ -408,12 +418,13 @@ namespace :ao3_fanfic_forum do
       {
         name: "Private Fandom Rooms",
         slug: SiteSetting.ao3_fanfic_private_rooms_category_slug,
-        description: "Supporter-only fandom circles, private ship rooms, readalongs, and spoiler-heavy discussion threads.",
+        description:
+          "Supporter-only fandom circles, private ship rooms, readalongs, and spoiler-heavy discussion threads.",
         color: "9F2536",
         position: 14,
         permissions: {
           supporter_group.name => :full,
-          staff: :full,
+          :staff => :full,
         },
       },
       {
@@ -431,7 +442,8 @@ namespace :ao3_fanfic_forum do
         name: "Guidelines",
         slug: "guidelines",
         legacy_slugs: ["site-rules"],
-        description: "Community rules, privacy notes, moderation policy, and unofficial AO3Chat status.",
+        description:
+          "Community rules, privacy notes, moderation policy, and unofficial AO3Chat status.",
         color: "4A5568",
         position: 16,
         permissions: {
@@ -452,9 +464,7 @@ namespace :ao3_fanfic_forum do
     ]
 
     created_categories =
-      categories.map do |attrs|
-        [attrs, Ao3FanficForum::Setup.ensure_category!(attrs)]
-      end
+      categories.map { |attrs| [attrs, Ao3FanficForum::Setup.ensure_category!(attrs)] }
     category_ids = created_categories.map { |_, category| category.id }
     sidebar_category_ids =
       created_categories
@@ -469,12 +479,15 @@ namespace :ao3_fanfic_forum do
     SiteSetting.default_composer_category = default_composer_category.id
     Ao3FanficForum::Setup.configure_subscription_settings!(supporter_group)
 
-    User.real.where(staged: false).find_each do |user|
-      SidebarSectionLinksUpdater.update_category_section_links(
-        user,
-        category_ids: sidebar_category_ids,
-      )
-    end
+    User
+      .real
+      .where(staged: false)
+      .find_each do |user|
+        SidebarSectionLinksUpdater.update_category_section_links(
+          user,
+          category_ids: sidebar_category_ids,
+        )
+      end
 
     puts "AO3Chat defaults applied: local auth enabled, #{category_ids.length} categories ready, private rooms gated by #{supporter_group.name}."
   end
@@ -483,9 +496,7 @@ namespace :ao3_fanfic_forum do
   task beta_audit: :environment do
     checks = Ao3FanficForum::Setup.beta_checks
 
-    checks.each do |label, passed|
-      puts "#{passed ? "PASS" : "FAIL"}: #{label}"
-    end
+    checks.each { |label, passed| puts "#{passed ? "PASS" : "FAIL"}: #{label}" }
 
     failed = checks.count { |_, passed| !passed }
     abort "AO3Chat beta audit failed with #{failed} issue(s)." if failed.positive?
@@ -496,8 +507,7 @@ namespace :ao3_fanfic_forum do
   desc "Add current public rooms to every reader's sidebar"
   task sync_public_rooms: :environment do
     previous_category_ids = SiteSetting.default_navigation_menu_categories
-    public_category_ids =
-      Category.where(read_restricted: false).order(:position).pluck(:id)
+    public_category_ids = Category.where(read_restricted: false).order(:position).pluck(:id)
     new_category_ids = public_category_ids.join("|")
 
     SiteSetting.default_navigation_menu_categories = new_category_ids

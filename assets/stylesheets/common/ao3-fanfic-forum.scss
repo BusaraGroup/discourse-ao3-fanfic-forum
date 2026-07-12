@@ -197,6 +197,105 @@ html.discourse-no-touch .nav-pills > li > a:hover {
   font-weight: 700;
 }
 
+.ao3-room {
+  border-block-start: 3px solid var(--ao3-accent);
+  display: grid;
+  gap: var(--space-4);
+  margin-block-end: var(--space-4);
+  min-width: 0;
+  padding-block: var(--space-4);
+
+  &__header {
+    align-items: start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
+    justify-content: space-between;
+  }
+
+  &__identity {
+    min-width: 0;
+
+    h1 {
+      color: var(--ao3-text);
+      font-family: var(--ao3-font-display);
+      font-size: var(--font-up-3);
+      letter-spacing: 0;
+      line-height: 1.1;
+      margin: var(--space-1) 0 0;
+      overflow-wrap: anywhere;
+    }
+
+    p {
+      color: var(--ao3-muted);
+      line-height: 1.45;
+      margin: var(--space-2) 0 0;
+      max-width: 48rem;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  &__eyebrow,
+  &__count {
+    color: var(--ao3-muted);
+    font-size: var(--font-down-1);
+    font-weight: 700;
+  }
+
+  &__eyebrow {
+    text-transform: uppercase;
+  }
+
+  &__count {
+    flex: 0 0 auto;
+    padding-block-start: var(--space-2);
+  }
+
+  &__search {
+    display: grid;
+    gap: var(--space-1);
+    max-width: 44rem;
+
+    > label {
+      color: var(--ao3-text);
+      font-size: var(--font-down-1);
+      font-weight: 700;
+    }
+  }
+
+  &__search-controls {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    input {
+      background: var(--ao3-surface);
+      border: 1px solid var(--ao3-line-strong);
+      border-radius: var(--ao3-radius);
+      color: var(--ao3-text);
+      margin: 0;
+      min-width: 0;
+      padding: var(--space-2) var(--space-3);
+      width: 100%;
+    }
+
+    .btn,
+    .ao3-room__clear {
+      align-items: center;
+      display: inline-flex;
+      font-weight: 700;
+      gap: var(--space-2);
+      justify-content: center;
+      min-height: var(--space-10);
+    }
+  }
+
+  &__clear {
+    color: var(--ao3-muted);
+    width: var(--space-10);
+  }
+}
+
 .ao3-home {
   color: var(--ao3-text);
   display: grid;

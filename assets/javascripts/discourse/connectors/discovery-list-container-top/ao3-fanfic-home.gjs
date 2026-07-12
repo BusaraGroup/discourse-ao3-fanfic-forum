@@ -34,8 +34,17 @@ function titleForSlug(slug) {
 }
 
 export default class Ao3FanficHome extends Component {
-  static shouldRender(args, { siteSettings }) {
-    return siteSettings.ao3_fanfic_enabled;
+  static shouldRender(args, { siteSettings }, owner) {
+    const currentPath = owner
+      .lookup("service:router")
+      .currentURL?.split("?", 1)[0];
+
+    return (
+      siteSettings.ao3_fanfic_enabled &&
+      currentPath === "/" &&
+      !args.category &&
+      !args.tag
+    );
   }
 
   @service currentUser;

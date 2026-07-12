@@ -148,6 +148,15 @@ en:
       view: "View discussions in room"
       back: "Back to room"
     ao3_fanfic:
+      room:
+        eyebrow: "Room"
+        discussion_count:
+          one: "%{count} discussion"
+          other: "%{count} discussions"
+        search_label: "Search this room"
+        search_placeholder: "Search discussions in %{room}"
+        search_action: "Search"
+        clear_search: "Clear room search"
       auth:
         panel_label: "AO3Chat account access"
         login_mode_label: "Reader login"

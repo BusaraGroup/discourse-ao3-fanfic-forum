@@ -133,6 +133,12 @@ The AO3Chat home page includes a reader-facing browser backed by this endpoint, 
 
 `/ao3-fanfic/terms.json` returns visible fandom, ship, and warning terms with topic counts. The home-page browser uses it to show live one-click tag filters; it uses the same topic visibility checks as discussion search.
 
+## Discovery and Room Experience
+
+The full AO3Chat discovery header, fandom shortcuts, filtering browser, and supporter promotion render only at the site root. They must not be mounted on category, tag, or alternate topic-list routes.
+
+Category routes are reader rooms. Each room uses a compact identity header and a category-scoped `search` query immediately before Discourse's native topic list. The native list and composer remain responsible for discussion visibility, pagination, sorting, notifications, and topic creation permissions.
+
 ## Privacy Model
 
 Privacy is enforced through normal category and group permissions. Public AO3Chat metadata is for labeling, filtering, and search; it must not be used to hide author identity or restrict who can read a topic.

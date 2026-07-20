@@ -178,11 +178,14 @@ export default class Ao3PrivateRoomRequest extends Component {
       </div>
 
       {{#if this.statusLoading}}
-        <p class="ao3-room-request__status">
+        <p class="ao3-room-request__status" role="status">
           {{i18n "ao3_fanfic.room_request.status_loading"}}
         </p>
       {{else if this.hasPrivateRoomAccess}}
-        <p class="ao3-room-request__status ao3-room-request__status--success">
+        <p
+          class="ao3-room-request__status ao3-room-request__status--success"
+          role="status"
+        >
           {{i18n "ao3_fanfic.room_request.access_active"}}
           {{#if this.privateRoomsUrl}}
             <a href={{this.privateRoomsUrl}}>{{i18n
@@ -194,10 +197,17 @@ export default class Ao3PrivateRoomRequest extends Component {
 
       {{#if this.currentUser}}
         {{#if this.shouldShowRequestForm}}
-          <form class="ao3-room-request__form" {{on "submit" this.submit}}>
+          <form
+            class="ao3-room-request__form"
+            aria-busy={{this.saving}}
+            {{on "submit" this.submit}}
+          >
             <label class="ao3-room-request__field">
               <span>{{i18n "ao3_fanfic.room_request.fandom"}}</span>
               <input
+                name="fandom"
+                autocomplete="off"
+                spellcheck="false"
                 required
                 maxlength="120"
                 value={{this.request.fandom}}
@@ -208,6 +218,9 @@ export default class Ao3PrivateRoomRequest extends Component {
             <label class="ao3-room-request__field">
               <span>{{i18n "ao3_fanfic.room_request.ship"}}</span>
               <input
+                name="ship"
+                autocomplete="off"
+                spellcheck="false"
                 maxlength="120"
                 value={{this.request.ship}}
                 {{on "input" (fn this.updateField "ship")}}
@@ -217,6 +230,8 @@ export default class Ao3PrivateRoomRequest extends Component {
             <label class="ao3-room-request__field">
               <span>{{i18n "ao3_fanfic.room_request.purpose"}}</span>
               <textarea
+                name="purpose"
+                autocomplete="off"
                 maxlength="800"
                 value={{this.request.purpose}}
                 {{on "input" (fn this.updateField "purpose")}}
@@ -226,6 +241,8 @@ export default class Ao3PrivateRoomRequest extends Component {
             <label class="ao3-room-request__field">
               <span>{{i18n "ao3_fanfic.room_request.spoiler_policy"}}</span>
               <input
+                name="spoiler_policy"
+                autocomplete="off"
                 maxlength="300"
                 value={{this.request.spoilerPolicy}}
                 {{on "input" (fn this.updateField "spoilerPolicy")}}
@@ -235,6 +252,8 @@ export default class Ao3PrivateRoomRequest extends Component {
             <label class="ao3-room-request__field">
               <span>{{i18n "ao3_fanfic.room_request.comfort_notes"}}</span>
               <textarea
+                name="comfort_notes"
+                autocomplete="off"
                 maxlength="500"
                 value={{this.request.comfortNotes}}
                 {{on "input" (fn this.updateField "comfortNotes")}}
@@ -244,6 +263,7 @@ export default class Ao3PrivateRoomRequest extends Component {
             {{#if this.error}}
               <p
                 class="ao3-room-request__status ao3-room-request__status--error"
+                role="alert"
               >
                 {{this.error}}
               </p>
@@ -252,6 +272,7 @@ export default class Ao3PrivateRoomRequest extends Component {
             {{#if this.successUrl}}
               <p
                 class="ao3-room-request__status ao3-room-request__status--success"
+                role="status"
               >
                 {{i18n "ao3_fanfic.room_request.success"}}
                 <a href={{this.successUrl}}>{{i18n

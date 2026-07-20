@@ -59,6 +59,8 @@ export default class Ao3FanficRoom extends Component {
             id="ao3-room-search"
             name="search"
             type="search"
+            autocomplete="off"
+            spellcheck="false"
             value={{this.searchTerm}}
             placeholder={{i18n
               "ao3_fanfic.room.search_placeholder"

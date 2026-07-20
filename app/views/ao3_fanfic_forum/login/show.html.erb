@@ -25,7 +25,7 @@
         data-two-factor-message="<%= h I18n.t("ao3_fanfic.auth_page.login.two_factor_message") %>"
         data-security-key-message="<%= h I18n.t("ao3_fanfic.auth_page.login.security_key_message", login_url: @advanced_login_url) %>"
       >
-        <div class="ao3-auth-page__message" data-ao3-auth-message aria-live="polite" hidden></div>
+        <div class="ao3-auth-page__message" data-ao3-auth-message aria-live="polite" tabindex="-1" hidden></div>
         <input
           type="hidden"
           name="authenticity_token"
@@ -39,6 +39,8 @@
             name="login"
             required
             autocomplete="username"
+            autocapitalize="none"
+            spellcheck="false"
             maxlength="254"
           >
         </label>
@@ -69,6 +71,8 @@
               name="second_factor_token"
               autocomplete="one-time-code"
               inputmode="numeric"
+              autocapitalize="none"
+              spellcheck="false"
             >
           </label>
         </fieldset>

@@ -35,6 +35,11 @@
       element.hidden = false;
       element.classList.toggle("is-success", type === "success");
       element.classList.toggle("is-error", type !== "success");
+      element.setAttribute("role", type === "success" ? "status" : "alert");
+
+      if (type !== "success") {
+        element.focus();
+      }
     };
 
     const clearMessage = (form) => {
@@ -47,6 +52,7 @@
       element.textContent = "";
       element.hidden = true;
       element.classList.remove("is-success", "is-error");
+      element.removeAttribute("role");
     };
 
     const setBusy = (form, busy) => {
@@ -62,6 +68,7 @@
 
       button.disabled = busy;
       button.textContent = busy ? form.dataset.busyLabel : button.dataset.readyLabel;
+      form.setAttribute("aria-busy", busy.toString());
     };
 
     const payloadMessage = (payload, fallback) => {

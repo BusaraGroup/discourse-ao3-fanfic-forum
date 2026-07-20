@@ -191,7 +191,11 @@ export default class Ao3FanficFields extends Component {
           <div class="ao3-composer-fields__grid">
             <label>
               <span>{{i18n "ao3_fanfic.composer.discussion_type"}}</span>
-              <select {{on "change" this.updateDiscussionType}}>
+              <select
+                name="ao3_discussion_type"
+                autocomplete="off"
+                {{on "change" this.updateDiscussionType}}
+              >
                 <option
                   value="general"
                   selected={{eq this.state.discussionType "general"}}
@@ -222,6 +226,9 @@ export default class Ao3FanficFields extends Component {
             <label>
               <span>{{i18n "ao3_fanfic.composer.fandom_tags"}}</span>
               <input
+                name="ao3_fandom_tags"
+                autocomplete="off"
+                spellcheck="false"
                 value={{this.state.fandomTagsText}}
                 placeholder={{i18n "ao3_fanfic.composer.list_placeholder"}}
                 {{on "input" (fn this.updateText "fandomTagsText")}}
@@ -231,6 +238,9 @@ export default class Ao3FanficFields extends Component {
             <label>
               <span>{{i18n "ao3_fanfic.composer.ship_tags"}}</span>
               <input
+                name="ao3_ship_tags"
+                autocomplete="off"
+                spellcheck="false"
                 value={{this.state.shipTagsText}}
                 placeholder={{i18n "ao3_fanfic.composer.list_placeholder"}}
                 {{on "input" (fn this.updateText "shipTagsText")}}
@@ -245,6 +255,8 @@ export default class Ao3FanficFields extends Component {
             <label>
               <span>{{i18n "ao3_fanfic.composer.content_warnings"}}</span>
               <input
+                name="ao3_content_warnings"
+                autocomplete="off"
                 value={{this.state.contentWarningsText}}
                 placeholder={{i18n "ao3_fanfic.composer.list_placeholder"}}
                 {{on "input" (fn this.updateText "contentWarningsText")}}
@@ -254,6 +266,8 @@ export default class Ao3FanficFields extends Component {
             <label>
               <span>{{i18n "ao3_fanfic.composer.spoiler_label"}}</span>
               <input
+                name="ao3_spoiler_label"
+                autocomplete="off"
                 value={{this.state.spoilerLabel}}
                 {{on "input" (fn this.updateText "spoilerLabel")}}
               />
@@ -263,6 +277,8 @@ export default class Ao3FanficFields extends Component {
               <span>{{i18n "ao3_fanfic.composer.spoiler_until"}}</span>
               <input
                 type="date"
+                name="ao3_spoiler_until"
+                autocomplete="off"
                 value={{this.state.spoilerUntil}}
                 {{on "input" (fn this.updateText "spoilerUntil")}}
               />
@@ -276,6 +292,10 @@ export default class Ao3FanficFields extends Component {
             <label>
               <span>{{i18n "ao3_fanfic.composer.fic_url"}}</span>
               <input
+                type="url"
+                name="ao3_fic_url"
+                autocomplete="off"
+                spellcheck="false"
                 value={{this.state.ficUrl}}
                 inputmode="url"
                 {{on "input" (fn this.updateText "ficUrl")}}
@@ -285,6 +305,8 @@ export default class Ao3FanficFields extends Component {
             <label>
               <span>{{i18n "ao3_fanfic.composer.fic_title"}}</span>
               <input
+                name="ao3_fic_title"
+                autocomplete="off"
                 value={{this.state.ficTitle}}
                 {{on "input" (fn this.updateText "ficTitle")}}
               />
@@ -293,6 +315,8 @@ export default class Ao3FanficFields extends Component {
             <label>
               <span>{{i18n "ao3_fanfic.composer.fic_author"}}</span>
               <input
+                name="ao3_fic_author"
+                autocomplete="off"
                 value={{this.state.ficAuthor}}
                 {{on "input" (fn this.updateText "ficAuthor")}}
               />
@@ -301,6 +325,8 @@ export default class Ao3FanficFields extends Component {
             <label>
               <span>{{i18n "ao3_fanfic.composer.chapter_ref"}}</span>
               <input
+                name="ao3_chapter_ref"
+                autocomplete="off"
                 value={{this.state.chapterRef}}
                 {{on "input" (fn this.updateText "chapterRef")}}
               />

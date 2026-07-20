@@ -20,6 +20,8 @@
   --ao3-gold-soft: color-mix(in srgb, var(--highlight) 17%, transparent);
   --ao3-radius: min(var(--d-border-radius), 0.375rem);
   --ao3-radius-large: min(var(--d-border-radius-large), 0.5rem);
+  --ao3-focus-ring: color-mix(in srgb, var(--ao3-teal) 64%, transparent);
+  --ao3-motion-fast: 140ms;
   --d-button-border-radius: var(--ao3-radius);
   --d-button-primary-bg-color: var(--ao3-accent);
   --d-button-primary-bg-color--hover: var(--ao3-accent-strong);
@@ -323,9 +325,9 @@ html.discourse-no-touch .nav-pills > li > a:hover {
       font-size: 2.75rem;
       font-weight: 700;
       letter-spacing: 0;
-      line-height: 0.95;
+      line-height: 1;
       margin: 0;
-      overflow-wrap: anywhere;
+      overflow-wrap: break-word;
 
       @include viewport.from(sm) {
         font-size: 4rem;
@@ -373,7 +375,7 @@ html.discourse-no-touch .nav-pills > li > a:hover {
   &__filters {
     display: grid;
     gap: var(--space-2);
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
     margin-block-end: var(--space-7);
   }
 
@@ -408,13 +410,13 @@ html.discourse-no-touch .nav-pills > li > a:hover {
     align-content: start;
     display: grid;
     gap: var(--space-2);
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
   }
 
   &__quick-links {
     display: grid;
     gap: 0;
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
     margin-block-start: var(--space-4);
 
     a {
@@ -690,7 +692,7 @@ html.discourse-no-touch .ao3-featured-fandom:hover {
   &__term-directory {
     display: grid;
     gap: var(--space-3);
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
   }
 
   &__form {
@@ -700,7 +702,7 @@ html.discourse-no-touch .ao3-featured-fandom:hover {
     border-radius: var(--ao3-radius);
     display: grid;
     gap: var(--space-3);
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
     padding: var(--space-4);
   }
 
@@ -834,6 +836,7 @@ html.discourse-no-touch .ao3-featured-fandom:hover {
     color: var(--ao3-muted);
     display: grid;
     font-size: var(--font-down-1);
+    font-variant-numeric: tabular-nums;
     gap: var(--space-1);
     justify-items: end;
     min-width: 5.5rem;
@@ -1358,7 +1361,7 @@ html.discourse-no-touch
   &__grid {
     display: grid;
     gap: var(--space-3);
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
   }
 
   label {
@@ -1438,10 +1441,10 @@ html.discourse-no-touch
       font-family: var(--ao3-font-display);
       font-size: 2.6rem;
       letter-spacing: 0;
-      line-height: 0.98;
+      line-height: 1;
       margin: var(--space-8) 0 0;
       max-width: 10ch;
-      overflow-wrap: anywhere;
+      overflow-wrap: break-word;
 
       @include viewport.from(sm) {
         font-size: 3.8rem;
@@ -1661,10 +1664,10 @@ html.discourse-no-touch {
       font-family: var(--ao3-font-display);
       font-size: 3rem;
       letter-spacing: 0;
-      line-height: 0.96;
+      line-height: 1;
       margin: 0;
       max-width: 11ch;
-      overflow-wrap: anywhere;
+      overflow-wrap: break-word;
 
       @include viewport.from(md) {
         font-size: 5rem;
@@ -1895,7 +1898,7 @@ html.discourse-no-touch {
   &__payment-list {
     display: grid;
     gap: var(--space-3);
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
   }
 
   &__payment-method {
@@ -2143,10 +2146,10 @@ html.discourse-no-touch .ao3-supporter-page__brand:hover {
       font-family: var(--ao3-font-display);
       font-size: 3rem;
       letter-spacing: 0;
-      line-height: 0.96;
+      line-height: 1;
       margin: 0;
       max-width: 12ch;
-      overflow-wrap: anywhere;
+      overflow-wrap: break-word;
 
       @include viewport.from(md) {
         font-size: 4.75rem;
@@ -2550,7 +2553,7 @@ html.discourse-no-touch .ao3-account-page__brand:hover {
   &__facts {
     display: grid;
     gap: var(--space-2);
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
     list-style: none;
     margin: 0;
     padding: 0;
@@ -2596,14 +2599,85 @@ html.discourse-no-touch .ao3-account-page__brand:hover {
   }
 }
 
-.ao3-home a:focus-visible,
-.ao3-browser button:focus-visible,
-.ao3-featured-fandom:focus-visible,
-.ao3-auth-page a:focus-visible,
-.ao3-supporter-page a:focus-visible,
-.ao3-account-page a:focus-visible {
+:where(
+    .ao3-room,
+    .ao3-home,
+    .ao3-browser,
+    .ao3-composer-fields,
+    .ao3-auth-page,
+    .ao3-auth-panel,
+    .ao3-supporter-page,
+    .ao3-account-page,
+    .ao3-room-request
+  )
+  :where(a, button, input, select, textarea):focus-visible {
   outline: 2px solid var(--ao3-teal);
   outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--ao3-focus-ring);
+}
+
+:where(
+  .ao3-room,
+  .ao3-home,
+  .ao3-browser,
+  .ao3-composer-fields,
+  .ao3-auth-page,
+  .ao3-auth-panel,
+  .ao3-supporter-page,
+  .ao3-account-page,
+  .ao3-room-request
+) {
+  :where(h1, h2, h3, h4) {
+    text-wrap: balance;
+  }
+
+  :where(p, li) {
+    text-wrap: pretty;
+  }
+
+  :where(a, button, input, select, textarea) {
+    -webkit-tap-highlight-color: var(--ao3-accent-soft);
+    touch-action: manipulation;
+  }
+}
+
+.ao3-browser-term strong,
+.ao3-room__count,
+.topic-list-data.num,
+.ao3-supporter-page__price strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.ao3-home-filter:active,
+.ao3-featured-fandom:active,
+.ao3-home__quick-links a:active,
+.ao3-browser-term:active {
+  background: var(--ao3-accent-soft);
+  border-color: var(--ao3-line-strong);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ao3-home-filter,
+  .ao3-featured-fandom,
+  .ao3-home__quick-links a,
+  .ao3-browser-term,
+  .ao3-browser__row,
+  .ao3-auth-page__links a,
+  .ao3-auth-page__brand,
+  .ao3-supporter-page__brand,
+  .ao3-account-page__brand {
+    transition-duration: var(--ao3-motion-fast);
+    transition-property: background-color, border-color, color;
+    transition-timing-function: ease-out;
+  }
+
+  .ao3-home-filter__arrow,
+  .ao3-featured-fandom__arrow,
+  .ao3-home__quick-links .d-icon {
+    transition-duration: var(--ao3-motion-fast);
+    transition-property: color, transform;
+    transition-timing-function: ease-out;
+  }
 }
 
 @media (forced-colors: active) {

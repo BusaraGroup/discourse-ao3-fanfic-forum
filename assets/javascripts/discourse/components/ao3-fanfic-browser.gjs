@@ -240,6 +240,7 @@ export default class Ao3FanficBrowser extends Component {
         <div
           class="ao3-browser__term-directory"
           aria-label={{i18n "ao3_fanfic.browser.terms_label"}}
+          role="group"
         >
           {{#if this.hasFandomTerms}}
             <section class="ao3-browser-terms">
@@ -300,7 +301,11 @@ export default class Ao3FanficBrowser extends Component {
       <form class="ao3-browser__form" {{on "submit" this.loadTopics}}>
         <label class="ao3-browser__field">
           <span>{{i18n "ao3_fanfic.browser.discussion_type"}}</span>
-          <select {{on "change" this.updateDiscussionType}}>
+          <select
+            name="discussion_type"
+            autocomplete="off"
+            {{on "change" this.updateDiscussionType}}
+          >
             <option value="" selected={{eq this.filters.discussionType ""}}>
               {{i18n "ao3_fanfic.browser.any_type"}}
             </option>
@@ -334,6 +339,9 @@ export default class Ao3FanficBrowser extends Component {
         <label class="ao3-browser__field">
           <span>{{i18n "ao3_fanfic.browser.fandom"}}</span>
           <input
+            name="fandom"
+            autocomplete="off"
+            spellcheck="false"
             value={{this.filters.fandom}}
             {{on "input" (fn this.updateText "fandom")}}
           />
@@ -342,6 +350,9 @@ export default class Ao3FanficBrowser extends Component {
         <label class="ao3-browser__field">
           <span>{{i18n "ao3_fanfic.browser.ship"}}</span>
           <input
+            name="ship"
+            autocomplete="off"
+            spellcheck="false"
             value={{this.filters.ship}}
             {{on "input" (fn this.updateText "ship")}}
           />
@@ -350,6 +361,8 @@ export default class Ao3FanficBrowser extends Component {
         <label class="ao3-browser__field">
           <span>{{i18n "ao3_fanfic.browser.warning"}}</span>
           <input
+            name="warning"
+            autocomplete="off"
             value={{this.filters.warning}}
             {{on "input" (fn this.updateText "warning")}}
           />
@@ -358,6 +371,8 @@ export default class Ao3FanficBrowser extends Component {
         <label class="ao3-browser__field">
           <span>{{i18n "ao3_fanfic.browser.exclude_warning"}}</span>
           <input
+            name="exclude_warning"
+            autocomplete="off"
             value={{this.filters.excludeWarning}}
             {{on "input" (fn this.updateText "excludeWarning")}}
           />
@@ -366,6 +381,7 @@ export default class Ao3FanficBrowser extends Component {
         <label class="ao3-browser__toggle">
           <input
             type="checkbox"
+            name="spoiler_safe"
             checked={{this.filters.spoilerSafe}}
             {{on "change" this.updateSpoilerSafe}}
           />
@@ -400,6 +416,7 @@ export default class Ao3FanficBrowser extends Component {
         {{else if this.error}}
           <p
             class="ao3-browser__status ao3-browser__status--error"
+            role="alert"
           >{{this.error}}</p>
         {{else if this.hasTopics}}
           <p class="ao3-browser__count">
